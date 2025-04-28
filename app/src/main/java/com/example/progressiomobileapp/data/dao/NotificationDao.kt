@@ -29,4 +29,8 @@ interface NotificationDao {
 
     @Query("UPDATE Notifications SET is_read = 1 WHERE recipient_id = :recipientId")
     suspend fun markAllAsRead(recipientId: Int)
+
+    @Query("SELECT * FROM Notifications WHERE recipient_id = :recipientId AND is_read = 0")
+    fun getUnreadNotifications(recipientId: Int): Flow<List<Notification>>
+
 }

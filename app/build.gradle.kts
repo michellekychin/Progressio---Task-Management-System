@@ -38,10 +38,15 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        dataBinding = true
     }
 }
 
 dependencies {
+
+    implementation ("androidx.recyclerview:recyclerview:1.3.2")
+
+    implementation ("androidx.databinding:databinding-runtime:8.9.2")
 
     // View System (XML) Support
     implementation(libs.androidx.constraintlayout)
