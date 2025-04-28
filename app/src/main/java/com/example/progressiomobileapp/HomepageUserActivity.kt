@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import kotlin.jvm.java
+import com.example.progressiomobileapp.NotificationActivity
 
 
 class HomepageUserActivity : AppCompatActivity() {
@@ -63,7 +65,12 @@ class HomepageUserActivity : AppCompatActivity() {
 
     // Navigate to Task View Page
     fun goToTaskView(view: android.view.View) {
-        // Example: startActivity(Intent(this, TaskViewActivity::class.java))
+        // Assuming you have a taskId to pass, here it's hardcoded as 1
+        val taskId = 1 // You can fetch the actual task ID dynamically if needed
+
+        val intent = Intent(this, TaskDetailActivity::class.java)
+        intent.putExtra("TASK_ID", taskId)  // Pass the taskId as an extra
+        startActivity(intent)
     }
 
     // Navigate to Calendar Page

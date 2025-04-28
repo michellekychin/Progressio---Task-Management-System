@@ -67,7 +67,7 @@ class NotificationActivity : AppCompatActivity() {
         }
 
         // Setup the back button in the toolbar
-        // Setup the back button in the toolbar
+
         val backButton: AppCompatImageButton = findViewById(R.id.backButton)
 
         backButton.setOnClickListener {

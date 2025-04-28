@@ -23,7 +23,7 @@ data class ChecklistItem(
     val itemText: String,
 
     @ColumnInfo(name = "is_checked")
-    val isChecked: Int = 0,
+    var isChecked: Int = 0,
 
     @ColumnInfo(name = "item_order")
     val itemOrder: Int?

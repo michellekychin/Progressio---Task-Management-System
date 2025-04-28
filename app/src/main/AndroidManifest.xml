@@ -47,6 +47,7 @@
         <activity android:name=".NotificationActivity">
             <!-- Add other activity configurations here if needed -->
         </activity>
+        <activity android:name=".TaskDetailActivity" />
     </application>
 
 </manifest>
