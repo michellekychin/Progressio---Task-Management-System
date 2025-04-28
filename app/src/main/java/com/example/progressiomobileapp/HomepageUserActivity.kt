@@ -1,8 +1,10 @@
 package com.example.progressiomobileapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+
 
 class HomepageUserActivity : AppCompatActivity() {
 
@@ -44,7 +46,9 @@ class HomepageUserActivity : AppCompatActivity() {
 
     // Navigate to Notification Page
     fun goToNotifications(view: android.view.View) {
-        // Example: startActivity(Intent(this, NotificationsActivity::class.java))
+        // Example: startActivity(Intent(this, NotificationActivity::class.java))
+        val intent = Intent(this, NotificationActivity::class.java)
+        startActivity(intent)
     }
 
     // Navigate to To Do Tasks Page
