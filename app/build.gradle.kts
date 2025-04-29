@@ -41,13 +41,23 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        dataBinding = true
     }
 }
 
 dependencies {
 
+
     // Lifecycle Coroutine Support
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7") // Ensure lifecycle-ktx is there
+
+    implementation ("androidx.recyclerview:recyclerview:1.3.2")
+
+    implementation ("androidx.databinding:databinding-runtime:8.9.2")
+
+    // View System (XML) Support
+    implementation(libs.androidx.constraintlayout)
+
 
     // Room Coroutines support
     implementation("androidx.room:room-ktx:2.7.1")

@@ -1,6 +1,7 @@
 package com.example.progressiomobileapp
 
 import android.content.Intent
+
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.TextView
@@ -9,6 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.progressiomobileapp.data.dao.UserDao
 import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
+import kotlin.jvm.java
+import com.example.progressiomobileapp.NotificationActivity
+
+
 
 class HomepageUserActivity : AppCompatActivity() {
 
@@ -64,15 +69,39 @@ class HomepageUserActivity : AppCompatActivity() {
         tvInProgressCount.text = "$inProgressTasks"
     }
 
+
     // Navigate to Home Page
     fun goToHome(view: android.view.View) {
         val intent = Intent(this, HomepageUserActivity::class.java)
         startActivity(intent)
+
+    // Navigate to Notification Page
+    fun goToNotifications(view: android.view.View) {
+        // Example: startActivity(Intent(this, NotificationActivity::class.java))
+        val intent = Intent(this, NotificationActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Navigate to To Do Tasks Page
+    fun openToDoTasks(view: android.view.View) {
+        // Example: startActivity(Intent(this, ToDoTasksActivity::class.java))
+    }
+
+    // Navigate to In Progress Tasks Page
+    fun openInProgressTasks(view: android.view.View) {
+        // Example: startActivity(Intent(this, InProgressTasksActivity::class.java))
     }
 
     // Navigate to Task View Page
     fun goToTaskView(view: android.view.View) {
-        val intent = Intent(this, TaskUserActivity::class.java)
+
+        //val intent = Intent(this, TaskUserActivity::class.java)
+      //task management 
+
+        // Assuming you have a taskId to pass, here it's hardcoded as 1
+        val taskId = 1 // You can fetch the actual task ID dynamically if needed
+        val intent = Intent(this, TaskDetailActivity::class.java)
+        intent.putExtra("TASK_ID", taskId)  // Pass the taskId as an extra
         startActivity(intent)
     }
 
