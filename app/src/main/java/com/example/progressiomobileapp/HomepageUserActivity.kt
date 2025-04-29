@@ -1,8 +1,14 @@
 package com.example.progressiomobileapp
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.progressiomobileapp.data.dao.UserDao
+import kotlinx.coroutines.launch
+import com.example.progressiomobileapp.data.AppDatabase
 
 class HomepageUserActivity : AppCompatActivity() {
 
@@ -11,17 +17,19 @@ class HomepageUserActivity : AppCompatActivity() {
     private lateinit var tvToDoCount: TextView
     private lateinit var tvInProgressCount: TextView
 
-    private val userName = "Ling"  // Fetch this dynamically after login
-    private val totalTasks = 20
-    private val completedTasks = 5
-    private val toDoTasks = 20
-    private val inProgressTasks = 5
+    private lateinit var userDao: UserDao
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var currentUserEmail: String
+
+    // Dummy data
+    private val totalTasks = 10
+    private val completedTasks = 2
+    private val toDoTasks = 6
+    private val inProgressTasks = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage_user)
-
-
 
         // Initialize Views
         tvGreeting = findViewById(R.id.tvGreeting)
@@ -29,8 +37,22 @@ class HomepageUserActivity : AppCompatActivity() {
         tvToDoCount = findViewById(R.id.tvToDoCount)
         tvInProgressCount = findViewById(R.id.tvInProgressCount)
 
-        // Set the greeting message
-        tvGreeting.text = "Hello, $userName! Welcome Back!"
+        // Initialize SharedPreferences and UserDao
+        sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
+        val db = AppDatabase.getDatabase(this)
+        userDao = db.userDao()
+
+        // Get the email of the logged-in user from SharedPreferences
+        currentUserEmail = sharedPreferences.getString("userEmail", "") ?: ""
+
+        // Fetch the user's data from the database using email
+        lifecycleScope.launch {
+            val user = userDao.getUserByEmail(currentUserEmail)
+            user?.let {
+                // Set the greeting message with the user's name
+                tvGreeting.text = "Hello, ${it.name}! Welcome Back!"
+            }
+        }
 
         // Display Today's Task count (completed/total)
         tvTodayTask.text = "$completedTasks/$totalTasks"
@@ -42,33 +64,27 @@ class HomepageUserActivity : AppCompatActivity() {
         tvInProgressCount.text = "$inProgressTasks"
     }
 
-    // Navigate to Notification Page
-    fun goToNotifications(view: android.view.View) {
-        // Example: startActivity(Intent(this, NotificationsActivity::class.java))
-    }
-
-    // Navigate to To Do Tasks Page
-    fun openToDoTasks(view: android.view.View) {
-        // Example: startActivity(Intent(this, ToDoTasksActivity::class.java))
-    }
-
-    // Navigate to In Progress Tasks Page
-    fun openInProgressTasks(view: android.view.View) {
-        // Example: startActivity(Intent(this, InProgressTasksActivity::class.java))
+    // Navigate to Home Page
+    fun goToHome(view: android.view.View) {
+        val intent = Intent(this, HomepageUserActivity::class.java)
+        startActivity(intent)
     }
 
     // Navigate to Task View Page
     fun goToTaskView(view: android.view.View) {
-        // Example: startActivity(Intent(this, TaskViewActivity::class.java))
+        val intent = Intent(this, TaskUserActivity::class.java)
+        startActivity(intent)
     }
 
     // Navigate to Calendar Page
     fun goToCalendar(view: android.view.View) {
-        // Example: startActivity(Intent(this, CalendarActivity::class.java))
+        val intent = Intent(this, CalenderUserActivity::class.java)
+        startActivity(intent)
     }
 
     // Navigate to Profile Page
     fun goToProfile(view: android.view.View) {
-        // Example: startActivity(Intent(this, ProfileActivity::class.java))
+        val intent = Intent(this, ProfileUserActivity::class.java)
+        startActivity(intent)
     }
 }
