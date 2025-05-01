@@ -1,18 +1,20 @@
 package com.example.progressiomobileapp.data
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
+import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.Index
+import androidx.room.PrimaryKey
 
-
-@Entity(tableName = "Users",
+@Entity(
+    tableName = "Users",
     foreignKeys = [
-        ForeignKey(entity = User::class,
+        ForeignKey(
+            entity = User::class,
             parentColumns = ["user_id"],
-            childColumns = ["group_admin_id"])
-    ])
+            childColumns = ["group_admin_id"]
+        )
+    ]
+)
 data class User(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "user_id")
@@ -31,5 +33,11 @@ data class User(
     val role: String,
 
     @ColumnInfo(name = "group_admin_id")
-    val groupAdminId: Int?
+    val groupAdminId: Int? = null,
+
+    @ColumnInfo(name = "profile_image_url")
+    val profileImageUrl: String? = null,
+
+    @ColumnInfo(name = "background_image_url")
+    val backgroundImageUrl: String? = null
 )

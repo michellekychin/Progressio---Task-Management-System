@@ -7,10 +7,11 @@ import android.util.Patterns
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.progressiomobileapp.data.AppDatabase
 import com.example.progressiomobileapp.data.User
 import com.example.progressiomobileapp.data.dao.UserDao
 import kotlinx.coroutines.launch
+import com.example.progressiomobileapp.data.AppDatabase
+
 
 class SignUpActivity : AppCompatActivity() {
 

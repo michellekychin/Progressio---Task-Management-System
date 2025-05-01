@@ -5,12 +5,40 @@
     <string name="title_activity_homepage_user">HomepageUserActivity</string>
     <string name="title_activity_homepage_admin">HomepageAdminActivity</string>
     <string name="title_activity_app_database">AppDatabase</string>
-    <!-- TODO: Remove or change this placeholder text -->
+   
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_profile_user">ProfileUserActivity</string>
+    <string name="title_activity_profile_admin">ProfileAdminActivity</string>
+    <string name="title_activity_task_view_user">TaskViewUserActivity</string>
+    <string name="title_activity_calendar_user">CalendarUserActivity</string>
+    <string name="title_activity_history_user">HistoryUserActivity</string>
+    <string name="title_activity_history_admin">HIstoryAdminActivity</string>
+    <string name="title_activity_task_history_adapter">TaskHistoryAdapter</string>
+    <string name="title_activity_task_history_view_holder">TaskHistoryViewHolder</string>
+    <string name="title_activity_task_history">TaskHistory</string>
+    <string name="history_list">History list</string>
+    <string name="home_icon">Home Icon</string>
+    <string name="tasks_view_icon">Tasks View Icon</string>
+    <string name="schedule_icon">Schedule Icon</string>
+    <string name="profile_icon">Profile Icon</string>
+    <string name="analytics_icon">Analytics Icon</string>
+    <string name="history_title">History List</string>
+    <string name="title_activity_dummy_data">DummyDataActivity</string>
+    <string name="title_activity_task_history_user">TaskHistoryUserActivity</string>
+    <string name="title_activity_task_detail">TaskDetailActivity</string>
+    <string name="task_info">Title: %1$s\nDescription: %2$s\nStatus: %3$s</string>
+    <string name="title_activity_task_detail_admin">TaskDetailAdminActivity</string>
+    <string name="title_activity_task_user">TaskUserActivity</string>
+    <string name="title_activity_task_admin">TaskAdminActivity</string>
+    <string name="title_activity_calender_admin">CalenderAdminActivity</string>
+    <string name="title_activity_analytics">AnalyticsActivity</string>
+
     <string name="mark_all_as_read">Mark All as Read</string>
     <string name="recycler_view_description">Notifications list</string>
     <string name="back_button">Back</string>
     <string name="tab_layout_description">Tab navigation for notifications</string>
+
 
 
 </resources>
