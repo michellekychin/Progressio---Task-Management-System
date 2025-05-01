@@ -58,6 +58,9 @@ dependencies {
     // View System (XML) Support
     implementation(libs.androidx.constraintlayout)
 
+    implementation ("com.google.android.material:material:1.12.0")
+    implementation (libs.androidx.appcompat)
+
 
     // Room Coroutines support
     implementation("androidx.room:room-ktx:2.7.1")
@@ -65,8 +68,18 @@ dependencies {
     // Coroutines for background tasks
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
-
     implementation(libs.androidx.appcompat) // Add this line
+
+
+    // Room
+    implementation("androidx.room:room-runtime:2.7.1")
+    kapt("androidx.room:room-compiler:2.7.1")  // Add this line for Room annotation processing
+
+    implementation("androidx.compose.material3:material3:1.3.2") // For Material 3
+    implementation("androidx.appcompat:appcompat:1.7.0") // For AppCompatDelegate
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0") // For graphs
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7") // Lifecycle extensions
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // ViewModel support
 
 
     // View System (XML) Support
@@ -91,6 +104,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
