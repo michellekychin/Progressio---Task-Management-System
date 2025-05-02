@@ -3,24 +3,19 @@ package com.example.progressiomobileapp
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import com.example.progressiomobileapp.data.AppDatabase
 import com.example.progressiomobileapp.data.Task
-import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
-
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class AnalyticsActivity : AppCompatActivity() {
 
