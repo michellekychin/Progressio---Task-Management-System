@@ -3,19 +3,24 @@ package com.example.progressiomobileapp
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.progressiomobileapp.data.AppDatabase
 import com.example.progressiomobileapp.data.Task
-import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AnalyticsActivity : AppCompatActivity() {
 
@@ -24,17 +29,9 @@ class AnalyticsActivity : AppCompatActivity() {
     private lateinit var barChartOverdueOnTime: BarChart
     private lateinit var barChartEmployeeTasks: BarChart
 
-
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-
-class AnalyticsActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analytics)
-
 
         pieChartStatus = findViewById(R.id.pieChartStatus)
         pieChartCompletion = findViewById(R.id.pieChartCompletion)
@@ -411,32 +408,5 @@ class AnalyticsActivity : ComponentActivity() {
         }
 
         barChartEmployeeTasks.invalidate() // Refresh the chart
-
-
-
-        // Navigate to Home Page
-        fun goToHome(view: android.view.View) {
-            val intent = Intent(this, HomepageUserActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Navigate to Task View Page
-        fun goToTaskView(view: android.view.View) {
-            val intent = Intent(this, TaskUserActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Navigate to Calendar Page
-        fun goToCalendar(view: android.view.View) {
-            val intent = Intent(this, CalenderUserActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Navigate to Profile Page
-        fun goToProfile(view: android.view.View) {
-            val intent = Intent(this, ProfileUserActivity::class.java)
-            startActivity(intent)
-        }
-
     }
 }
