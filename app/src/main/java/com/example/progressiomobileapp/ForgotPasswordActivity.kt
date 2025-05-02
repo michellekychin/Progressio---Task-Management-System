@@ -7,9 +7,10 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.progressiomobileapp.data.AppDatabase
 import com.example.progressiomobileapp.data.dao.UserDao
 import kotlinx.coroutines.launch
+import com.example.progressiomobileapp.data.AppDatabase
+
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
