@@ -68,22 +68,44 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        // Singleton pattern to get a single instance of the database
+        // Migration from version 2 to 3 (added checked_timestamp column)
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                val cursor = database.query("PRAGMA table_info(ChecklistItems)")
+                var columnExists = false
+
+                while (cursor.moveToNext()) {
+                    val columnName = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                    if (columnName == "checked_timestamp") {
+                        columnExists = true
+                        break
+                    }
+                }
+                cursor.close()
+
+                if (!columnExists) {
+                    database.execSQL("ALTER TABLE ChecklistItems ADD COLUMN checked_timestamp INTEGER")
+                }
+            }
+        }
+
+
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_database"  // Name of your database
+                    "app_database"
                 )
-                    .fallbackToDestructiveMigration()  // Automatically resets the database if migrations are not found
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)  // Add the necessary migrations here
+                    .fallbackToDestructiveMigration()
                     .addCallback(object : RoomDatabase.Callback() {
                         override fun onOpen(db: SupportSQLiteDatabase) {
                             super.onOpen(db)
-                            db.execSQL("PRAGMA foreign_keys=OFF;")
+                            db.execSQL("PRAGMA foreign_keys=OFF;") // Optionally enable FK constraints
                         }
                     })
+                    .fallbackToDestructiveMigration()
                     .build()
 
                 INSTANCE = instance

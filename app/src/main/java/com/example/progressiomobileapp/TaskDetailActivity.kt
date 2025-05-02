@@ -11,7 +11,17 @@ import com.example.progressiomobileapp.databinding.ActivityTaskDetailBinding
 import kotlinx.coroutines.launch
 import android.util.Log
 import android.content.Intent
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.collect
+import androidx.lifecycle.lifecycleScope
+import com.example.progressiomobileapp.data.Notification
+import com.example.progressiomobileapp.ChecklistItemAdapter
+
+
+
+
+
+
 
 
 
@@ -19,6 +29,7 @@ class TaskDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityTaskDetailBinding
     private val viewModel: TaskDetailViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +48,8 @@ class TaskDetailActivity : AppCompatActivity() {
 
         // Start observing the comments from ViewModel
         lifecycleScope.launch {
-            // Fetch comments when the activity starts
             viewModel.getCommentsForTask(taskId)
 
-            // Correct usage of collect without extra arguments
             viewModel.comments.collect { comments ->
                 commentAdapter.submitList(comments)  // Update RecyclerView with the comments
             }
@@ -58,6 +67,7 @@ class TaskDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.getChecklistItemsForTask(taskId).collect { checklistItems ->
                 binding.checklistRecyclerView.adapter = ChecklistItemAdapter(checklistItems)
+                checkChecklistCompletion(checklistItems) // Check completion every time the list updates
             }
         }
 
@@ -79,13 +89,13 @@ class TaskDetailActivity : AppCompatActivity() {
             }
         }
 
-        // Back Button Logic: Initialize and set click listener for the back button
+        // Back Button Logic
         binding.backButton.setOnClickListener {
             val userRole = getUserRole()  // Get the user's role
 
             val intent = when (userRole) {
-                "admin" -> Intent(this, HomepageAdminActivity::class.java) // Redirect to HomepageAdminActivity if admin
-                else -> Intent(this, HomepageUserActivity::class.java) // Redirect to HomepageUserActivity if user
+                "admin" -> Intent(this, HomepageAdminActivity::class.java)
+                else -> Intent(this, HomepageUserActivity::class.java)
             }
 
             startActivity(intent)
@@ -93,9 +103,59 @@ class TaskDetailActivity : AppCompatActivity() {
         }
     }
 
-    // Function to get the user's role from SharedPreferences
     private fun getUserRole(): String {
         val sharedPreferences = getSharedPreferences("userPrefs", MODE_PRIVATE)
         return sharedPreferences.getString("userRole", "user") ?: "user"
     }
+
+
+    private fun sendCompletionNotificationToAdmin(item: ChecklistItem) {
+        lifecycleScope.launch {
+            // Get the task to retrieve admin (creator) ID
+            val task = viewModel.getTaskById(item.taskId)
+            val adminId = task?.createdBy ?: return@launch
+            val userId = getSharedPreferences("userPrefs", MODE_PRIVATE).getInt("userId", 0)
+
+            val notification = Notification(
+                recipientId = adminId,
+                senderId = userId,
+                taskId = item.taskId,
+                notificationType = "Completion",
+                message = "Checklist item '${item.itemText}' completed by user.",
+                createdAt = System.currentTimeMillis().toString(),
+                isRead = 0
+            )
+
+            viewModel.insertNotification(notification)
+
+            Log.d("TaskDetailActivity", "Notification sent to admin: ${notification.message}")
+        }
+    }
+
+
+    // Function to check if all checklist items are completed after 5 minutes
+    private fun checkChecklistCompletion(checklistItems: List<ChecklistItem>) {
+        val currentTime = System.currentTimeMillis()
+        checklistItems.forEach { item ->
+            if (item.isChecked == 1 && item.checkedTimestamp != null) {
+                val timeElapsed = currentTime - item.checkedTimestamp
+                if (timeElapsed >= 5 * 60 * 1000) { // 5 minutes in milliseconds
+                    updateChecklistItemCompleted(item)
+                }
+            }
+        }
+    }
+
+    // Function to update the checklist item as completed
+    private fun updateChecklistItemCompleted(item: ChecklistItem) {
+        item.isChecked = 2 // Mark as completed
+        lifecycleScope.launch {
+            viewModel.updateChecklistItem(item)
+            sendCompletionNotificationToAdmin(item) // Send notification to admin
+        }
+    }
+
 }
+
+
+

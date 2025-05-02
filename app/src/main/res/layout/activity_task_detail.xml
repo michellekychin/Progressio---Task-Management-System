@@ -13,15 +13,18 @@
         android:layout_height="48dp"
         android:contentDescription="Back Button"
         android:src="@drawable/ic_back"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="12dp" />
 
-    <!-- Wrap everything in a NestedScrollView to make the page scrollable -->
+    <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:orientation="vertical"
@@ -29,45 +32,70 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-            <!-- Title and description of the task -->
+            <!-- Task Title -->
             <TextView
                 android:id="@+id/taskTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Task Title"
-                android:textSize="18sp"
-                android:layout_marginTop="80dp"/>
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="12dp" />
 
-            <TextView
-                android:id="@+id/taskDescription"
+            <!-- Task Description Box -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Task Description"
-                android:textSize="14sp"
-                android:layout_marginTop="16dp"/>
+                android:padding="12dp"
+                android:background="@drawable/box_background"
+                android:orientation="vertical">
 
-            <!-- Checklist RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/checklistRecyclerView"
+                <TextView
+                    android:id="@+id/taskDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Task Description"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Checklist Box -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:background="@drawable/box_background"
+                android:orientation="vertical">
 
-            <!-- Comments Section -->
-            <TextView
-                android:id="@+id/commentsTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Comments"
-                android:textSize="18sp"
-                android:layout_marginTop="16dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/checklistRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            <!-- Comments RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/commentsRecyclerView"
+            <!-- Comments Section Box -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:background="@drawable/box_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/commentsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comments"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/commentsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
 
             <!-- Add Comment Section -->
             <EditText
@@ -77,19 +105,14 @@
                 android:hint="Add a comment..."
                 android:minHeight="48dp"
                 android:padding="16dp"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp" />
 
-            <!-- Add Comment Button -->
             <Button
                 android:id="@+id/addCommentButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Comment"
-                android:layout_marginTop="12dp"/>
-
-
-
+                android:layout_marginTop="12dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
