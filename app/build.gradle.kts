@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.android.application")
-    id("org.jetbrains.kotlin.android") version "2.0.21"  // Use Kotlin 2.0.21 to match the classpath version
-    id("kotlin-kapt") // Add this line
+    id("org.jetbrains.kotlin.android") version "2.0.21"  // Ensure consistent Kotlin versions
+    id("kotlin-kapt") // Add this line for annotation processing
 }
 
 android {
@@ -28,13 +28,16 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
         viewBinding = true
@@ -43,6 +46,10 @@ android {
 }
 
 dependencies {
+
+
+    // Lifecycle Coroutine Support
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7") // Ensure lifecycle-ktx is there
 
     implementation ("androidx.recyclerview:recyclerview:1.3.2")
 
@@ -54,8 +61,15 @@ dependencies {
     implementation ("com.google.android.material:material:1.12.0")
     implementation (libs.androidx.appcompat)
 
-    // Use Kotlin 2.0.21 to match the Kotlin plugin version
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.10")
+
+    // Room Coroutines support
+    implementation("androidx.room:room-ktx:2.7.1")
+
+    // Coroutines for background tasks
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+
+    implementation(libs.androidx.appcompat) // Add this line
+
 
     // Room
     implementation("androidx.room:room-runtime:2.7.1")
@@ -67,6 +81,20 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7") // Lifecycle extensions
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // ViewModel support
 
+
+    // View System (XML) Support
+    implementation(libs.androidx.constraintlayout)
+
+    // Material Components
+    implementation("com.google.android.material:material:1.6.1") // Updated to latest stable version
+
+    // Kotlin standard library
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.21")
+
+    // Room for local database
+    implementation("androidx.room:room-runtime:2.7.1")
+    implementation(libs.androidx.recyclerview)
+    kapt("androidx.room:room-compiler:2.7.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

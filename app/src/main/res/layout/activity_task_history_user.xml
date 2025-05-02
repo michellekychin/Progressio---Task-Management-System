@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- Toolbar Section -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#7E7878">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Task History"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!-- Container for Task List -->
+    <LinearLayout
+        android:id="@+id/taskListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="619dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:scrollbars="vertical">
+        <!-- This will be filled dynamically -->
+    </LinearLayout>
+
+
+    <!-- Bottom Navigation Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="#7E7878"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:contentDescription="@string/home_icon"
+            android:src="@drawable/homepage" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:clickable="true"
+            android:contentDescription="@string/tasks_view_icon"
+            android:src="@drawable/task" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="40dp"
+            android:clickable="true"
+            android:contentDescription="@string/schedule_icon"
+            android:src="@drawable/schedule" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:contentDescription="@string/profile_icon"
+            android:src="@drawable/profile" />
+    </LinearLayout>
+
+</LinearLayout>

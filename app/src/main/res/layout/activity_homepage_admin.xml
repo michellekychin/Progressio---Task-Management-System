@@ -167,6 +167,15 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:clickable="true"
+            android:contentDescription="@string/analytics_icon"
+            android:onClick="goToAnalytics"
+            android:src="@drawable/analytics" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:clickable="true"
             android:contentDescription="@string/schedule_icon"
