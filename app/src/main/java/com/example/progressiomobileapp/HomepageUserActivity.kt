@@ -3,14 +3,20 @@ package com.example.progressiomobileapp
 import android.content.Intent
 
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.progressiomobileapp.data.dao.UserDao
 import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
 import kotlin.jvm.java
+import android.Manifest
 import com.example.progressiomobileapp.NotificationActivity
 
 
@@ -21,6 +27,7 @@ class HomepageUserActivity : AppCompatActivity() {
     private lateinit var tvTodayTask: TextView
     private lateinit var tvToDoCount: TextView
     private lateinit var tvInProgressCount: TextView
+    private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var userDao: UserDao
     private lateinit var sharedPreferences: SharedPreferences
@@ -31,6 +38,23 @@ class HomepageUserActivity : AppCompatActivity() {
     private val completedTasks = 2
     private val toDoTasks = 6
     private val inProgressTasks = 2
+
+
+
+    // Register for permission request
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        sharedPreferences.edit().putBoolean("asked_notification_permission", true).apply()
+        if (isGranted) {
+            Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show()
+            navigateToNotifications()
+        } else {
+            Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,10 +101,27 @@ class HomepageUserActivity : AppCompatActivity() {
 
     // Navigate to Notification Page
     fun goToNotifications(view: android.view.View) {
-        // Example: startActivity(Intent(this, NotificationActivity::class.java))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val alreadyAsked = sharedPreferences.getBoolean("asked_notification_permission", false)
+            val hasPermission = ContextCompat.checkSelfPermission(
+                this, Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if (!hasPermission && !alreadyAsked) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                return
+            }
+        }
+
+        // Permission already granted or not needed
+        navigateToNotifications()
+    }
+
+    private fun navigateToNotifications() {
         val intent = Intent(this, NotificationActivity::class.java)
         startActivity(intent)
     }
+
 
     // Navigate to To Do Tasks Page
     fun openToDoTasks(view: android.view.View) {
@@ -100,16 +141,24 @@ class HomepageUserActivity : AppCompatActivity() {
 
         // Assuming you have a taskId to pass, here it's hardcoded as 1
         val taskId = 1 // You can fetch the actual task ID dynamically if needed
-        val intent = Intent(this, TaskDetailActivity::class.java)
+
+        //val intent = Intent(this, TaskDetailActivity::class.java)\
+        val intent = Intent(this, UserTaskListActivity::class.java)
+
+        //val intent = Intent(this, TaskDetailActivity::class.java)
+
         intent.putExtra("TASK_ID", taskId)  // Pass the taskId as an extra
         startActivity(intent)
     }
 
     // Navigate to Calendar Page
     fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalenderUserActivity::class.java)
-        startActivity(intent)
+        // Create an Intent to navigate to CalendarActivity
+        val intent = Intent(this, CalendarActivity::class.java)
+        startActivity(intent) // Start the activity
+
     }
+
 
     // Navigate to Profile Page
     fun goToProfile(view: android.view.View) {
@@ -117,3 +166,6 @@ class HomepageUserActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+
+

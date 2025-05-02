@@ -1,5 +1,6 @@
 package com.example.progressiomobileapp
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,12 +28,14 @@ import androidx.appcompat.widget.AppCompatImageButton
 import com.example.progressiomobileapp.HomepageAdminActivity
 import com.example.progressiomobileapp.HomepageUserActivity
 import android.content.SharedPreferences
+import android.os.Build
 import androidx.appcompat.app.AlertDialog
 import android.widget.CheckBox
-
-
-
-
+import androidx.activity.result.contract.ActivityResultContracts
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class NotificationActivity : AppCompatActivity() {
 
@@ -49,6 +52,8 @@ class NotificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        askNotificationPermissionIfNeeded()
 
 
         recyclerView = binding.recyclerView
@@ -169,12 +174,47 @@ class NotificationActivity : AppCompatActivity() {
 
             notifications.collect { data ->
                 // Initialize the RecyclerView adapter with the new data
-                recyclerViewAdapter = NotificationAdapter(data)
+                recyclerViewAdapter = NotificationAdapter(data) { notification ->
+                    val intent = Intent(this@NotificationActivity, TaskDetailActivity::class.java)
+                    intent.putExtra("TASK_ID", notification.taskId)
+                    startActivity(intent)
+                }
                 recyclerView.adapter = recyclerViewAdapter
                 recyclerViewAdapter.notifyDataSetChanged() // Notify the adapter of data changes
             }
         }
     }
+
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            Toast.makeText(this, "Notifications enabled", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Notifications disabled", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun askNotificationPermissionIfNeeded() {
+        val prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
+        val asked = prefs.getBoolean("asked_notification", false)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                )
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    100
+                )
+            }
+        }
+    }
+
 
 
 

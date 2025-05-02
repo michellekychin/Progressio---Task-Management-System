@@ -46,12 +46,21 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")  // For ViewModel
+    implementation ("androidx.compose.foundation:foundation:1.5.0")
 
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+
+    implementation ("androidx.recyclerview:recyclerview:1.4.0")
+    implementation ("androidx.compose.ui:ui:1.8.0")
+    implementation ("androidx.compose.material3:material3:1.3.2")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.8.0")
 
     // Lifecycle Coroutine Support
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7") // Ensure lifecycle-ktx is there
 
-    implementation ("androidx.recyclerview:recyclerview:1.3.2")
+
 
     implementation ("androidx.databinding:databinding-runtime:8.9.2")
 

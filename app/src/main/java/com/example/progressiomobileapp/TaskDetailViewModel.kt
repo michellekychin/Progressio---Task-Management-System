@@ -21,40 +21,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import com.example.progressiomobileapp.data.Notification
 
 
 
-//class TaskDetailViewModel(application: Application) : AndroidViewModel(application) {
-
-//    private val taskDao = AppDatabase.getDatabase(application).taskDao()
-//    private val checklistItemDao = AppDatabase.getDatabase(application).checklistItemDao()
-//    private val commentDao = AppDatabase.getDatabase(application).commentDao()
-
-    // Fetch task details using Flow
-//    fun getTaskDetails(taskId: Int): Flow<Task?> {
-//        return flow {
-//            emit(taskDao.getTaskById(taskId)) // Emit the result of the suspend function
-//        }
-//    }
-
-    // Fetch checklist items using Flow
-//    fun getChecklistItemsForTask(taskId: Int): Flow<List<ChecklistItem>> {
-//        return checklistItemDao.getChecklistItemsForTask(taskId) // Return Flow<List<ChecklistItem>>
-//    }
-
-    // Fetch comments using Flow
-//   fun getCommentsForTask(taskId: Int): Flow<List<Comment>> {
-//       return commentDao.getCommentsForTask(taskId) // Return Flow<List<Comment>>
-//    }
-
-    // Insert a new comment (this will update the database)
-//    fun addComment(comment: Comment) {
-//        viewModelScope.launch {
-//            commentDao.insert(comment)
-//        }
-//    }
-//}
-// before adding dummy data
 
 
 class TaskDetailViewModel(application: Application) : AndroidViewModel(application) {
@@ -62,6 +32,7 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
     private val taskDao = AppDatabase.getDatabase(application).taskDao()
     private val checklistItemDao = AppDatabase.getDatabase(application).checklistItemDao()
     private val commentDao = AppDatabase.getDatabase(application).commentDao()
+    private val notificationDao = AppDatabase.getDatabase(application).notificationDao()
 
     private val _comments = MutableStateFlow<List<Comment>>(emptyList())
     val comments: StateFlow<List<Comment>> get() = _comments
@@ -87,6 +58,16 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
+    fun insertNotification(notification: Notification) {
+        viewModelScope.launch {
+            notificationDao.insert(notification)
+        }
+    }
+
+    suspend fun getTaskById(taskId: Int): Task? {
+        return taskDao.getTaskById(taskId)
+    }
+
     // Get checklist items (returning dummy data if logged-in user is 'nat@gmail.com')
     fun getChecklistItemsForTask(taskId: Int): Flow<List<ChecklistItem>> {
         return if (loggedInUserEmail == "nat@gmail.com") {
@@ -98,35 +79,33 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
 
     fun getCommentsForTask(taskId: Int) {
         viewModelScope.launch {
-            // If the logged-in user is 'nat@gmail.com', emit dummy comments
-            if (loggedInUserEmail == "nat@gmail.com") {
-                // Emit dummy comments directly
-                _comments.value = getDummyComments(taskId)
-            } else {
-                // Fetch real comments from the database for other users
-                commentDao.getCommentsForTask(taskId).collect { comments ->
-                    // Emit the fetched comments to _comments
-                    _comments.value = comments
-                }
+            commentDao.getCommentsForTask(taskId).collect { comments ->
+                _comments.value = comments
             }
         }
     }
 
-
-    // Add a comment to the database
     fun addComment(comment: Comment) {
         viewModelScope.launch {
             commentDao.insert(comment)
-
-            // After insertion, collect updated comments and emit them to _comments
             commentDao.getCommentsForTask(comment.taskId).collect { updatedComments ->
                 _comments.value = updatedComments
             }
         }
+
     }
 
+    fun updateChecklistItem(item: ChecklistItem) {
+        viewModelScope.launch {
+            checklistItemDao.update(item)  // Update the item in the database
+        }
+    }
+}
 
-    // Dummy task data for testing
+
+
+
+// Dummy task data for testing
     private fun getDummyTask(): Task {
         return Task(
             taskId = 1,
@@ -190,7 +169,7 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
         )
     }
 
-}
+
 
 
 
