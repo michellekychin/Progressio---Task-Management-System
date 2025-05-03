@@ -13,14 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Task Title"
-        android:textSize="18sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/taskDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Due Date: 2025-05-03"
-        android:textSize="14sp"
-        android:paddingTop="4dp" />
+        android:text="Due Date"
+        android:textSize="20sp" />
 </LinearLayout>

@@ -45,4 +45,11 @@ class UserTaskListActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun goToHistory(view: android.view.View) {
+        val intent = Intent(this, TaskHistoryUserActivity::class.java)
+        startActivity(intent)
+    }
 }
+
+
