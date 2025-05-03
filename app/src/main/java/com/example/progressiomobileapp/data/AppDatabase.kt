@@ -10,7 +10,7 @@ import com.example.progressiomobileapp.data.dao.*
 
 
 // Define the database class
-@Database(entities = [User::class, Admin::class, Task::class, ChecklistItem::class, Comment::class, History::class, UserHistory::class, Notification::class], version = 3, exportSchema = false)
+@Database(entities = [User::class, Admin::class, Task::class, ChecklistItem::class, Comment::class, History::class, UserHistory::class, Notification::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     // Accessor method for UserDao
@@ -68,22 +68,24 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        // Singleton pattern to get a single instance of the database
+
+
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "app_database"  // Name of your database
+                    "app_database"
                 )
-                    .fallbackToDestructiveMigration()  // Automatically resets the database if migrations are not found
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2)  // Add the necessary migrations here
+                    .fallbackToDestructiveMigration()
                     .addCallback(object : RoomDatabase.Callback() {
                         override fun onOpen(db: SupportSQLiteDatabase) {
                             super.onOpen(db)
-                            db.execSQL("PRAGMA foreign_keys=OFF;")
+                            db.execSQL("PRAGMA foreign_keys=OFF;") // Optionally enable FK constraints
                         }
                     })
+                    .fallbackToDestructiveMigration()
                     .build()
 
                 INSTANCE = instance

@@ -26,5 +26,8 @@ data class ChecklistItem(
     var isChecked: Int = 0,
 
     @ColumnInfo(name = "item_order")
-    val itemOrder: Int?
+    val itemOrder: Int?,
+
+    @ColumnInfo(name = "checked_timestamp")
+    val checkedTimestamp: Long? = null
 )

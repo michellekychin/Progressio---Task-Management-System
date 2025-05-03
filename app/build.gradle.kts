@@ -46,6 +46,8 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")  // For ViewModel
+    implementation ("androidx.compose.foundation:foundation:1.5.0")
 
     // JavaMail API
     implementation ("com.sun.mail:android-mail:1.6.0")
@@ -55,15 +57,25 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")  // Optional: for logging
 
 
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+
+    implementation ("androidx.recyclerview:recyclerview:1.4.0")
+    implementation ("androidx.compose.ui:ui:1.8.0")
+    implementation ("androidx.compose.material3:material3:1.3.2")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.8.0")
+
     // Lifecycle Coroutine Support
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7") // Ensure lifecycle-ktx is there
 
-    implementation ("androidx.recyclerview:recyclerview:1.3.2")
+
 
     implementation ("androidx.databinding:databinding-runtime:8.9.2")
 
     // View System (XML) Support
     implementation(libs.androidx.constraintlayout)
+
+    implementation ("com.google.android.material:material:1.12.0")
+    implementation (libs.androidx.appcompat)
 
 
     // Room Coroutines support
@@ -72,8 +84,18 @@ dependencies {
     // Coroutines for background tasks
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
-
     implementation(libs.androidx.appcompat) // Add this line
+
+
+    // Room
+    implementation("androidx.room:room-runtime:2.7.1")
+    kapt("androidx.room:room-compiler:2.7.1")  // Add this line for Room annotation processing
+
+    implementation("androidx.compose.material3:material3:1.3.2") // For Material 3
+    implementation("androidx.appcompat:appcompat:1.7.0") // For AppCompatDelegate
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0") // For graphs
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7") // Lifecycle extensions
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // ViewModel support
 
 
     // View System (XML) Support
@@ -98,6 +120,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
