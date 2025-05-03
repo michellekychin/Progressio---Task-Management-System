@@ -21,6 +21,7 @@ import com.example.progressiomobileapp.NotificationActivity
 
 
 
+
 class HomepageUserActivity : AppCompatActivity() {
 
     private lateinit var tvGreeting: TextView
@@ -30,7 +31,6 @@ class HomepageUserActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var userDao: UserDao
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var currentUserEmail: String
 
     // Dummy data
@@ -38,7 +38,6 @@ class HomepageUserActivity : AppCompatActivity() {
     private val completedTasks = 2
     private val toDoTasks = 6
     private val inProgressTasks = 2
-
 
 
     // Register for permission request
@@ -53,7 +52,6 @@ class HomepageUserActivity : AppCompatActivity() {
             Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
         }
     }
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,73 +97,78 @@ class HomepageUserActivity : AppCompatActivity() {
         val intent = Intent(this, HomepageUserActivity::class.java)
         startActivity(intent)
 
-    // Navigate to Notification Page
-    fun goToNotifications(view: android.view.View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val alreadyAsked = sharedPreferences.getBoolean("asked_notification_permission", false)
-            val hasPermission = ContextCompat.checkSelfPermission(
-                this, Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
+    }
 
-            if (!hasPermission && !alreadyAsked) {
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                return
+        // Navigate to Notification Page
+        fun goToNotifications(view: android.view.View) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val alreadyAsked =
+                    sharedPreferences.getBoolean("asked_notification_permission", false)
+                val hasPermission = ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+
+                if (!hasPermission && !alreadyAsked) {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    return
+                }
             }
+
+            // Permission already granted or not needed
+            navigateToNotifications()
         }
 
-        // Permission already granted or not needed
-        navigateToNotifications()
+        fun navigateToNotifications() {
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        // Navigate to To Do Tasks Page
+        fun openToDoTasks(view: android.view.View) {
+            // Example: startActivity(Intent(this, ToDoTasksActivity::class.java))
+        }
+
+        // Navigate to In Progress Tasks Page
+        fun openInProgressTasks(view: android.view.View) {
+            // Example: startActivity(Intent(this, InProgressTasksActivity::class.java))
+        }
+
+        // Navigate to Task View Page
+        fun goToTaskView(view: android.view.View) {
+
+            //val intent = Intent(this, TaskUserActivity::class.java)
+            //task management
+
+            // Assuming you have a taskId to pass, here it's hardcoded as 1
+            val taskId = 1 // You can fetch the actual task ID dynamically if needed
+
+            //val intent = Intent(this, TaskDetailActivity::class.java)\
+            val intent = Intent(this, UserTaskListActivity::class.java)
+
+            //val intent = Intent(this, TaskDetailActivity::class.java)
+
+            intent.putExtra("TASK_ID", taskId)  // Pass the taskId as an extra
+            startActivity(intent)
+        }
+
+        // Navigate to Calendar Page
+        fun goToCalendar(view: android.view.View) {
+            // Create an Intent to navigate to CalendarActivity
+            val intent = Intent(this, CalendarActivity::class.java)
+            startActivity(intent) // Start the activity
+
+        }
+
+
+        // Navigate to Profile Page
+        fun goToProfile(view: android.view.View) {
+            val intent = Intent(this, ProfileUserActivity::class.java)
+            startActivity(intent)
+        }
     }
 
-    private fun navigateToNotifications() {
-        val intent = Intent(this, NotificationActivity::class.java)
-        startActivity(intent)
-    }
 
-
-    // Navigate to To Do Tasks Page
-    fun openToDoTasks(view: android.view.View) {
-        // Example: startActivity(Intent(this, ToDoTasksActivity::class.java))
-    }
-
-    // Navigate to In Progress Tasks Page
-    fun openInProgressTasks(view: android.view.View) {
-        // Example: startActivity(Intent(this, InProgressTasksActivity::class.java))
-    }
-
-    // Navigate to Task View Page
-    fun goToTaskView(view: android.view.View) {
-
-        //val intent = Intent(this, TaskUserActivity::class.java)
-      //task management 
-
-        // Assuming you have a taskId to pass, here it's hardcoded as 1
-        val taskId = 1 // You can fetch the actual task ID dynamically if needed
-
-        //val intent = Intent(this, TaskDetailActivity::class.java)\
-        val intent = Intent(this, UserTaskListActivity::class.java)
-
-        //val intent = Intent(this, TaskDetailActivity::class.java)
-
-        intent.putExtra("TASK_ID", taskId)  // Pass the taskId as an extra
-        startActivity(intent)
-    }
-
-    // Navigate to Calendar Page
-    fun goToCalendar(view: android.view.View) {
-        // Create an Intent to navigate to CalendarActivity
-        val intent = Intent(this, CalendarActivity::class.java)
-        startActivity(intent) // Start the activity
-
-    }
-
-
-    // Navigate to Profile Page
-    fun goToProfile(view: android.view.View) {
-        val intent = Intent(this, ProfileUserActivity::class.java)
-        startActivity(intent)
-    }
-}
 
 
 

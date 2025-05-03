@@ -10,7 +10,7 @@ import com.example.progressiomobileapp.data.dao.*
 
 
 // Define the database class
-@Database(entities = [User::class, Admin::class, Task::class, ChecklistItem::class, Comment::class, History::class, UserHistory::class, Notification::class], version = 3, exportSchema = false)
+@Database(entities = [User::class, Admin::class, Task::class, ChecklistItem::class, Comment::class, History::class, UserHistory::class, Notification::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     // Accessor method for UserDao
@@ -68,26 +68,6 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        // Migration from version 2 to 3 (added checked_timestamp column)
-        val MIGRATION_2_3 = object : Migration(2, 3) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                val cursor = database.query("PRAGMA table_info(ChecklistItems)")
-                var columnExists = false
-
-                while (cursor.moveToNext()) {
-                    val columnName = cursor.getString(cursor.getColumnIndexOrThrow("name"))
-                    if (columnName == "checked_timestamp") {
-                        columnExists = true
-                        break
-                    }
-                }
-                cursor.close()
-
-                if (!columnExists) {
-                    database.execSQL("ALTER TABLE ChecklistItems ADD COLUMN checked_timestamp INTEGER")
-                }
-            }
-        }
 
 
         fun getDatabase(context: Context): AppDatabase {
@@ -97,7 +77,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "app_database"
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)  // Add the necessary migrations here
+                    .addMigrations(MIGRATION_1_2)  // Add the necessary migrations here
                     .fallbackToDestructiveMigration()
                     .addCallback(object : RoomDatabase.Callback() {
                         override fun onOpen(db: SupportSQLiteDatabase) {
