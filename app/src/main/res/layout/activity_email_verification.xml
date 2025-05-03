@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="#D3D3D3">
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:padding="24dp"
+        android:elevation="6dp"
+        android:gravity="center"
+        android:clipToOutline="true"
+        android:outlineProvider="background">
+
+        <!-- Email Input Field (optional) -->
+        <EditText
+            android:id="@+id/etEmailInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email Address"
+            android:inputType="textEmailAddress"
+            android:enabled="false"
+            android:layout_marginBottom="16dp"
+            android:padding="10dp" />
+
+        <!-- Verification Code Input Field -->
+        <EditText
+            android:id="@+id/etVerificationCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Verification Code"
+            android:inputType="text"
+            android:layout_marginBottom="16dp"
+            android:padding="10dp" />
+
+        <!-- Verification Message (optional, can be used to inform user) -->
+        <TextView
+            android:id="@+id/tvVerificationMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please enter the verification code sent to your email. Check your spam folder if you don't see it."
+            android:textColor="#FF0000"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Verify Button -->
+        <Button
+            android:id="@+id/btnVerify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify"
+            android:backgroundTint="#222222"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

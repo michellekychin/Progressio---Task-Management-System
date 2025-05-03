@@ -195,6 +195,10 @@ class AnalyticsActivity : BaseActivity() {
         pieChartStatus.setUsePercentValues(true) // Enable percent values
         pieChartStatus.invalidate() // Refresh the chart
 
+
+    }
+
+
         // Customize legend
         pieChartStatus.legend.apply {
             isEnabled = true
@@ -410,5 +414,6 @@ class AnalyticsActivity : BaseActivity() {
         }
 
         barChartEmployeeTasks.invalidate() // Refresh the chart
+
     }
 }

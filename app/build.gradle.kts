@@ -49,6 +49,13 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")  // For ViewModel
     implementation ("androidx.compose.foundation:foundation:1.5.0")
 
+    // JavaMail API
+    implementation ("com.sun.mail:android-mail:1.6.0")
+    implementation ("com.sun.mail:android-activation:1.6.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")  // OkHttp dependency
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")  // Optional: for logging
+
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 

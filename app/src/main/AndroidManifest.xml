@@ -2,7 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <!-- Permission for internet access (needed for sending emails) -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
 
     <application
         android:allowBackup="true"
@@ -15,12 +22,17 @@
         android:theme="@style/Theme.ProgressioMobileApp.Light"
         tools:targetApi="31">
         <activity
+            android:name=".EmailVerificationActivity"
+            android:exported="false"
+            android:label="@string/title_activity_email_verification"
+            android:theme="@style/Theme.ProgressioMobileApp" />
+        <activity
             android:name=".AnalyticsActivity"
             android:exported="false"
             android:label="@string/title_activity_analytics"
         android:theme="@style/Theme.ProgressioMobileApp.Light" />
         <activity
-            android:name=".CalenderAdminActivity"
+            android:name=".CalendarAdminActivity"
             android:exported="false"
             android:label="@string/title_activity_calender_admin"
             android:theme="@style/Theme.ProgressioMobileApp.Light"/>
@@ -65,7 +77,7 @@
             android:label="TaskHistoryAdminActivity"
             android:theme="@style/Theme.ProgressioMobileApp.Light" />
         <activity
-            android:name=".CalenderUserActivity"
+            android:name=".CalendarUserActivity"
             android:exported="false"
             android:label="@string/title_activity_calendar_user"
             android:theme="@style/Theme.ProgressioMobileApp.Light" />
@@ -111,6 +123,9 @@
             </intent-filter>
         </activity>
 
+        
+
+
 
         <activity android:name=".NotificationActivity"
             android:theme="@style/Theme.ProgressioMobileApp.Light"/>
@@ -123,6 +138,7 @@
 
         <activity android:name=".TaskDetailActivity"
             android:theme="@style/Theme.ProgressioMobileApp.Light"/>
+
 
     </application>
 

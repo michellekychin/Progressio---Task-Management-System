@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white">
+        android:background="#7E7878">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,7 +20,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Home"
+                android:text="Homepage"
+                android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -36,9 +37,7 @@
         </RelativeLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- Greeting Section -->
 
-    <!-- Today's Task Section -->
     <!-- Greeting Section -->
     <LinearLayout
         android:layout_width="match_parent"
