@@ -3,92 +3,95 @@ package com.example.progressiomobileapp
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import com.example.progressiomobileapp.data.dao.UserDao
-import kotlinx.coroutines.launch
-import com.example.progressiomobileapp.data.AppDatabase
 
 class HomepageAdminActivity : AppCompatActivity() {
 
     private lateinit var tvGreeting: TextView
-    private lateinit var tvTodayTask: TextView
-    private lateinit var tvToDoCount: TextView
-    private lateinit var tvInProgressCount: TextView
+    private lateinit var tvSubmittedTask: TextView
+    private lateinit var btnNeedReview: Button  // Button for "Need of Review"
 
-    private lateinit var userDao: UserDao
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var currentUserEmail: String
 
-    // Dummy data
-    private val totalTasks = 10
-    private val completedTasks = 2
-    private val toDoTasks = 6
-    private val inProgressTasks = 2
+    // Dummy data for tasks that need review
+    private val tasksNeedReview = listOf(
+        Task("Task 1", "2025-05-01"),
+        Task("Task 2", "2025-05-02")
+    )
+
+    // Dummy data for task counts (this will change dynamically based on actual data)
+    private val totalTasks = 40
+    private val completedTasks = 12
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage_admin)
 
-        // Initialize Views
+        // Initialize views
         tvGreeting = findViewById(R.id.tvGreeting)
-        tvTodayTask = findViewById(R.id.tvTodayTask)
-        tvToDoCount = findViewById(R.id.tvToDoCount)
-        tvInProgressCount = findViewById(R.id.tvInProgressCount)
+        tvSubmittedTask = findViewById(R.id.tvSubmittedTask)
+        btnNeedReview = findViewById(R.id.btnNeedReview)
 
-        // Initialize SharedPreferences and UserDao
+        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
-        val db = AppDatabase.getDatabase(this)
-        userDao = db.userDao()
 
-        // Get the email of the logged-in user from SharedPreferences
-        currentUserEmail = sharedPreferences.getString("userEmail", "") ?: ""
+        // Retrieve user data from SharedPreferences (session data)
+        val userName = sharedPreferences.getString("userName", "User") ?: "User"
+        val userRole = sharedPreferences.getString("userRole", "Admin") ?: "Admin"
 
-        // Fetch the user's data from the database using email
-        lifecycleScope.launch {
-            val user = userDao.getUserByEmail(currentUserEmail)
-            user?.let {
-                // Set the greeting message with the user's name
-                tvGreeting.text = "Hello, ${it.name}! Welcome Back!"
-            }
+        // Set the greeting message with the admin user's name
+        tvGreeting.text = "Hello, $userName! Welcome Back, $userRole!"
+
+        // Display Submitted Task count (completed/total)
+        tvSubmittedTask.text = "$completedTasks/$totalTasks - ${calculateProgress(completedTasks, totalTasks)}"
+
+        // Display task titles and due dates in the button (Need of Review section)
+        val taskDetails = tasksNeedReview.joinToString("\n") { "${it.title} - ${it.dueDate}" }
+        btnNeedReview.text = taskDetails
+
+        // Set up the button click listener to navigate to the task review page
+        btnNeedReview.setOnClickListener {
+            val intent = Intent(this, TaskAdminActivity::class.java)
+            startActivity(intent)
         }
-
-        // Display Today's Task count (completed/total)
-        tvTodayTask.text = "$completedTasks/$totalTasks"
-
-        // Display To Do tasks count
-        tvToDoCount.text = "$toDoTasks"
-
-        // Display In Progress tasks count
-        tvInProgressCount.text = "$inProgressTasks"
     }
 
-    // Navigate to Home Page
+    // Function to calculate task progress percentage
+    private fun calculateProgress(completed: Int, total: Int): String {
+        return if (total > 0) {
+            val progress = (completed.toDouble() / total.toDouble()) * 100
+            String.format("%.2f", progress) + "%"
+        } else {
+            "0%"
+        }
+    }
+
+    // Define the Task class (for task data)
+    data class Task(val title: String, val dueDate: String)
+
+    // Other navigation functions
     fun goToHome(view: android.view.View) {
         val intent = Intent(this, HomepageAdminActivity::class.java)
         startActivity(intent)
     }
 
-    // Navigate to Task View Page
     fun goToTaskView(view: android.view.View) {
         val intent = Intent(this, TaskAdminActivity::class.java)
         startActivity(intent)
     }
 
-    // Navigate to Analytics Page
     fun goToAnalytics(view: android.view.View) {
         val intent = Intent(this, AnalyticsActivity::class.java)
         startActivity(intent)
     }
 
-    // Navigate to Calendar Page
     fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalenderAdminActivity::class.java)
+        val intent = Intent(this, CalendarAdminActivity::class.java)
         startActivity(intent)
     }
 
-    // Navigate to Profile Page
     fun goToProfile(view: android.view.View) {
         val intent = Intent(this, ProfileAdminActivity::class.java)
         startActivity(intent)

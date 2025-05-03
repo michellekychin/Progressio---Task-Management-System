@@ -69,8 +69,6 @@
             android:drawableEnd="@drawable/ic_visibility_off"
             android:drawablePadding="8dp"/>
 
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -107,17 +105,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="User"
-                android:backgroundTint="#D3D3D3"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/role_button_background"
+                android:textColor="#000000"/>
 
             <Button
                 android:id="@+id/btnAdmin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Admin"
-                android:backgroundTint="#D3D3D3"/>
+                android:background="@drawable/role_button_background"
+                android:textColor="#000000"/>
+
         </LinearLayout>
 
+        <!-- Added TextView to inform user about email verification -->
+        <TextView
+            android:id="@+id/tvEmailVerificationMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please verify your email by checking your inbox for the verification link."
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            android:textColor="#000000"/>
+
+        <!-- Button to trigger sign-up action -->
         <Button
             android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
@@ -125,5 +137,6 @@
             android:text="Sign Up"
             android:backgroundTint="#222222"
             android:textColor="#FFFFFF"/>
+
     </LinearLayout>
 </LinearLayout>

@@ -1,19 +1,12 @@
 package com.example.progressiomobileapp
 
 import android.content.Intent
-
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.example.progressiomobileapp.data.dao.UserDao
-import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
-import kotlin.jvm.java
-import com.example.progressiomobileapp.NotificationActivity
-
-
 
 class HomepageUserActivity : AppCompatActivity() {
 
@@ -24,7 +17,6 @@ class HomepageUserActivity : AppCompatActivity() {
 
     private lateinit var userDao: UserDao
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var currentUserEmail: String
 
     // Dummy data
     private val totalTasks = 10
@@ -47,17 +39,11 @@ class HomepageUserActivity : AppCompatActivity() {
         val db = AppDatabase.getDatabase(this)
         userDao = db.userDao()
 
-        // Get the email of the logged-in user from SharedPreferences
-        currentUserEmail = sharedPreferences.getString("userEmail", "") ?: ""
+        // Retrieve user data from SharedPreferences (session data)
+        val userName = sharedPreferences.getString("userName", "User") ?: "User"
 
-        // Fetch the user's data from the database using email
-        lifecycleScope.launch {
-            val user = userDao.getUserByEmail(currentUserEmail)
-            user?.let {
-                // Set the greeting message with the user's name
-                tvGreeting.text = "Hello, ${it.name}! Welcome Back!"
-            }
-        }
+        // Set the greeting message with the user's name
+        tvGreeting.text = "Hello, $userName! Welcome Back!"
 
         // Display Today's Task count (completed/total)
         tvTodayTask.text = "$completedTasks/$totalTasks"
@@ -69,35 +55,21 @@ class HomepageUserActivity : AppCompatActivity() {
         tvInProgressCount.text = "$inProgressTasks"
     }
 
-
     // Navigate to Home Page
     fun goToHome(view: android.view.View) {
         val intent = Intent(this, HomepageUserActivity::class.java)
         startActivity(intent)
+    }
 
     // Navigate to Notification Page
     fun goToNotifications(view: android.view.View) {
-        // Example: startActivity(Intent(this, NotificationActivity::class.java))
         val intent = Intent(this, NotificationActivity::class.java)
         startActivity(intent)
     }
 
-    // Navigate to To Do Tasks Page
-    fun openToDoTasks(view: android.view.View) {
-        // Example: startActivity(Intent(this, ToDoTasksActivity::class.java))
-    }
-
-    // Navigate to In Progress Tasks Page
-    fun openInProgressTasks(view: android.view.View) {
-        // Example: startActivity(Intent(this, InProgressTasksActivity::class.java))
-    }
 
     // Navigate to Task View Page
     fun goToTaskView(view: android.view.View) {
-
-        //val intent = Intent(this, TaskUserActivity::class.java)
-      //task management 
-
         // Assuming you have a taskId to pass, here it's hardcoded as 1
         val taskId = 1 // You can fetch the actual task ID dynamically if needed
         val intent = Intent(this, TaskDetailActivity::class.java)
@@ -107,7 +79,7 @@ class HomepageUserActivity : AppCompatActivity() {
 
     // Navigate to Calendar Page
     fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalenderUserActivity::class.java)
+        val intent = Intent(this, CalendarUserActivity::class.java)
         startActivity(intent)
     }
 

@@ -2,6 +2,7 @@ package com.example.progressiomobileapp
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.*
@@ -11,7 +12,9 @@ import com.example.progressiomobileapp.data.User
 import com.example.progressiomobileapp.data.dao.UserDao
 import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
-
+import java.util.*
+import javax.mail.*
+import javax.mail.internet.*
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -19,14 +22,11 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var emailInput: EditText
     private lateinit var passwordInput: EditText
     private lateinit var confirmPasswordInput: EditText
-    private lateinit var btnUser: Button
-    private lateinit var btnAdmin: Button
     private lateinit var btnSignUp: Button
-    private lateinit var showPasswordBtn: Button  // Show/Hide password button
-
-    private var selectedRole = "User" // Default role
+    private lateinit var showPasswordBtn: Button
 
     private lateinit var userDao: UserDao
+    private var selectedRole = "User" // Default role
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +37,17 @@ class SignUpActivity : AppCompatActivity() {
         emailInput = findViewById(R.id.etEmail)
         passwordInput = findViewById(R.id.etPassword)
         confirmPasswordInput = findViewById(R.id.etConfirmPassword)
-        btnUser = findViewById(R.id.btnUser)
-        btnAdmin = findViewById(R.id.btnAdmin)
         btnSignUp = findViewById(R.id.btnSignUp)
-        showPasswordBtn = findViewById(R.id.btnShowPassword)  // Initialize the show password button
+        showPasswordBtn = findViewById(R.id.btnShowPassword)
 
         // Initialize Room Database and UserDao
         val db = AppDatabase.getDatabase(this)
         userDao = db.userDao()
 
         // Role selection
+        val btnUser: Button = findViewById(R.id.btnUser)
+        val btnAdmin: Button = findViewById(R.id.btnAdmin)
+
         btnUser.setOnClickListener {
             selectedRole = "User"
             btnUser.setBackgroundColor(Color.GRAY)
@@ -86,13 +87,31 @@ class SignUpActivity : AppCompatActivity() {
             val password = passwordInput.text.toString()
             val confirmPassword = confirmPasswordInput.text.toString()
 
-            // Input validation
+            // Validate input
             if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Check if email is already in use
+            // Validate email format
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Validate password format
+            if (!isValidPassword(password)) {
+                Toast.makeText(this, "Password must be at least 8 characters, contain a number, an uppercase letter, and a special character", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Check if passwords match
+            if (password != confirmPassword) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Check if email already exists
             lifecycleScope.launch {
                 val existingUser = userDao.getUserByEmail(email)
                 if (existingUser != null) {
@@ -102,56 +121,100 @@ class SignUpActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                // Email validation
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    runOnUiThread {
-                        Toast.makeText(this@SignUpActivity, "Invalid email format", Toast.LENGTH_SHORT).show()
-                    }
-                    return@launch
-                }
-
-                // Password validation
-                if (!isValidPassword(password)) {
-                    runOnUiThread {
-                        Toast.makeText(this@SignUpActivity, "Password must be at least 8 characters, contain a number, an uppercase letter, and a special character", Toast.LENGTH_SHORT).show()
-                    }
-                    return@launch
-                }
-
-                // Check if passwords match
-                if (password != confirmPassword) {
-                    runOnUiThread {
-                        Toast.makeText(this@SignUpActivity, "Passwords do not match", Toast.LENGTH_SHORT).show()
-                    }
-                    return@launch
-                }
-
                 // Save user data in the Room database
                 val user = User(name = name, email = email, password = password, role = selectedRole, groupAdminId = null)
 
                 // Insert user into the database
-                val userId = userDao.insert(user)
+                userDao.insert(user)
 
-                // Role-based navigation
-                if (selectedRole == "Admin") {
-                    // If the role is Admin, navigate to HomepageAdminActivity
-                    val intent = Intent(this@SignUpActivity, HomepageAdminActivity::class.java)
-                    startActivity(intent)
-                    finish()  // Close SignUpActivity so it doesn't remain in the back stack
-                } else {
-                    // If the role is User, navigate to HomepageUserActivity
-                    val intent = Intent(this@SignUpActivity, HomepageUserActivity::class.java)
-                    startActivity(intent)
-                    finish()  // Close SignUpActivity so it doesn't remain in the back stack
+                // Generate a verification code
+                val verificationCode = generateVerificationCode()
+
+                // Send email verification
+                SendVerificationEmail(email, verificationCode).execute()
+
+                // Inform the user to check their email
+                runOnUiThread {
+                    Toast.makeText(this@SignUpActivity, "Please check your email for verification", Toast.LENGTH_SHORT).show()
                 }
+
+                // Pass the correct verification code to EmailVerificationActivity
+                val intent = Intent(this@SignUpActivity, EmailVerificationActivity::class.java)
+                intent.putExtra("email", email)  // Pass the email to the verification activity
+                intent.putExtra("role", selectedRole)  // Pass the role to the verification activity
+                intent.putExtra("verificationCode", verificationCode)  // Pass the correct verification code
+                startActivity(intent)
+                finish()  // Close SignUpActivity
+
+
+                // After successfully signing up, store the userName in SharedPreferences
+                val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putString("userEmail", email)
+                editor.putString("userName", name)  // Saving the userName
+                editor.putString("userRole", selectedRole)
+                editor.apply()  // Commit the changes
+
+
             }
         }
     }
 
     // Function to validate the password according to the given rules
     private fun isValidPassword(password: String): Boolean {
-        // Check if the password has at least 8 characters, contains a number, an uppercase letter, and a special character
         val passwordRegex = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.*[a-z]).{8,}$".toRegex()
         return password.matches(passwordRegex)
     }
+
+    // Function to generate a random verification code
+    private fun generateVerificationCode(): String {
+        return (100000..999999).random().toString() // Simple 6-digit code
+    }
+
+    // AsyncTask to send email in background
+    private class SendVerificationEmail(val email: String, val verificationCode: String) : AsyncTask<Void, Void, Boolean>() {
+
+        override fun doInBackground(vararg params: Void?): Boolean {
+            val props = Properties()
+            props["mail.smtp.host"] = "smtp.gmail.com"  // Gmail SMTP server
+            props["mail.smtp.port"] = "587"  // TLS port
+            props["mail.smtp.auth"] = "true"
+            props["mail.smtp.starttls.enable"] = "true"  // Enable TLS
+
+            // Gmail authentication
+            val session = Session.getInstance(props, object : Authenticator() {
+                override fun getPasswordAuthentication(): PasswordAuthentication {
+                    return PasswordAuthentication("tanshiehling@gmail.com", "jxuc dcda zwco dfgj") // Replace with your email and App Password
+                }
+            })
+
+            return try {
+                val message = MimeMessage(session)
+                message.setFrom(InternetAddress("tanshiehling@gmail.com"))  // Your Gmail address
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email))  // Recipient's email address
+                message.subject = "Email Verification"  // Subject of the email
+                message.setText("Your verification code is: $verificationCode")  // Body of the email
+
+                // Send the email
+                Transport.send(message)
+                true
+            } catch (e: Exception) {
+                e.printStackTrace()  // Print stack trace for debugging
+                println("Error while sending email: ${e.message}")
+                false
+            }
+        }
+
+        override fun onPostExecute(result: Boolean) {
+            super.onPostExecute(result)
+            if (result) {
+                // Email sent successfully
+                println("Verification email sent to $email")
+            } else {
+                // Email sending failed
+                println("Failed to send verification email to $email")
+            }
+        }
+    }
+
 }

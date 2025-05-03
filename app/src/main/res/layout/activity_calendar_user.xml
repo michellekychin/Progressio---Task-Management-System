@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Profile"
+                android:text="Calendar"
                 android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -60,15 +60,6 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/analytics_icon"
-            android:onClick="goToAnalytics"
-            android:src="@drawable/analytics" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:clickable="true"
             android:contentDescription="@string/schedule_icon"

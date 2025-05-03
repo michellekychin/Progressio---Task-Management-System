@@ -47,6 +47,13 @@ android {
 
 dependencies {
 
+    // JavaMail API
+    implementation ("com.sun.mail:android-mail:1.6.0")
+    implementation ("com.sun.mail:android-activation:1.6.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")  // OkHttp dependency
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")  // Optional: for logging
+
 
     // Lifecycle Coroutine Support
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7") // Ensure lifecycle-ktx is there

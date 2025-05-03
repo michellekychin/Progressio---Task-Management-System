@@ -4,20 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 
-class TaskUserActivity : ComponentActivity() {
+class CalendarUserActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_task_user)
+        setContentView(R.layout.activity_calendar_user)
+
+
 
 
     }
-
-    fun goToHistory(view: android.view.View) {
-        val intent = Intent(this, TaskHistoryUserActivity::class.java)
-        startActivity(intent)
-    }
-
-
 
     // Navigate to Home Page
     fun goToHome(view: android.view.View) {

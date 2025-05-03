@@ -44,19 +44,22 @@ class ProfileAdminActivity : AppCompatActivity() {
         btnChangePassword = findViewById(R.id.btnChangePassword)
 
         // Initialize Room Database and UserDao
+        val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
         val db = AppDatabase.getDatabase(this)
         userDao = db.userDao()
 
-        // Replace with the actual logged-in user's email retrieval logic
-        currentUserEmail = "ling@example.com"
+        // Get the email of the logged-in user from SharedPreferences
+        currentUserEmail = sharedPreferences.getString("userEmail", "") ?: ""
 
         lifecycleScope.launch {
             val user = userDao.getUserByEmail(currentUserEmail)
             user?.let {
+                // Set user details
                 tvName.text = it.name
                 tvEmail.text = it.email
                 tvId.text = "ID: ${it.userId}"
 
+                // Set profile and background image URIs
                 it.profileImageUrl?.let { uriString ->
                     selectedProfileImageUri = Uri.parse(uriString)
                     profileImageView.setImageURI(selectedProfileImageUri)
@@ -65,12 +68,6 @@ class ProfileAdminActivity : AppCompatActivity() {
                     selectedBackgroundImageUri = Uri.parse(uriString)
                     backgroundImageView.setImageURI(selectedBackgroundImageUri)
                 }
-
-                val groupAdminId = it.groupAdminId ?: return@launch
-                val groupMembers = userDao.getUsersByGroupAdminId(groupAdminId)
-                // You can implement logic here to display the profile pictures of group members
-                // For instance, dynamically add ImageViews to the horizontal LinearLayout
-                // below the "Group Member" TextView.
             }
         }
 
@@ -112,36 +109,6 @@ class ProfileAdminActivity : AppCompatActivity() {
         }
     }
 
-    // Navigate to Home Page
-    fun goToHome(view: android.view.View) {
-        val intent = Intent(this, HomepageAdminActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Navigate to Task View Page
-    fun goToTaskView(view: android.view.View) {
-        val intent = Intent(this, TaskAdminActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Navigate to Analytics Page
-    fun goToAnalytics(view: android.view.View) {
-        val intent = Intent(this, AnalyticsActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Navigate to Calendar Page
-    fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalenderAdminActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Navigate to Profile Page
-    fun goToProfile(view: android.view.View) {
-        val intent = Intent(this, ProfileAdminActivity::class.java)
-        startActivity(intent)
-    }
-
     // Handle the result from image picker
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -162,6 +129,37 @@ class ProfileAdminActivity : AppCompatActivity() {
             }
         }
     }
+
+    // Navigate to Home Page
+    fun goToHome(view: android.view.View) {
+        val intent = Intent(this, HomepageAdminActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Navigate to Task View Page
+    fun goToTaskView(view: android.view.View) {
+        val intent = Intent(this, TaskAdminActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Navigate to Analytics Page
+    fun goToAnalytics(view: android.view.View) {
+        val intent = Intent(this, AnalyticsActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Navigate to Calendar Page
+    fun goToCalendar(view: android.view.View) {
+        val intent = Intent(this, CalendarAdminActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Navigate to Profile Page
+    fun goToProfile(view: android.view.View) {
+        val intent = Intent(this, ProfileAdminActivity::class.java)
+        startActivity(intent)
+    }
+
 
     private fun saveProfileImageUri(uri: Uri) {
         lifecycleScope.launch {

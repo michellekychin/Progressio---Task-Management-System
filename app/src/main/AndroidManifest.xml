@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permission for internet access (needed for sending emails) -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,12 +18,17 @@
         android:theme="@style/Theme.ProgressioMobileApp"
         tools:targetApi="31">
         <activity
+            android:name=".EmailVerificationActivity"
+            android:exported="false"
+            android:label="@string/title_activity_email_verification"
+            android:theme="@style/Theme.ProgressioMobileApp" />
+        <activity
             android:name=".AnalyticsActivity"
             android:exported="false"
             android:label="@string/title_activity_analytics"
             android:theme="@style/Theme.ProgressioMobileApp" />
         <activity
-            android:name=".CalenderAdminActivity"
+            android:name=".CalendarAdminActivity"
             android:exported="false"
             android:label="@string/title_activity_calender_admin"
             android:theme="@style/Theme.ProgressioMobileApp" />
@@ -63,7 +73,7 @@
             android:label="TaskHistoryAdminActivity"
             android:theme="@style/Theme.ProgressioMobileApp" />
         <activity
-            android:name=".CalenderUserActivity"
+            android:name=".CalendarUserActivity"
             android:exported="false"
             android:label="@string/title_activity_calendar_user"
             android:theme="@style/Theme.ProgressioMobileApp" />
@@ -108,8 +118,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".NotificationActivity">
+
             <!-- Add other activity configurations here if needed -->
         </activity>
         <activity android:name=".TaskDetailActivity" />

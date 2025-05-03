@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white">
+        android:background="#7E7878">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Profile"
+                android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>

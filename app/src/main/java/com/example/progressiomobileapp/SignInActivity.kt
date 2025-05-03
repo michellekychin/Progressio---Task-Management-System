@@ -9,7 +9,6 @@ import com.example.progressiomobileapp.data.dao.UserDao
 import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
 
-
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var emailInput: EditText
@@ -52,17 +51,32 @@ class SignInActivity : AppCompatActivity() {
 
                 if (user != null && user.password == password) {
                     // Check if the user is an admin or regular user
-                    if (user.role == "Admin") {
+                    val intent = if (user.role == "Admin") {
                         // Admin user, navigate to HomepageAdminActivity
-                        val intent = Intent(this@SignInActivity, HomepageAdminActivity::class.java)
-                        startActivity(intent)
-                        finish()  // Close SignInActivity so it doesn't remain in the back stack
+                        Intent(this@SignInActivity, HomepageAdminActivity::class.java)
                     } else {
                         // Regular user, navigate to HomepageUserActivity
-                        val intent = Intent(this@SignInActivity, HomepageUserActivity::class.java)
-                        startActivity(intent)
-                        finish()  // Close SignInActivity so it doesn't remain in the back stack
+                        Intent(this@SignInActivity, HomepageUserActivity::class.java)
                     }
+
+                    // Pass user name, role, and email to the homepage activity
+                    intent.putExtra("userName", user.name)
+                    intent.putExtra("userRole", user.role)
+                    intent.putExtra("userEmail", user.email)
+
+
+                    // After successful login, store the user session data in SharedPreferences
+                    val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("userEmail", user.email)
+                    editor.putString("userName", user.name)
+                    editor.putString("userRole", user.role)
+                    editor.apply()  // Commit the changes
+
+
+                    // Start the homepage activity and finish the SignInActivity
+                    startActivity(intent)
+                    finish()  // Close SignInActivity so it doesn't remain in the back stack
                 } else {
                     // Invalid credentials
                     runOnUiThread {
@@ -71,8 +85,6 @@ class SignInActivity : AppCompatActivity() {
                 }
             }
         }
-
-
 
         // Link to Sign Up Activity
         tvSignUp.setOnClickListener {
