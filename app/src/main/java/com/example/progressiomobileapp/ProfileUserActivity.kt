@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
 
 
-class ProfileUserActivity : AppCompatActivity() {
+class ProfileUserActivity : BaseActivity () {
 
     private lateinit var tvName: TextView
     private lateinit var tvEmail: TextView
@@ -31,6 +31,8 @@ class ProfileUserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_user)
+
+        setupBottomNavigationUser(R.id.nav_profile)
 
         // Initialize Views
         tvName = findViewById(R.id.tvName)

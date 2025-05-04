@@ -34,7 +34,6 @@ class TaskDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
         val taskId = intent.getIntExtra("TASK_ID", 0)
 
         // Initialize the comment adapter
@@ -77,7 +76,6 @@ class TaskDetailActivity : AppCompatActivity() {
                 }
             }
         }
-
 
 
         // Start observing the comments from ViewModel
@@ -125,15 +123,7 @@ class TaskDetailActivity : AppCompatActivity() {
 
         // Back Button Logic
         binding.backButton.setOnClickListener {
-            val userRole = getUserRole()  // Get the user's role
-
-            val intent = when (userRole) {
-                "admin" -> Intent(this, HomepageAdminActivity::class.java)
-                else -> Intent(this, HomepageUserActivity::class.java)
-            }
-
-            startActivity(intent)
-            finish() // Close the current activity
+            onBackPressedDispatcher.onBackPressed()  // Modern way
         }
     }
 
