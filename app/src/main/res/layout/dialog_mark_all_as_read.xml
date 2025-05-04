@@ -9,14 +9,15 @@
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Are you sure you want to mark all notifications as read?"
-        android:textSize="16sp"/>
+        android:text="@string/dont_ask_again_message"
+        android:textSize="16sp" />
+
 
     <CheckBox
         android:id="@+id/dontAskAgainCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't ask me again"
+        android:text="@string/dont_ask_again"
         android:layout_marginTop="8dp"
         android:padding="12dp"
         android:minHeight="48dp"

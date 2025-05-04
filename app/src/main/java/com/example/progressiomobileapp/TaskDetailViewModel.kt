@@ -58,6 +58,12 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            taskDao.update(task)
+        }
+    }
+
     fun insertNotification(notification: Notification) {
         viewModelScope.launch {
             notificationDao.insert(notification)
@@ -101,6 +107,8 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 }
+
+
 
 
 

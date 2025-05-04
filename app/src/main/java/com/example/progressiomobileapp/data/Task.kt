@@ -31,7 +31,7 @@ data class Task(
     val description: String?,
 
     @ColumnInfo(name = "status")
-    val status: String = "To-Do", // Default status is "To-Do"
+    var status: String = "To-Do", // Default status is "To-Do"
 
     @ColumnInfo(name = "due_date")
     val dueDate: String?,

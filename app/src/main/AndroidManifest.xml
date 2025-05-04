@@ -5,10 +5,6 @@
 
     <!-- Permission for internet access (needed for sending emails) -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:required="false"/>
-
-
 
 
 
@@ -29,12 +25,12 @@
             android:name=".EmailVerificationActivity"
             android:exported="false"
             android:label="@string/title_activity_email_verification"
-            android:theme="@style/Theme.ProgressioMobileApp.Light" />
+            android:theme="@style/Theme.ProgressioMobileApp" />
         <activity
             android:name=".AnalyticsActivity"
             android:exported="false"
             android:label="@string/title_activity_analytics"
-            android:theme="@style/Theme.ProgressioMobileApp.Light" />
+        android:theme="@style/Theme.ProgressioMobileApp.Light" />
         <activity
             android:name=".TaskAdminActivity"
             android:exported="false"
@@ -116,9 +112,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
 
 
         <activity android:name=".NotificationActivity"

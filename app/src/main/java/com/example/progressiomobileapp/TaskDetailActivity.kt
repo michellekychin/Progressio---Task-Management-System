@@ -16,12 +16,9 @@ import kotlinx.coroutines.flow.collect
 import androidx.lifecycle.lifecycleScope
 import com.example.progressiomobileapp.data.Notification
 import com.example.progressiomobileapp.ChecklistItemAdapter
-
-
-
-
-
-
+import com.example.progressiomobileapp.data.Task
+import com.example.progressiomobileapp.data.Admin
+import com.example.progressiomobileapp.data.User
 
 
 
@@ -36,6 +33,7 @@ class TaskDetailActivity : AppCompatActivity() {
         binding = ActivityTaskDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         val taskId = intent.getIntExtra("TASK_ID", 0)
 
         // Initialize the comment adapter
@@ -45,6 +43,40 @@ class TaskDetailActivity : AppCompatActivity() {
         // Set up RecyclerViews
         binding.checklistRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.commentsRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        binding.submitTaskButton.setOnClickListener {
+            Log.d("SubmitTask", "Submit button clicked")  // <-- Add this line
+
+            lifecycleScope.launch {
+                val task = viewModel.getTaskById(taskId)  // Fetch the task using the taskId
+                Log.d("SubmitTask", "Retrieved task: $task")
+                val userId = getSharedPreferences("userPrefs", MODE_PRIVATE).getInt("userId", 0)
+
+                if (task != null) {
+                    // Mark task as completed
+                    task.status = "Completed"
+                    viewModel.updateTask(task)
+
+                    // Create a notification to be sent to the admin
+                    val notification = Notification(
+                        recipientId = task.createdBy,  // Admin user
+                        senderId = userId,             // Regular user
+                        taskId = task.taskId,
+                        notificationType = "Task Completed",
+                        message = "The task '${task.title}' has been marked as completed by the user.",
+                        createdAt = System.currentTimeMillis().toString(),
+                        isRead = 0
+                    )
+
+                    // Insert notification into the database
+                    viewModel.insertNotification(notification)
+
+                    Log.d("SubmitTask", "Task submitted and notification sent to admin.")
+                    finish()  // Close the activity
+                }
+            }
+        }
+
 
         // Start observing the comments from ViewModel
         lifecycleScope.launch {
@@ -91,17 +123,10 @@ class TaskDetailActivity : AppCompatActivity() {
 
         // Back Button Logic
         binding.backButton.setOnClickListener {
-            val userRole = getUserRole()  // Get the user's role
-
-            val intent = when (userRole) {
-                "admin" -> Intent(this, HomepageAdminActivity::class.java)
-                else -> Intent(this, HomepageUserActivity::class.java)
-            }
-
-            startActivity(intent)
-            finish() // Close the current activity
+            onBackPressedDispatcher.onBackPressed()  // Modern way
         }
     }
+
 
     private fun getUserRole(): String {
         val sharedPreferences = getSharedPreferences("userPrefs", MODE_PRIVATE)
@@ -113,8 +138,11 @@ class TaskDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             // Get the task to retrieve admin (creator) ID
             val task = viewModel.getTaskById(item.taskId)
+            Log.d("SubmitTask", "Retrieved task: $task")
             val adminId = task?.createdBy ?: return@launch
             val userId = getSharedPreferences("userPrefs", MODE_PRIVATE).getInt("userId", 0)
+            Log.d("TaskDetailActivity", "User ID entered activity: $userId")
+
 
             val notification = Notification(
                 recipientId = adminId,
@@ -156,6 +184,8 @@ class TaskDetailActivity : AppCompatActivity() {
     }
 
 }
+
+
 
 
 

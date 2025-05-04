@@ -7,15 +7,15 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.progressiomobileapp.data.dao.UserDao
-import com.example.progressiomobileapp.data.dao.AdminDao
 import kotlinx.coroutines.launch
+import com.example.progressiomobileapp.data.AppDatabase
 import com.example.progressiomobileapp.data.AppDatabase
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-class ProfileUserActivity : AppCompatActivity() {
+class ProfileUserActivity : BaseActivity () {
 
     private lateinit var tvName: TextView
     private lateinit var tvEmail: TextView
@@ -26,20 +26,17 @@ class ProfileUserActivity : AppCompatActivity() {
     private lateinit var btnLanguage: Button
     private lateinit var btnTheme: Button
     private lateinit var btnChangePassword: Button
-    private lateinit var profileImageAdmin: ImageButton // Admin profile image view
     private lateinit var userDao: UserDao
-    private lateinit var adminDao: AdminDao // AdminDao
 
     private var selectedProfileImageUri: Uri? = null
     private var selectedBackgroundImageUri: Uri? = null
     private lateinit var currentUserEmail: String
-    private lateinit var currentUserGroupAdminId: String
-
-    private val REQUEST_CODE_PERMISSION = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_user)
+
+        setupBottomNavigationUser(R.id.nav_profile)
 
         // Initialize Views
         tvName = findViewById(R.id.tvName)
@@ -53,7 +50,7 @@ class ProfileUserActivity : AppCompatActivity() {
         btnChangePassword = findViewById(R.id.btnChangePassword)
         profileImageAdmin = findViewById(R.id.profileImageAdmin) // Initialize admin profile image view
 
-        // Initialize Room Database and DAOs
+        // Initialize Room Database and UserDao
         val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
         val db = AppDatabase.getDatabase(this)
         userDao = db.userDao()
@@ -89,9 +86,6 @@ class ProfileUserActivity : AppCompatActivity() {
                 }
             }
         }
-
-        // Request permissions if not granted
-        requestPermissions()
 
         // Handle Profile Image Click
         profileImageView.setOnClickListener {
@@ -227,26 +221,5 @@ class ProfileUserActivity : AppCompatActivity() {
                 Toast.makeText(this@ProfileUserActivity, "Background image updated", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    // Navigation Functions
-    fun goToHome(view: android.view.View) {
-        val intent = Intent(this, HomepageUserActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun goToTaskView(view: android.view.View) {
-        val intent = Intent(this, UserTaskListActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalendarActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun goToProfile(view: android.view.View) {
-        val intent = Intent(this, ProfileUserActivity::class.java)
-        startActivity(intent)
     }
 }

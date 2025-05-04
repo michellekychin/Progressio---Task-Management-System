@@ -24,7 +24,8 @@ import com.example.progressiomobileapp.NotificationActivity
 
 
 
-class HomepageUserActivity : AppCompatActivity() {
+class HomepageUserActivity : BaseActivity() {
+
 
     private lateinit var tvGreeting: TextView
     private lateinit var tvTodayTask: TextView
@@ -65,6 +66,8 @@ class HomepageUserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage_user)
+
+        setupBottomNavigationUser(R.id.nav_home)
 
         // Initialize Views
         tvGreeting = findViewById(R.id.tvGreeting)

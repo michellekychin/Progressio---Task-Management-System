@@ -36,6 +36,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.compose.ui.res.stringResource
 
 class NotificationActivity : AppCompatActivity() {
 
@@ -47,11 +48,17 @@ class NotificationActivity : AppCompatActivity() {
     private lateinit var adminDao: AdminDao
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Show a test notification when the user enters the activity
+        NotificationUtils.showNotification(
+            this,
+            getString(R.string.notification_test_title),
+            getString(R.string.notification_test_body)
+        )
 
         askNotificationPermissionIfNeeded()
 
@@ -82,11 +89,13 @@ class NotificationActivity : AppCompatActivity() {
                     // Check the user's role and navigate accordingly
                     if (it.role == "admin") {
                         // Redirect to Admin Homepage
-                        val intent = Intent(this@NotificationActivity, HomepageAdminActivity::class.java)
+                        val intent =
+                            Intent(this@NotificationActivity, HomepageAdminActivity::class.java)
                         startActivity(intent)
                     } else {
                         // Redirect to User Homepage
-                        val intent = Intent(this@NotificationActivity, HomepageUserActivity::class.java)
+                        val intent =
+                            Intent(this@NotificationActivity, HomepageUserActivity::class.java)
                         startActivity(intent)
                     }
                 }
@@ -94,10 +103,9 @@ class NotificationActivity : AppCompatActivity() {
         }
 
 
-
         // Initialize TabLayout
-        tabLayout.addTab(tabLayout.newTab().setText("All"))
-        tabLayout.addTab(tabLayout.newTab().setText("Unread"))
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_all)))
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_unread)))
 
         // Load initial data for "All"
         loadNotifications("All")
@@ -135,16 +143,15 @@ class NotificationActivity : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.dialog_mark_all_as_read, null)
         val checkBox = view.findViewById<CheckBox>(R.id.dontAskAgainCheckbox)
 
-        builder.setView(view)
-            .setTitle("Mark all as read")
-            .setMessage("Are you sure you want to mark all notifications as read?")
-            .setPositiveButton("MARK ALL AS READ") { _, _ ->
+        builder.setTitle(getString(R.string.dialog_mark_all_title))
+            .setMessage(getString(R.string.dialog_mark_all_message))
+            .setPositiveButton(getString(R.string.mark_all_as_read)) { _, _ ->
                 if (checkBox.isChecked) {
                     sharedPreferences.edit().putBoolean("dontAskAgain", true).apply()
                 }
                 markAllNotificationsAsRead()  // Mark notifications as read
             }
-            .setNegativeButton("CANCEL", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
@@ -154,10 +161,23 @@ class NotificationActivity : AppCompatActivity() {
             val user = userDao.getUserByEmail("nat@gmail.com")
             user?.userId?.let { userId ->
                 notificationDao.markAllAsRead(userId)
-                Toast.makeText(this@NotificationActivity, "All notifications marked as read", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@NotificationActivity,
+                    "All notifications marked as read",
+                    Toast.LENGTH_SHORT
+                ).show()
                 loadNotifications("All")  // Reload notifications after marking them as read
             }
         }
+    }
+
+    // Function to show a test notification
+    private fun showTestNotification() {
+        NotificationUtils.showNotification(
+            this,
+            "Test Notification",
+            "This is a test notification to ensure notifications are working."
+        )
     }
 
     // Function to load notifications based on the selected tab ("All" or "Unread")
@@ -189,9 +209,17 @@ class NotificationActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            Toast.makeText(this, "Notifications enabled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                getString(R.string.toast_notifications_enabled),
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
-            Toast.makeText(this, "Notifications disabled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                getString(R.string.toast_notifications_disabled),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -216,124 +244,112 @@ class NotificationActivity : AppCompatActivity() {
     }
 
 
-
-
-    // Function to insert fake data
+    // Function to insert fake data for all users
     private fun insertFakeData() {
         lifecycleScope.launch {
-            val admin = userDao.getUserByEmail("admin1@gmail.com")
-            val user = userDao.getUserByEmail("nat@gmail.com")
+            // Collect all users from the database using Flow
+            val usersFlow = userDao.getAllUsers()
 
-            var adminId = admin?.userId
-            var userId = user?.userId
+            // Collect the users from the Flow
+            usersFlow.collect { allUsers ->
+                if (allUsers.isEmpty()) {
+                    // Insert Admin user if no users exist
+                    val adminUser = User(
+                        name = "Admin User",
+                        email = "admin1@gmail.com",
+                        password = "ABcd123$",
+                        role = "admin",
+                        groupAdminId = null
+                    )
+                    val adminId =
+                        userDao.insert(adminUser).toInt() // Save the Admin user to get the ID
 
-            if (adminId == null || userId == null) {
-                // Insert Admin
-                val adminUser = User(
-                    name = "Admin User",
-                    email = "admin1@gmail.com",
-                    password = "ABcd123$",
-                    role = "admin",
-                    groupAdminId = null
-                )
-                adminId = userDao.insert(adminUser).toInt()
+                    // Insert a few other users with a reference to the admin group
+                    val userNames = listOf("Nat", "John", "Alice", "Bob")
+                    userNames.forEach { name ->
+                        val user = User(
+                            name = name,
+                            email = "$name@gmail.com",
+                            password = "ABcd123$",
+                            role = "user",
+                            groupAdminId = adminId
+                        )
+                        userDao.insert(user)
+                    }
 
-                // Insert Nat
-                val natUser = User(
-                    name = "Nat",
-                    email = "nat@gmail.com",
-                    password = "ABcd123$",
-                    role = "user",
-                    groupAdminId = adminId
-                )
-                userId = userDao.insert(natUser).toInt()
+                    // Re-fetch the users to ensure we have IDs for all users
+                    val users = userDao.getAllUsers() // Since Flow is collected, use the value
+
+                    // Insert 3 tasks for each user
+                    val taskIds = mutableListOf<Int>()
+                    users.collect { userList ->
+                        for (user in userList) {
+                            for (i in 1..3) {
+                                val task = Task(
+                                    title = "Task for ${user.name} - $i",
+                                    description = "Description for Task ${user.name} - $i",
+                                    status = "To-Do",
+                                    dueDate = "2025-05-0$i",
+                                    assignedTo = user.userId, // Use the current user's ID
+                                    createdBy = adminId,
+                                    creationDate = "2025-04-28",
+                                    historyId = null
+                                )
+                                taskDao.insert(task) // Assuming insert() doesn't return the ID directly
+                                taskIds.add(i)
+                            }
+                        }
+                    }
+
+                    // Insert notifications for each user
+                    users.collect { userList ->
+                        for (user in userList) {
+                            val notifications = listOf(
+                                Notification(
+                                    recipientId = user.userId,
+                                    senderId = adminId,
+                                    taskId = 1,
+                                    notificationType = "Comment",
+                                    message = "Commented on Task 1",
+                                    createdAt = "2025-04-28",
+                                    isRead = 1 // Read
+                                ),
+                                Notification(
+                                    recipientId = user.userId,
+                                    senderId = adminId,
+                                    taskId = 2,
+                                    notificationType = "Comment",
+                                    message = "Commented on Task 2",
+                                    createdAt = "2025-04-28",
+                                    isRead = 0 // Unread
+                                ),
+                                Notification(
+                                    recipientId = user.userId,
+                                    senderId = adminId,
+                                    taskId = 3,
+                                    notificationType = "Comment",
+                                    message = "Commented on Task 3",
+                                    createdAt = "2025-04-28",
+                                    isRead = 1 // Read
+                                )
+                            )
+
+                            // Insert notifications for this user
+                            notifications.forEach { notificationDao.insert(it) }
+                        }
+                    }
+
+                    Log.d(
+                        "NotificationActivity",
+                        "Fake tasks and notifications inserted for all users!"
+                    )
+                } else {
+                    Log.d(
+                        "NotificationActivity",
+                        "Users already exist. Skipping insertion of fake data."
+                    )
+                }
             }
-
-            // Insert 3 Tasks
-            val taskIds = mutableListOf<Int>()
-            for (i in 1..3) {
-                val task = Task(
-                    title = "Task $i",
-                    description = "Description for Task $i",
-                    status = "To-Do",
-                    dueDate = "2025-05-0$i",
-                    assignedTo = userId!!,
-                    createdBy = adminId!!,
-                    creationDate = "2025-04-28",
-                    historyId = null
-                )
-                taskDao.insert(task) // no return, assume IDs are 1,2,3 sequentially
-                taskIds.add(i)
-            }
-
-            // Insert Notifications
-            val notifications = listOf(
-                Notification(
-                    recipientId = userId,
-                    senderId = adminId,
-                    taskId = 1,
-                    notificationType = "Comment",
-                    message = "Commented on Task 1",
-                    createdAt = "2025-04-28",
-                    isRead = 1 // Read
-                ),
-                Notification(
-                    recipientId = userId,
-                    senderId = adminId,
-                    taskId = 2,
-                    notificationType = "Comment",
-                    message = "Commented on Task 2",
-                    createdAt = "2025-04-28",
-                    isRead = 0 // Unread
-                ),
-                Notification(
-                    recipientId = userId,
-                    senderId = adminId,
-                    taskId = 3,
-                    notificationType = "Comment",
-                    message = "Commented on Task 3",
-                    createdAt = "2025-04-28",
-                    isRead = 1 // Read
-                )
-            )
-
-            val adminNotifications = listOf(
-                Notification(
-                    recipientId = adminId,
-                    senderId = userId,
-                    taskId = 1,
-                    notificationType = "Comment",
-                    message = "User commented on Task 1",
-                    createdAt = "2025-04-28",
-                    isRead = 1
-                ),
-                Notification(
-                    recipientId = adminId,
-                    senderId = userId,
-                    taskId = 2,
-                    notificationType = "Comment",
-                    message = "User commented on Task 2",
-                    createdAt = "2025-04-28",
-                    isRead = 0
-                ),
-                Notification(
-                    recipientId = adminId,
-                    senderId = userId,
-                    taskId = 3,
-                    notificationType = "Comment",
-                    message = "User commented on Task 3",
-                    createdAt = "2025-04-28",
-                    isRead = 1
-                )
-            )
-
-            // Insert into DB
-            notifications.forEach { notificationDao.insert(it) }
-            adminNotifications.forEach { notificationDao.insert(it) }
-
-            Log.d("NotificationActivity", "Fake tasks and notifications inserted!")
         }
     }
-
 }
-

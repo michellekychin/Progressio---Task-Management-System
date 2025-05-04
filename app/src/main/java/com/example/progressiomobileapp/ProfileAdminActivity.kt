@@ -3,8 +3,6 @@ package com.example.progressiomobileapp
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -274,24 +272,4 @@ class ProfileAdminActivity : AppCompatActivity() {
         }
     }
 
-    // Navigation Functions
-    fun goToHome(view: android.view.View) {
-        val intent = Intent(this, HomepageAdminActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun goToTaskView(view: android.view.View) {
-        val intent = Intent(this, TaskAdminActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun goToAnalytics(view: android.view.View) {
-        val intent = Intent(this, AnalyticsActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun goToProfile(view: android.view.View) {
-        val intent = Intent(this, ProfileAdminActivity::class.java)
-        startActivity(intent)
-    }
 }

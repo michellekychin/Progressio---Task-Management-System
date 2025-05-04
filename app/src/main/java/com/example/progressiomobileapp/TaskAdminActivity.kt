@@ -3,11 +3,15 @@ package com.example.progressiomobileapp
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import android.util.Log
 
 class TaskAdminActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_admin)
+
+        val userId = getSharedPreferences("userPrefs", MODE_PRIVATE).getInt("userId", 0)
+        Log.d("TaskDetailActivity", "User ID entered activity: $userId")
 
 
     }
@@ -38,10 +42,10 @@ class TaskAdminActivity : ComponentActivity() {
     }
 
     // Navigate to Calendar Page
-    /*fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalendarAdminActivity::class.java)
+    fun goToCalendar(view: android.view.View) {
+        val intent = Intent(this, CalendarActivity::class.java)
         startActivity(intent)
-    }*/
+    }
 
     // Navigate to Profile Page
     fun goToProfile(view: android.view.View) {
