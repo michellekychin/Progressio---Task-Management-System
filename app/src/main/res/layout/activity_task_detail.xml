@@ -7,24 +7,58 @@
     tools:context=".TaskDetailActivity"
     android:theme="@style/Theme.ProgressioMobileApp.Light">
 
-    <!-- Back Button -->
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:contentDescription="@string/back_button_desc"
-        android:src="@drawable/ic_back"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        app:layout_constraintStart_toStartOf="parent"
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#7E7878"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="12dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- LinearLayout inside the toolbar to hold back button and title -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- Back Button -->
+
+            <!-- Task Detail Title -->
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="start"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/back_button_desc"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/pageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="90dp"
+                android:text="@string/task_detail"
+                android:textColor="#FF000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
@@ -41,7 +75,7 @@
                 android:textColor="@android:color/black"
                 android:text="@string/task_title_detail"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 android:layout_marginBottom="12dp" />
 
             <!-- Task Description Box -->
@@ -59,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
                     android:text="@string/task_description_detail"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <!-- Checklist Box -->
@@ -93,7 +127,7 @@
                     android:textColor="@android:color/black"
                     android:text="@string/comments_section"
                     android:textStyle="bold"
-                    android:textSize="18sp" />
+                    android:textSize="20sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/commentsRecyclerView"
@@ -110,6 +144,7 @@
                 android:hint="@string/add_comment_hint"
                 android:minHeight="48dp"
                 android:padding="16dp"
+                android:textSize="18sp"
                 android:layout_marginTop="16dp" />
 
             <Button
@@ -117,6 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_comment_button"
+                android:textSize="18sp"
                 android:layout_marginTop="12dp" />
 
             <Button
@@ -124,6 +160,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/submit_task_button"
+                android:textSize="20sp"
                 android:layout_marginTop="16dp"
                 />
         </LinearLayout>

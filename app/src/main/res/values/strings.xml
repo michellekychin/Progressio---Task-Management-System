@@ -72,6 +72,9 @@
     <!-- Task -->
     <string name="task_list_title">Task List</string>
 
+    <!-- Task detail activity -->
+    <string name="task_detail">Task Detail</string>
+
     <!-- Task Detail Activity Strings -->
     <string name="back_button_desc">Back Button</string>
     <string name="task_title_detail">Task Title</string>
@@ -88,6 +91,8 @@
 
     <string name="tasks_in_month">Tasks for %1$s:</string>
     <string name="no_tasks_in_month">No tasks this month.</string>
+
+
 
 
 

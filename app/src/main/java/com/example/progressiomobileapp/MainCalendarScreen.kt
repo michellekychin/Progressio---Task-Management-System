@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,7 @@ import java.text.DateFormat
 import java.util.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -78,7 +80,7 @@ fun MainCalendarScreen(
     val context = LocalContext.current
     val activity = (LocalContext.current as? android.app.Activity)
 
-    // Filter tasks for the current month (if no date is selected)
+    // Filter tasks for the current month
     val currentMonthStr = SimpleDateFormat("yyyy-MM", Locale.US).format(currentMonth.time)
     val filteredTasksForMonth = tasks.filter { task ->
         val taskMonthStr = task.dueDate?.substring(0, 7) // Get the "yyyy-MM" part of the due date
@@ -106,21 +108,22 @@ fun MainCalendarScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            // Display the calendar view
+            // Pass the filtered tasks for the current month to CalendarView
             CalendarView(
                 currentMonth = currentMonth,
+                tasksForMonth = filteredTasksForMonth,
                 onDateSelected = { date -> selectedDate = date },
                 onPreviousMonth = {
                     currentMonth = (currentMonth.clone() as Calendar).apply {
                         add(Calendar.MONTH, -1)
                     }
-                    selectedDate = null // Reset selected date when month changes
+                    selectedDate = null
                 },
                 onNextMonth = {
                     currentMonth = (currentMonth.clone() as Calendar).apply {
                         add(Calendar.MONTH, 1)
                     }
-                    selectedDate = null // Reset selected date when month changes
+                    selectedDate = null
                 }
             )
 
@@ -128,7 +131,6 @@ fun MainCalendarScreen(
 
             // Show tasks based on the selection
             selectedDate?.let { date ->
-                // If a specific date is selected, show tasks for that date
                 val dateTasks = tasks.filter { task ->
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
                     val dueDateParsed = task.dueDate?.let { dateFormat.parse(it) }
@@ -182,10 +184,10 @@ fun MainCalendarScreen(
     }
 }
 
-
 @Composable
 fun CalendarView(
     currentMonth: Calendar,
+    tasksForMonth: List<Task>,  // Add filtered tasks for the month
     onDateSelected: (Calendar) -> Unit,
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit
@@ -196,6 +198,12 @@ fun CalendarView(
     calendar.set(Calendar.DAY_OF_MONTH, 1)
     val firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
     val maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+
+    // Get the task due dates for highlighting (dates with tasks due)
+    val taskDates: Set<Long> = tasksForMonth.mapNotNull { task ->
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        task.dueDate?.let { dateFormat.parse(it)?.time }
+    }.toSet() // Explicitly specify the type of taskDates as Set<Long>
 
     Column {
         Text(
@@ -215,14 +223,12 @@ fun CalendarView(
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black, contentColor = Color.White)
             ) {
                 Text(stringResource(R.string.previous_month))
-
             }
             Button(
                 onClick = onNextMonth,
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black, contentColor = Color.White)
             ) {
                 Text(stringResource(R.string.next_month))
-
             }
         }
 
@@ -251,6 +257,17 @@ fun CalendarView(
 
             items(maxDays) { index ->
                 val day = index + 1
+                val taskDate = calendar.clone() as Calendar
+                taskDate.set(Calendar.DAY_OF_MONTH, day)
+
+                // Normalize taskDate to midnight (00:00:00)
+                taskDate.set(Calendar.HOUR_OF_DAY, 0)
+                taskDate.set(Calendar.MINUTE, 0)
+                taskDate.set(Calendar.SECOND, 0)
+                taskDate.set(Calendar.MILLISECOND, 0)
+
+                val isHighlighted = taskDates.contains(taskDate.timeInMillis)
+
                 Box(
                     modifier = Modifier
                         .aspectRatio(1f)
@@ -259,12 +276,26 @@ fun CalendarView(
                             val selectedDate = currentMonth.clone() as Calendar
                             selectedDate.set(Calendar.DAY_OF_MONTH, day)
                             onDateSelected(selectedDate)
-                        },
+                        }
+                        .background(
+                            color = if (isHighlighted) Color.Black else Color.Transparent,
+                            shape = CircleShape
+                        )
+                        .border(
+                            width = 2.dp,
+                            color = if (isHighlighted) Color.Black else Color.Transparent,
+                            shape = CircleShape
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "$day", color = Color.Black)
+                    Text(
+                        text = "$day",
+                        color = if (isHighlighted) Color.White else Color.Black,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                 }
             }
+
         }
     }
 }
