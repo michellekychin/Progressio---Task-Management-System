@@ -54,13 +54,11 @@ class HomepageUserActivity : BaseActivity() {
 
     // Dummy data for ToDo and In Progress
     private val toDoTasks = listOf(
-        Task("Task 1", "2025-05-01"),
-        Task("Task 2", "2025-05-02")
+        Task("Create a software", "2025-05-01"),
     )
 
     private val inProgressTasks = listOf(
-        TaskWithStatus("Task 3", "In Progress", "2025-05-03"),
-        TaskWithStatus("Task 4", "In Progress", "2025-05-04")
+        TaskWithStatus("Debug", "50%", "2025-04-30"),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

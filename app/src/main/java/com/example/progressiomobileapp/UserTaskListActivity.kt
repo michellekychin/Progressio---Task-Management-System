@@ -39,8 +39,6 @@ class UserTaskListActivity : BaseActivity() {
         displayDummyData()
 
 
-
-
         val userId = getSharedPreferences("userPrefs", MODE_PRIVATE).getInt("userId", 0)
         Log.d("TaskDetailActivity", "User ID entered activity: $userId")
 
@@ -94,57 +92,8 @@ class UserTaskListActivity : BaseActivity() {
         recyclerView.adapter = adapter
     }
 
-    fun goToHome(view: android.view.View) {
-        val intent = Intent(this, HomepageUserActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun goToCalendar(view: android.view.View) {
-        // Create an Intent to navigate to CalendarActivity
-        val intent = Intent(this, CalendarActivity::class.java)
-        startActivity(intent) // Start the activity
-
-    }
-
-
-    // Navigate to Profile Page
-    fun goToProfile(view: android.view.View) {
-        val intent = Intent(this, ProfileUserActivity::class.java)
-        startActivity(intent)
-    }
-
-
-
-
     fun goToHistory(view: android.view.View) {
         val intent = Intent(this, TaskHistoryUserActivity::class.java)
         startActivity(intent)
     }
-
-    // Navigate to Home Page
-    fun goToHome(view: android.view.View) {
-        val intent = Intent(this, HomepageUserActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Navigate to Task View Page
-    fun goToTaskView(view: android.view.View) {
-        val intent = Intent(this, UserTaskListActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Navigate to Calendar Page
-    /*fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalendarAdminActivity::class.java)
-        startActivity(intent)
-    }*/
-
-    // Navigate to Profile Page
-    fun goToProfile(view: android.view.View) {
-        val intent = Intent(this, ProfileUserActivity::class.java)
-        startActivity(intent)
-    }
-
 }
-
-

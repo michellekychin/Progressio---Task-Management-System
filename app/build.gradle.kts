@@ -46,6 +46,10 @@ android {
 }
 
 dependencies {
+    // JavaMail API
+    implementation ("com.sun.mail:android-mail:1.6.0")
+    implementation ("com.sun.mail:android-activation:1.6.0")
+
 
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 

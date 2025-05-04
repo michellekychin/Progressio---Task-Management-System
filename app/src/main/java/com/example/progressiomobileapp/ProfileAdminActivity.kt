@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
 import android.Manifest
 import android.content.pm.PackageManager
+import android.util.Log
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -109,7 +111,10 @@ class ProfileAdminActivity : AppCompatActivity() {
                     val user = userDao.getUserByEmail(userEmail)
 
                     if (user != null) {
-                        Log.d("ProfileAdminActivity", "User found: ${user.email}, Role: ${user.role}")
+                        Log.d(
+                            "ProfileAdminActivity",
+                            "User found: ${user.email}, Role: ${user.role}"
+                        )
 
                         if (user.role.toLowerCase() == "user") {  // Ensure the comparison is case-insensitive
                             // Show user profile picture only (do not show name/email/id)
@@ -120,11 +125,16 @@ class ProfileAdminActivity : AppCompatActivity() {
                             }
 
                             // Update group admin ID for this user
-                            val updatedUser = user.copy(groupAdminId = user.userId)  // Update groupAdminId
+                            val updatedUser =
+                                user.copy(groupAdminId = user.userId)  // Update groupAdminId
                             userDao.update(updatedUser)
 
                             // Provide feedback
-                            Toast.makeText(this@ProfileAdminActivity, "User added successfully", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@ProfileAdminActivity,
+                                "User added successfully",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                             // Hide the email input and submit button after submitting
                             emailInputLayout.visibility = View.GONE
@@ -134,12 +144,20 @@ class ProfileAdminActivity : AppCompatActivity() {
                             reloadUserProfileImage()
                         } else {
                             // If user is not a "user"
-                            Toast.makeText(this@ProfileAdminActivity, "User role is not 'user'", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@ProfileAdminActivity,
+                                "User role is not 'user'",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
                         // If user is not found
                         Log.d("ProfileAdminActivity", "User not found")
-                        Toast.makeText(this@ProfileAdminActivity, "User not found or invalid role", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@ProfileAdminActivity,
+                            "User not found or invalid role",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -149,7 +167,10 @@ class ProfileAdminActivity : AppCompatActivity() {
         profileImageView.setOnClickListener {
             requestPermissions()
             if (checkPermission()) {
-                val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intent = Intent(
+                    Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                )
                 startActivityForResult(intent, 100) // Request code for profile image
             }
         }
@@ -158,7 +179,10 @@ class ProfileAdminActivity : AppCompatActivity() {
         backgroundImageView.setOnClickListener {
             requestPermissions()
             if (checkPermission()) {
-                val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intent = Intent(
+                    Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                )
                 startActivityForResult(intent, 200) // Request code for background image
             }
         }

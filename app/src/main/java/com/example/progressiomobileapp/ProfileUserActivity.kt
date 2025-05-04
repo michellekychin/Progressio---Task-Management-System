@@ -7,15 +7,15 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.progressiomobileapp.data.dao.UserDao
+import com.example.progressiomobileapp.data.dao.AdminDao
 import kotlinx.coroutines.launch
-import com.example.progressiomobileapp.data.AppDatabase
 import com.example.progressiomobileapp.data.AppDatabase
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-class ProfileUserActivity : BaseActivity () {
+class ProfileUserActivity : BaseActivity() {
 
     private lateinit var tvName: TextView
     private lateinit var tvEmail: TextView
@@ -26,16 +26,22 @@ class ProfileUserActivity : BaseActivity () {
     private lateinit var btnLanguage: Button
     private lateinit var btnTheme: Button
     private lateinit var btnChangePassword: Button
+    private lateinit var profileImageAdmin: ImageButton // Admin profile image view
     private lateinit var userDao: UserDao
+    private lateinit var adminDao: AdminDao // AdminDao
 
     private var selectedProfileImageUri: Uri? = null
     private var selectedBackgroundImageUri: Uri? = null
     private lateinit var currentUserEmail: String
+    private lateinit var currentUserGroupAdminId: String
+
+    private val REQUEST_CODE_PERMISSION = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_user)
 
+        //baseactivity
         setupBottomNavigationUser(R.id.nav_profile)
 
         // Initialize Views
@@ -50,14 +56,13 @@ class ProfileUserActivity : BaseActivity () {
         btnChangePassword = findViewById(R.id.btnChangePassword)
         profileImageAdmin = findViewById(R.id.profileImageAdmin) // Initialize admin profile image view
 
-        // Initialize Room Database and UserDao
+        // Initialize Room Database and DAOs
         val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
         val db = AppDatabase.getDatabase(this)
         userDao = db.userDao()
         adminDao = db.adminDao() // Get the admin DAO
 
-        // Get the email of the logged-in user from SharedPreferences
-        currentUserEmail = sharedPreferences.getString("userEmail", "") ?: ""
+        currentUserEmail = sharedPreferences.getString("email", "") ?: ""
 
         lifecycleScope.launch {
             val user = userDao.getUserByEmail(currentUserEmail)
@@ -67,8 +72,7 @@ class ProfileUserActivity : BaseActivity () {
                 tvEmail.text = it.email
                 tvId.text = "ID: ${it.userId}"
 
-                // Get groupAdminId
-                currentUserGroupAdminId = it.groupAdminId.toString()
+                currentUserGroupAdminId = it.groupAdminId?.toString() ?: ""
 
                 // Set profile and background image URIs
                 it.profileImageUrl?.let { uriString ->
@@ -87,10 +91,16 @@ class ProfileUserActivity : BaseActivity () {
             }
         }
 
+        // Request permissions if not granted
+        requestPermissions()
+
         // Handle Profile Image Click
         profileImageView.setOnClickListener {
             if (checkPermission()) {
-                val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intent = Intent(
+                    Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                )
                 startActivityForResult(intent, 100) // Request code for profile image
             } else {
                 requestPermissions()
@@ -100,7 +110,10 @@ class ProfileUserActivity : BaseActivity () {
         // Handle Background Image Click
         backgroundImageView.setOnClickListener {
             if (checkPermission()) {
-                val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intent = Intent(
+                    Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                )
                 startActivityForResult(intent, 200) // Request code for background image
             } else {
                 requestPermissions()
@@ -135,7 +148,11 @@ class ProfileUserActivity : BaseActivity () {
 
     // Function to request permissions
     private fun requestPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_MEDIA_IMAGES
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
@@ -146,19 +163,28 @@ class ProfileUserActivity : BaseActivity () {
 
     // Function to check if permissions are granted
     private fun checkPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.READ_MEDIA_IMAGES
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     // Handle permission result
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted
-                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.permission_granted), Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 // Permission denied
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
@@ -192,6 +218,7 @@ class ProfileUserActivity : BaseActivity () {
                     profileImageView.setImageURI(imageUri)
                     saveProfileImageUri(imageUri)
                 }
+
                 200 -> {
                     selectedBackgroundImageUri = imageUri
                     backgroundImageView.setImageURI(imageUri)
@@ -207,7 +234,11 @@ class ProfileUserActivity : BaseActivity () {
             user?.let {
                 val updatedUser = it.copy(profileImageUrl = uri.toString())
                 userDao.update(updatedUser)
-                Toast.makeText(this@ProfileUserActivity, "Profile image updated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@ProfileUserActivity,
+                    getString(R.string.profile_image_updated),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -218,7 +249,11 @@ class ProfileUserActivity : BaseActivity () {
             user?.let {
                 val updatedUser = it.copy(backgroundImageUrl = uri.toString())
                 userDao.update(updatedUser)
-                Toast.makeText(this@ProfileUserActivity, "Background image updated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@ProfileUserActivity,
+                    getString(R.string.background_image_updated),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

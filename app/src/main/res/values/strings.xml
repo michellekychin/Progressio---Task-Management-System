@@ -96,6 +96,14 @@
     <string name="no_tasks_in_month">No tasks this month.</string>
 
 
+    <!-- profile admin n user activity -->
+
+    <string name="permission_granted">Permission granted</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="profile_image_updated">Profile image updated</string>
+    <string name="background_image_updated">Background image updated</string>
+
+
 
 
 
