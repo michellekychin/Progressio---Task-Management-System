@@ -1,5 +1,6 @@
 package com.example.progressiomobileapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,7 @@ class TaskDetailUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_detail_user)
 
-        // Initialize the TextViews
+        // Initialize TextViews
         taskTitleTextView = findViewById(R.id.tvTaskTitle)
         taskStatusTextView = findViewById(R.id.tvTaskStatus)
         taskDueDateTextView = findViewById(R.id.tvTaskDueDate)
@@ -30,7 +31,14 @@ class TaskDetailUserActivity : AppCompatActivity() {
         // Set the data to the TextViews
         taskTitleTextView.text = taskTitle
         taskStatusTextView.text = taskStatus
-        taskDueDateTextView.text = taskDueDate
+        taskDueDateTextView.text = "Completion Date: $taskDueDate" // Dynamically setting the due date
         taskDescriptionTextView.text = taskDescription
+
+    }
+
+    // Handle the back button click to go to the task history list
+    fun goToHistoryList(view: android.view.View) {
+        val intent = Intent(this, TaskHistoryUserActivity::class.java)
+        startActivity(intent)
     }
 }

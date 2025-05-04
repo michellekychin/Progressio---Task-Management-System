@@ -122,7 +122,7 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
                 // Save user data in the Room database
-                val user = User(name = name, email = email, password = password, role = selectedRole, groupAdminId = null)
+                val user = User(name = name, email = email, password = password, role = selectedRole.toLowerCase(), groupAdminId = null)
 
                 // Insert user into the database
                 userDao.insert(user)

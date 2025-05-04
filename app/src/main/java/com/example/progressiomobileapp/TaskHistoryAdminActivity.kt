@@ -2,24 +2,25 @@ package com.example.progressiomobileapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.progressiomobileapp.data.Task
 
 class TaskHistoryAdminActivity : AppCompatActivity() {
 
-    private lateinit var taskListContainer: LinearLayout
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var taskHistoryAdapter: TaskHistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_history_user)
 
-        // Initialize the container for task list
-        taskListContainer = findViewById(R.id.taskListContainer)
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewTaskHistory)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Directly display dummy data (no need for database or DAO)
+        // Call function to load task data
         displayDummyData()
     }
 
@@ -28,7 +29,14 @@ class TaskHistoryAdminActivity : AppCompatActivity() {
         val taskList = listOf(
             Task(
                 title = "Create a software",
-                description = "Complete the software project",
+                description = """
+                • Complete the software project
+                • Develop user interface
+                • Integrate backend APIs
+                • Ensure smooth user experience
+                • Perform testing and debugging
+                • Deploy software for final review
+            """.trimIndent(),
                 status = "100%",
                 dueDate = "2025-05-01",
                 assignedTo = 1,  // Dummy value for assignedTo
@@ -38,43 +46,57 @@ class TaskHistoryAdminActivity : AppCompatActivity() {
             ),
             Task(
                 title = "Debug",
-                description = "Fix bugs in the project",
+                description = """
+                • Fix bugs in the project
+                • Test the software after debugging
+                • Identify and resolve memory leaks
+                • Improve performance of the app
+                • Re-test all modules after fixes
+            """.trimIndent(),
                 status = "100%",
                 dueDate = "2025-04-30",
                 assignedTo = 2,  // Dummy value for assignedTo
                 createdBy = 1,   // Dummy value for createdBy
                 creationDate = "2025-04-10", // Dummy value for creationDate
                 historyId = 2    // Dummy value for historyId
+            ),
+            Task(
+                title = "Write documentation",
+                description = """
+                • Write documentation for the software project
+                • Document system architecture
+                • Include user manual for each module
+                • Write troubleshooting guide
+                • Create API documentation
+            """.trimIndent(),
+                status = "50%",
+                dueDate = "2025-05-10",
+                assignedTo = 3,  // Dummy value for assignedTo
+                createdBy = 1,   // Dummy value for createdBy
+                creationDate = "2025-04-12", // Dummy value for creationDate
+                historyId = 3    // Dummy value for historyId
+            ),
+            Task(
+                title = "Test software",
+                description = """
+                • Conduct testing on the software project
+                • Perform unit testing for all modules
+                • Run integration tests
+                • Test the user interface on multiple devices
+                • Ensure compatibility with major browsers
+            """.trimIndent(),
+                status = "25%",
+                dueDate = "2025-05-15",
+                assignedTo = 4,  // Dummy value for assignedTo
+                createdBy = 1,   // Dummy value for createdBy
+                creationDate = "2025-04-15", // Dummy value for creationDate
+                historyId = 4    // Dummy value for historyId
             )
         )
 
-        // Clear any existing views
-        taskListContainer.removeAllViews()
-
-        // Add each task to the LinearLayout dynamically
-        taskList.forEach { task ->
-            val taskView = createTaskView(task)  // Create individual task view using item_task_history.xml
-            taskListContainer.addView(taskView)  // Add task view to container
-        }
-    }
-
-    // Create a view for each task dynamically using item_task_history.xml layout
-    private fun createTaskView(task: Task): LinearLayout {
-        // Inflate the item_task_history layout
-        val taskView = LayoutInflater.from(this).inflate(R.layout.item_task_history, taskListContainer, false)
-
-        // Find the TextViews inside item_task_history.xml and set the data
-        val taskTitle = taskView.findViewById<TextView>(R.id.tvTaskTitle)
-        val taskStatus = taskView.findViewById<TextView>(R.id.tvTaskStatus)
-        val taskDueDate = taskView.findViewById<TextView>(R.id.tvTaskDueDate)
-
-        // Set task data to TextViews
-        taskTitle.text = task.title
-        taskStatus.text = task.status
-        taskDueDate.text = task.dueDate
-
-        // Set click listener to navigate to TaskDetailActivity
-        taskView.setOnClickListener {
+        // Set the adapter with the list of tasks
+        taskHistoryAdapter = TaskHistoryAdapter(taskList) { task ->
+            // When a task is clicked, navigate to the TaskDetailUserActivity with the task details
             val intent = Intent(this, TaskDetailUserActivity::class.java)
             intent.putExtra("TASK_TITLE", task.title)
             intent.putExtra("TASK_STATUS", task.status)
@@ -82,7 +104,11 @@ class TaskHistoryAdminActivity : AppCompatActivity() {
             intent.putExtra("TASK_DESCRIPTION", task.description)
             startActivity(intent)
         }
+        recyclerView.adapter = taskHistoryAdapter
+    }
 
-        return taskView as LinearLayout
+    fun goToTaskView(view: android.view.View) {
+        val intent = Intent(this, TaskAdminActivity::class.java)
+        startActivity(intent)
     }
 }

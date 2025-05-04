@@ -14,66 +14,37 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/notificationBell"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="342dp"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="goToTaskView"
+                android:src="@drawable/arrowback" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="Task History"
+                android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- Container for Task List -->
-    <LinearLayout
-        android:id="@+id/taskListContainer"
+    <!-- RecyclerView for Task History -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTaskHistory"
         android:layout_width="match_parent"
-        android:layout_height="619dp"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="16dp"
-        android:scrollbars="vertical">
-        <!-- This will be filled dynamically -->
-    </LinearLayout>
-
-
-    <!-- Bottom Navigation Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:background="#7E7878"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/home_icon"
-            android:src="@drawable/homepage" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/tasks_view_icon"
-            android:src="@drawable/task" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/schedule_icon"
-            android:src="@drawable/schedule" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/profile_icon"
-            android:src="@drawable/profile" />
-    </LinearLayout>
+        android:scrollbars="vertical" />
 
 </LinearLayout>

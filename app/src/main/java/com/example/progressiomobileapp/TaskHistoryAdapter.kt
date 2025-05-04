@@ -1,13 +1,16 @@
 package com.example.progressiomobileapp
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progressiomobileapp.data.Task
+import android.widget.TextView
 
-class TaskHistoryAdapter(private val taskList: List<Task>) : RecyclerView.Adapter<TaskHistoryViewHolder>() {
-
-    private var onItemClickListener: ((Task) -> Unit)? = null
+class TaskHistoryAdapter(
+    private val taskList: List<Task>,
+    private val onItemClickListener: (Task) -> Unit
+) : RecyclerView.Adapter<TaskHistoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskHistoryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_task_history, parent, false)
@@ -24,13 +27,9 @@ class TaskHistoryAdapter(private val taskList: List<Task>) : RecyclerView.Adapte
 
         // Set click listener for task item
         holder.itemView.setOnClickListener {
-            onItemClickListener?.invoke(task)
+            onItemClickListener.invoke(task)
         }
     }
 
     override fun getItemCount(): Int = taskList.size
-
-    fun setOnItemClickListener(listener: (Task) -> Unit) {
-        onItemClickListener = listener
-    }
 }

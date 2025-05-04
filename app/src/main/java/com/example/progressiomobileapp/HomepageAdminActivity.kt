@@ -3,7 +3,6 @@ package com.example.progressiomobileapp
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -11,7 +10,7 @@ class HomepageAdminActivity : AppCompatActivity() {
 
     private lateinit var tvGreeting: TextView
     private lateinit var tvSubmittedTask: TextView
-    private lateinit var btnNeedReview: Button  // Button for "Need of Review"
+    private lateinit var btnNeedReview: TextView  // Change to TextView
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -32,26 +31,25 @@ class HomepageAdminActivity : AppCompatActivity() {
         // Initialize views
         tvGreeting = findViewById(R.id.tvGreeting)
         tvSubmittedTask = findViewById(R.id.tvSubmittedTask)
-        btnNeedReview = findViewById(R.id.btnNeedReview)
+        btnNeedReview = findViewById(R.id.btnNeedReview)  // Find the TextView here
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
 
         // Retrieve user data from SharedPreferences (session data)
         val userName = sharedPreferences.getString("userName", "User") ?: "User"
-        val userRole = sharedPreferences.getString("userRole", "Admin") ?: "Admin"
 
         // Set the greeting message with the admin user's name
-        tvGreeting.text = "Hello, $userName! Welcome Back, $userRole!"
+        tvGreeting.text = "Hello, $userName! Welcome Back!"
 
         // Display Submitted Task count (completed/total)
         tvSubmittedTask.text = "$completedTasks/$totalTasks - ${calculateProgress(completedTasks, totalTasks)}"
 
-        // Display task titles and due dates in the button (Need of Review section)
+        // Display task titles and due dates in the TextView (Need of Review section)
         val taskDetails = tasksNeedReview.joinToString("\n") { "${it.title} - ${it.dueDate}" }
         btnNeedReview.text = taskDetails
 
-        // Set up the button click listener to navigate to the task review page
+        // Set up the TextView click listener to navigate to the task review page
         btnNeedReview.setOnClickListener {
             val intent = Intent(this, TaskAdminActivity::class.java)
             startActivity(intent)
@@ -87,13 +85,9 @@ class HomepageAdminActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalendarAdminActivity::class.java)
-        startActivity(intent)
-    }
-
     fun goToProfile(view: android.view.View) {
         val intent = Intent(this, ProfileAdminActivity::class.java)
         startActivity(intent)
     }
 }
+

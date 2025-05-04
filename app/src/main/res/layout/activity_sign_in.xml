@@ -54,9 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign In"
-            android:layout_marginTop="24dp"
-            android:background="#222222"
-            android:textColor="#FFFFFF" />
+            android:layout_marginTop="24dp" />
 
         <TextView
             android:id="@+id/tvSignUp"

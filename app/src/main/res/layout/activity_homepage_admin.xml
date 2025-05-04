@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Homepage"
+                android:text="@string/homepage"
                 android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -39,8 +39,10 @@
     <!-- Greeting Section -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="108dp"
         android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -55,16 +57,19 @@
     <!-- Monthly Progress Section -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="160dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="30dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Monthly progress"
-            android:textSize="16sp"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvSubmittedTask"
@@ -78,8 +83,10 @@
     <!-- Need of Review Section -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="141dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="100dp"
         android:orientation="vertical">
 
         <TextView
@@ -89,14 +96,16 @@
             android:textColor="#000000"
             android:textSize="16sp" />
 
-        <Button
+        <TextView
             android:id="@+id/btnNeedReview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#D3D3D3"
+            android:layout_height="120dp"
+            android:background="#ffffff"
+            android:clickable="true"
+            android:padding="16dp"
             android:textColor="#000000"
-            android:textSize="18sp"
-            android:padding="16dp" />
+            android:textSize="18sp" />
+
     </LinearLayout>
 
     <!-- Bottom Navigation Bar -->
