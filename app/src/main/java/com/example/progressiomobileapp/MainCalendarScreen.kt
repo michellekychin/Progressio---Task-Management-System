@@ -3,6 +3,7 @@ package com.example.progressiomobileapp
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -78,7 +79,7 @@ fun MainCalendarScreen(
     var currentMonth by remember { mutableStateOf(Calendar.getInstance()) }
 
     val context = LocalContext.current
-    val activity = (LocalContext.current as? android.app.Activity)
+    val activity = (LocalContext.current as? ComponentActivity)
 
     // Filter tasks for the current month
     val currentMonthStr = SimpleDateFormat("yyyy-MM", Locale.US).format(currentMonth.time)
@@ -92,15 +93,12 @@ fun MainCalendarScreen(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.calendar), color = Color.Black) },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White),
-                navigationIcon = {
-                    IconButton(onClick = { activity?.finish() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(R.string.back), tint = Color.Black)
-                    }
-                }
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
             )
         }
-    ) { paddingValues ->
+    )
+
+    { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
