@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="20dp"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    android:padding="40dp">
+    android:padding="30dp">
 
     <!-- Task Title -->
     <TextView
@@ -20,6 +21,8 @@
         android:id="@+id/tvTaskStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:text="Status"
         android:textSize="20sp"
         android:textStyle="italic" />

@@ -32,13 +32,16 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:background="?attr/selectableItemBackgroundBorderless" android:contentDescription="Background Image"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Background Image"
         android:src="@drawable/background_placeholder" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:layout_marginBottom="5dp"
+
         android:orientation="horizontal">
 
         <ImageButton
@@ -86,18 +89,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="8dp"
         android:text="Group Member"
-        android:textSize="16sp"
-        android:textStyle="bold"
         android:textColor="#000000"
-        android:layout_marginBottom="8dp"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/profileImageAdmin"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circular_shape"
+            android:contentDescription="Profile Image"
+            android:scaleType="centerCrop" />
+
     </LinearLayout>
 
     <!-- Settings Section -->
@@ -105,7 +120,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Setting"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
         android:textStyle="bold"
         android:textColor="#000000"
         android:layout_marginBottom="8dp"/>
@@ -119,12 +135,14 @@
             android:id="@+id/btnLanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="Language" />
 
         <Button
             android:id="@+id/btnTheme"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:text="Theme" />
 
@@ -132,12 +150,14 @@
             android:id="@+id/btnChangePassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:text="Change Password" />
 
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Log Out" />
@@ -145,7 +165,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="8dp"
             android:background="#7E7878"
             android:gravity="center"
             android:orientation="horizontal">

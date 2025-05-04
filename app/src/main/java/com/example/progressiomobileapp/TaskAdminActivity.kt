@@ -38,10 +38,10 @@ class TaskAdminActivity : ComponentActivity() {
     }
 
     // Navigate to Calendar Page
-    fun goToCalendar(view: android.view.View) {
+    /*fun goToCalendar(view: android.view.View) {
         val intent = Intent(this, CalendarAdminActivity::class.java)
         startActivity(intent)
-    }
+    }*/
 
     // Navigate to Profile Page
     fun goToProfile(view: android.view.View) {

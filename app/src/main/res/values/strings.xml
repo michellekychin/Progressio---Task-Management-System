@@ -39,6 +39,9 @@
     <string name="back_button">Back</string>
     <string name="tab_layout_description">Tab navigation for notifications</string>
     <string name="title_activity_email_verification">EmailVerificationActivity</string>
+    <string name="homepage">Homepage</string>
+    <string name="in_progress">In Progress</string>
+    <string name="description">Description</string>
 
 
 </resources>

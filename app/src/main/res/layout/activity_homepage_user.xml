@@ -43,6 +43,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -56,7 +59,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="141dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="10dp"
@@ -69,7 +72,7 @@
             android:layout_marginBottom="8dp"
             android:text="Today's Task"
             android:textColor="#000000"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tvTodayTask"
@@ -79,68 +82,65 @@
             android:textSize="24sp" />
     </LinearLayout>
 
-    <!-- Task Sections (To Do and In Progress) -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="79dp"
+        android:layout_height="141dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="16dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="30dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:text="To Do"
             android:textColor="#000000"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/tvToDoCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btnToDo"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#ffffff"
+            android:clickable="true"
+            android:padding="16dp"
             android:textColor="#000000"
-            android:textSize="24sp" />
-
+            android:textSize="18sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="93dp"
+        android:layout_height="141dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="25dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="In Progress"
+            android:text="@string/in_progress"
             android:textColor="#000000"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/tvInProgressCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btnInProgress"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#ffffff"
+            android:clickable="true"
+            android:padding="16dp"
             android:textColor="#000000"
-            android:textSize="24sp" />
-
+            android:textSize="18sp" />
 
     </LinearLayout>
-
 
     <!-- Bottom Navigation Bar -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="58dp"
-        android:layout_marginTop="160dp"
         android:background="#7E7878"
         android:gravity="center"
         android:orientation="horizontal">

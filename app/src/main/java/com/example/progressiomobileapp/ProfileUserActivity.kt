@@ -7,9 +7,13 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.progressiomobileapp.data.dao.UserDao
+import com.example.progressiomobileapp.data.dao.AdminDao
 import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
-
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class ProfileUserActivity : AppCompatActivity() {
 
@@ -22,11 +26,16 @@ class ProfileUserActivity : AppCompatActivity() {
     private lateinit var btnLanguage: Button
     private lateinit var btnTheme: Button
     private lateinit var btnChangePassword: Button
+    private lateinit var profileImageAdmin: ImageButton // Admin profile image view
     private lateinit var userDao: UserDao
+    private lateinit var adminDao: AdminDao // AdminDao
 
     private var selectedProfileImageUri: Uri? = null
     private var selectedBackgroundImageUri: Uri? = null
     private lateinit var currentUserEmail: String
+    private lateinit var currentUserGroupAdminId: String
+
+    private val REQUEST_CODE_PERMISSION = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +51,13 @@ class ProfileUserActivity : AppCompatActivity() {
         btnLanguage = findViewById(R.id.btnLanguage)
         btnTheme = findViewById(R.id.btnTheme)
         btnChangePassword = findViewById(R.id.btnChangePassword)
+        profileImageAdmin = findViewById(R.id.profileImageAdmin) // Initialize admin profile image view
 
-        // Initialize Room Database and UserDao
+        // Initialize Room Database and DAOs
         val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
         val db = AppDatabase.getDatabase(this)
         userDao = db.userDao()
+        adminDao = db.adminDao() // Get the admin DAO
 
         // Get the email of the logged-in user from SharedPreferences
         currentUserEmail = sharedPreferences.getString("userEmail", "") ?: ""
@@ -59,6 +70,9 @@ class ProfileUserActivity : AppCompatActivity() {
                 tvEmail.text = it.email
                 tvId.text = "ID: ${it.userId}"
 
+                // Get groupAdminId
+                currentUserGroupAdminId = it.groupAdminId.toString()
+
                 // Set profile and background image URIs
                 it.profileImageUrl?.let { uriString ->
                     selectedProfileImageUri = Uri.parse(uriString)
@@ -68,19 +82,35 @@ class ProfileUserActivity : AppCompatActivity() {
                     selectedBackgroundImageUri = Uri.parse(uriString)
                     backgroundImageView.setImageURI(selectedBackgroundImageUri)
                 }
+
+                // Check if the user is assigned to a groupAdminId, then display the admin profile image
+                if (currentUserGroupAdminId.isNotEmpty()) {
+                    displayAdminProfileImage(currentUserGroupAdminId)
+                }
             }
         }
 
+        // Request permissions if not granted
+        requestPermissions()
+
         // Handle Profile Image Click
         profileImageView.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, 100) // Request code for profile image
+            if (checkPermission()) {
+                val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(intent, 100) // Request code for profile image
+            } else {
+                requestPermissions()
+            }
         }
 
         // Handle Background Image Click
         backgroundImageView.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, 200) // Request code for background image
+            if (checkPermission()) {
+                val intent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(intent, 200) // Request code for background image
+            } else {
+                requestPermissions()
+            }
         }
 
         // Log out functionality
@@ -109,6 +139,53 @@ class ProfileUserActivity : AppCompatActivity() {
         }
     }
 
+    // Function to request permissions
+    private fun requestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                REQUEST_CODE_PERMISSION
+            )
+        }
+    }
+
+    // Function to check if permissions are granted
+    private fun checkPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED
+    }
+
+    // Handle permission result
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+            } else {
+                // Permission denied
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Function to display the admin profile image if the user has a groupAdminId
+    private fun displayAdminProfileImage(adminId: String) {
+        lifecycleScope.launch {
+            val admin = adminDao.getAdminByUserId(adminId.toInt())
+            admin?.let {
+                // Get the admin's user ID
+                val adminUserId = it.userId
+                // Now fetch the admin user by userId and display their profile image
+                val adminUser = userDao.getUserById(adminUserId)
+                adminUser?.profileImageUrl?.let { uriString ->
+                    val adminProfileUri = Uri.parse(uriString)
+                    profileImageAdmin.setImageURI(adminProfileUri)
+                }
+            }
+        }
+    }
+
     // Handle the result from image picker
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -130,31 +207,6 @@ class ProfileUserActivity : AppCompatActivity() {
         }
     }
 
-    // Navigate to Home Page
-    fun goToHome(view: android.view.View) {
-        val intent = Intent(this, HomepageUserActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Navigate to Task View Page
-    fun goToTaskView(view: android.view.View) {
-        val intent = Intent(this, TaskUserActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Navigate to Calendar Page
-    fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalendarUserActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Navigate to Profile Page
-    fun goToProfile(view: android.view.View) {
-        val intent = Intent(this, ProfileUserActivity::class.java)
-        startActivity(intent)
-    }
-
-
     private fun saveProfileImageUri(uri: Uri) {
         lifecycleScope.launch {
             val user = userDao.getUserByEmail(currentUserEmail)
@@ -175,5 +227,26 @@ class ProfileUserActivity : AppCompatActivity() {
                 Toast.makeText(this@ProfileUserActivity, "Background image updated", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    // Navigation Functions
+    fun goToHome(view: android.view.View) {
+        val intent = Intent(this, HomepageUserActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun goToTaskView(view: android.view.View) {
+        val intent = Intent(this, UserTaskListActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun goToCalendar(view: android.view.View) {
+        val intent = Intent(this, CalendarActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun goToProfile(view: android.view.View) {
+        val intent = Intent(this, ProfileUserActivity::class.java)
+        startActivity(intent)
     }
 }

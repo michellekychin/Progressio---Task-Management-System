@@ -2,6 +2,7 @@ package com.example.progressiomobileapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -49,9 +50,12 @@ class SignInActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val user = userDao.getUserByEmail(email)
 
+                // Log fetched user and role for debugging
+                Log.d("SignInActivity", "Fetched user: ${user?.role}")
+
                 if (user != null && user.password == password) {
                     // Check if the user is an admin or regular user
-                    val intent = if (user.role == "Admin") {
+                    val intent = if (user.role.equals("Admin", ignoreCase = true)) {
                         // Admin user, navigate to HomepageAdminActivity
                         Intent(this@SignInActivity, HomepageAdminActivity::class.java)
                     } else {
@@ -64,7 +68,6 @@ class SignInActivity : AppCompatActivity() {
                     intent.putExtra("userRole", user.role)
                     intent.putExtra("userEmail", user.email)
 
-
                     // After successful login, store the user session data in SharedPreferences
                     val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
                     val editor = sharedPreferences.edit()
@@ -73,8 +76,7 @@ class SignInActivity : AppCompatActivity() {
                     editor.putString("userRole", user.role)
                     editor.apply()  // Commit the changes
 
-
-                    // Start the homepage activity and finish the SignInActivity
+                    // Start the appropriate homepage activity
                     startActivity(intent)
                     finish()  // Close SignInActivity so it doesn't remain in the back stack
                 } else {

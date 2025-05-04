@@ -55,8 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Verify"
-            android:backgroundTint="#222222"
-            android:textColor="#FFFFFF" />
+            android:backgroundTint="#222222" />
 
     </LinearLayout>
 
