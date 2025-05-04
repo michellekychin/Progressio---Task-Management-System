@@ -47,6 +47,7 @@ class TaskViewModel(private val taskDao: TaskDao, private val userDao: UserDao) 
         return taskDao.getTasksForDate(date)
     }
 
+
     fun addTask(task: Task) {
         viewModelScope.launch {
             taskDao.insert(task)

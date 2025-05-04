@@ -13,7 +13,7 @@ import com.example.progressiomobileapp.data.dao.UserDao
 import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.Task
 
-class UserTaskListActivity : AppCompatActivity() {
+class UserTaskListActivity : BaseActivity() {
 
     private lateinit var taskDao: TaskDao
     private lateinit var userDao: UserDao
@@ -23,6 +23,9 @@ class UserTaskListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_task_list)
+
+        // Set up the bottom navigation
+        setupBottomNavigationUser(R.id.nav_tasks)
 
         recyclerView = findViewById(R.id.recyclerViewTasks)
         recyclerView.layoutManager = LinearLayoutManager(this)

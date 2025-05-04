@@ -69,13 +69,8 @@ fun MainCalendarScreen(
     adminDao: AdminDao,
     taskViewModel: TaskViewModel
 ) {
-
+    // Get the tasks for the user
     val tasks by taskViewModel.getTasksForUser(userId, isAdmin).collectAsState(initial = emptyList())
-
-    LaunchedEffect(tasks) {
-        Log.d("MainCalendarScreen", "Tasks loaded: ${tasks.size}")
-    }
-
 
     var selectedDate by remember { mutableStateOf<Calendar?>(null) }
     var currentMonth by remember { mutableStateOf(Calendar.getInstance()) }
@@ -83,16 +78,22 @@ fun MainCalendarScreen(
     val context = LocalContext.current
     val activity = (LocalContext.current as? android.app.Activity)
 
+    // Filter tasks for the current month (if no date is selected)
+    val currentMonthStr = SimpleDateFormat("yyyy-MM", Locale.US).format(currentMonth.time)
+    val filteredTasksForMonth = tasks.filter { task ->
+        val taskMonthStr = task.dueDate?.substring(0, 7) // Get the "yyyy-MM" part of the due date
+        taskMonthStr == currentMonthStr
+    }
+
     Scaffold(
         containerColor = Color.White,
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.calendar), color = Color.Black) },
-                        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White),
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White),
                 navigationIcon = {
                     IconButton(onClick = { activity?.finish() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(R.string.back)
-                            , tint = Color.Black)
+                        Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(R.string.back), tint = Color.Black)
                     }
                 }
             )
@@ -105,6 +106,7 @@ fun MainCalendarScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
+            // Display the calendar view
             CalendarView(
                 currentMonth = currentMonth,
                 onDateSelected = { date -> selectedDate = date },
@@ -112,19 +114,21 @@ fun MainCalendarScreen(
                     currentMonth = (currentMonth.clone() as Calendar).apply {
                         add(Calendar.MONTH, -1)
                     }
-                    selectedDate = null
+                    selectedDate = null // Reset selected date when month changes
                 },
                 onNextMonth = {
                     currentMonth = (currentMonth.clone() as Calendar).apply {
                         add(Calendar.MONTH, 1)
                     }
-                    selectedDate = null
+                    selectedDate = null // Reset selected date when month changes
                 }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Show tasks based on the selection
             selectedDate?.let { date ->
+                // If a specific date is selected, show tasks for that date
                 val dateTasks = tasks.filter { task ->
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
                     val dueDateParsed = task.dueDate?.let { dateFormat.parse(it) }
@@ -153,12 +157,31 @@ fun MainCalendarScreen(
                     }
                 } else {
                     Text(stringResource(R.string.no_tasks_on_date), color = Color.Black)
-
+                }
+            } ?: run {
+                // If no date is selected, show tasks for the entire month
+                if (filteredTasksForMonth.isNotEmpty()) {
+                    Text(
+                        text = stringResource(R.string.tasks_in_month, currentMonth.time),
+                        color = Color.Black
+                    )
+                    LazyColumn {
+                        items(filteredTasksForMonth) { task ->
+                            TaskItem(task) {
+                                val intent = Intent(context, TaskDetailActivity::class.java)
+                                intent.putExtra("TASK_ID", task.taskId)
+                                context.startActivity(intent)
+                            }
+                        }
+                    }
+                } else {
+                    Text(stringResource(R.string.no_tasks_in_month), color = Color.Black)
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun CalendarView(

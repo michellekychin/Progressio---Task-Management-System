@@ -83,6 +83,15 @@
 
 
 
+    <!-- Calendar-->
+
+
+    <string name="tasks_in_month">Tasks for %1$s:</string>
+    <string name="no_tasks_in_month">No tasks this month.</string>
+
+
+
+
 
 
 </resources>
