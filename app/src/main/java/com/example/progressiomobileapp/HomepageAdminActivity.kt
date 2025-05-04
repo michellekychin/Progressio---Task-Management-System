@@ -1,11 +1,15 @@
 package com.example.progressiomobileapp
 
+import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
 class HomepageAdminActivity : AppCompatActivity() {
 
@@ -77,6 +81,33 @@ class HomepageAdminActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    // Navigate to Notification Page
+    fun goToNotifications(view: android.view.View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val alreadyAsked =
+                sharedPreferences.getBoolean("asked_notification_permission", false)
+            val hasPermission = ContextCompat.checkSelfPermission(
+                this, android.Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if (!hasPermission && !alreadyAsked) {
+                val requestPermissionLauncher = null
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                return
+            }
+        }
+
+        // Permission already granted or not needed
+        navigateToNotifications()
+    }
+
+    fun navigateToNotifications() {
+        val intent = Intent(this, NotificationActivity::class.java)
+        startActivity(intent)
+    }
+
+
+
     fun goToTaskView(view: android.view.View) {
         val intent = Intent(this, TaskAdminActivity::class.java)
         startActivity(intent)
@@ -88,7 +119,7 @@ class HomepageAdminActivity : AppCompatActivity() {
     }
 
     fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalendarAdminActivity::class.java)
+        val intent = Intent(this, CalendarActivity::class.java)
         startActivity(intent)
     }
 
@@ -97,3 +128,5 @@ class HomepageAdminActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+private fun Nothing?.launch(string: String) {}

@@ -150,7 +150,7 @@ class ProfileAdminActivity : AppCompatActivity() {
 
     // Navigate to Calendar Page
     fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalendarAdminActivity::class.java)
+        val intent = Intent(this, CalendarActivity::class.java)
         startActivity(intent)
     }
 

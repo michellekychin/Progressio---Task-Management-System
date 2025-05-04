@@ -33,7 +33,7 @@ class TaskUserActivity : ComponentActivity() {
 
     // Navigate to Calendar Page
     fun goToCalendar(view: android.view.View) {
-        val intent = Intent(this, CalendarUserActivity::class.java)
+        val intent = Intent(this, CalendarActivity::class.java)
         startActivity(intent)
     }
 

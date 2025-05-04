@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskDetailActivity">
+    tools:context=".TaskDetailActivity"
+    android:theme="@style/Theme.ProgressioMobileApp.Light">
 
     <!-- Back Button -->
     <ImageButton
         android:id="@+id/backButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:contentDescription="Back Button"
+        android:contentDescription="@string/back_button_desc"
         android:src="@drawable/ic_back"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,8 @@
                 android:id="@+id/taskTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Task Title"
+                android:textColor="@android:color/black"
+                android:text="@string/task_title_detail"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:layout_marginBottom="12dp" />
@@ -46,6 +48,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
                 android:padding="12dp"
                 android:background="@drawable/box_background"
                 android:orientation="vertical">
@@ -54,7 +57,8 @@
                     android:id="@+id/taskDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Task Description"
+                    android:textColor="@android:color/black"
+                    android:text="@string/task_description_detail"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -86,7 +90,8 @@
                     android:id="@+id/commentsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Comments"
+                    android:textColor="@android:color/black"
+                    android:text="@string/comments_section"
                     android:textStyle="bold"
                     android:textSize="18sp" />
 
@@ -102,7 +107,7 @@
                 android:id="@+id/commentEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Add a comment..."
+                android:hint="@string/add_comment_hint"
                 android:minHeight="48dp"
                 android:padding="16dp"
                 android:layout_marginTop="16dp" />
@@ -111,8 +116,16 @@
                 android:id="@+id/addCommentButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Comment"
+                android:text="@string/add_comment_button"
                 android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/submitTaskButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/submit_task_button"
+                android:layout_marginTop="16dp"
+                />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

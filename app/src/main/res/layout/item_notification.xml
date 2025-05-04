@@ -9,13 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/backgroundLight"
         android:padding="16dp">
 
         <TextView
             android:id="@+id/notificationTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Task 1"
+            android:textColor="@android:color/black"
+            android:text="Task"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
@@ -25,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="Date"
             android:textSize="12sp"
-            android:textColor="#757575"/>
+            android:textColor="@android:color/black"/>
 
         <View
             android:id="@+id/notificationStatus"

@@ -31,14 +31,58 @@
     <string name="title_activity_task_detail_admin">TaskDetailAdminActivity</string>
     <string name="title_activity_task_user">TaskUserActivity</string>
     <string name="title_activity_task_admin">TaskAdminActivity</string>
-    <string name="title_activity_calender_admin">CalenderAdminActivity</string>
+    <string name="title_activity_calendar_admin">CalendarAdminActivity</string>
     <string name="title_activity_analytics">AnalyticsActivity</string>
 
     <string name="mark_all_as_read">Mark All as Read</string>
-    <string name="recycler_view_description">Notifications list</string>
     <string name="back_button">Back</string>
-    <string name="tab_layout_description">Tab navigation for notifications</string>
     <string name="title_activity_email_verification">EmailVerificationActivity</string>
+
+    <!-- calendar -->
+
+    <string name="calendar">Calendar</string>
+    <string name="back">Back</string>
+    <string name="due_date">Due Date: %1$s</string>
+    <string name="not_available">Not Available</string>
+    <string name="tasks_on_date">Tasks on %1$s</string>
+    <string name="no_tasks_on_date">No tasks on this date.</string>
+    <string name="current_month">Current Month: %1$s</string>
+    <string name="previous_month">Previous Month</string>
+    <string name="next_month">Next Month</string>
+
+    <!-- Notifications -->
+    <string name="notification_title">NOTIFICATION</string>
+    <string name="tab_all">All</string>
+    <string name="tab_unread">Unread</string>
+    <string name="mark_all_as_read_button">Mark as read</string>
+    <string name="dialog_mark_all_title">Mark all as read</string>
+    <string name="dialog_mark_all_message">Are you sure you want to mark all notifications as read?</string>
+    <string name="cancel">CANCEL</string>
+    <string name="notification_test_title">Test Notification</string>
+    <string name="notification_test_body">This is a test to see if notifications appear on the phone.</string>
+    <string name="notification_test_message">This is a test notification to ensure notifications are working.</string>
+    <string name="toast_all_marked_read">All notifications marked as read</string>
+    <string name="toast_notifications_enabled">Notifications enabled</string>
+    <string name="toast_notifications_disabled">Notifications disabled</string>
+    <string name="tab_layout_description">Notification category tabs</string>
+    <string name="recycler_view_description">List of notifications</string>
+    <string name="dont_ask_again_message">Pressing the dont ask again allows this pop-up to not appear the next time</string>
+    <string name="dont_ask_again">Do not ask again.</string>
+
+    <!-- Task -->
+    <string name="task_list_title">Task List</string>
+
+    <!-- Task Detail Activity Strings -->
+    <string name="back_button_desc">Back Button</string>
+    <string name="task_title_detail">Task Title</string>
+    <string name="task_description_detail">Task Description</string>
+    <string name="comments_section">Comments</string>
+    <string name="add_comment_hint">Add a comment...</string>
+    <string name="add_comment_button">Add Comment</string>
+    <string name="submit_task_button">Submit Task</string>
+
+
+
 
 
 </resources>

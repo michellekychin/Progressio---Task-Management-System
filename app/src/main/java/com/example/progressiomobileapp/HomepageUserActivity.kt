@@ -33,9 +33,6 @@ class HomepageUserActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var userDao: UserDao
-
-    private lateinit var sharedPreferences: SharedPreferences
-
     private lateinit var currentUserEmail: String
 
 

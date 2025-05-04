@@ -33,4 +33,8 @@ interface NotificationDao {
     @Query("SELECT * FROM Notifications WHERE recipient_id = :recipientId AND is_read = 0")
     fun getUnreadNotifications(recipientId: Int): Flow<List<Notification>>
 
+    @Query("SELECT * FROM Notifications WHERE sender_id = :adminId OR task_id IN (SELECT task_id FROM Tasks WHERE created_by = :adminId)")
+    fun getNotificationsForAdmin(adminId: Int): Flow<List<Notification>>
+
+
 }
