@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="18dp"
+        android:background="@drawable/background_container">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start|center_vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="12dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back"
+                android:contentDescription="@string/go_back_to_previous_page" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_language"
+                android:textSize="18sp"
+                android:layout_marginStart="6dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bahasa Malaysia -->
+    <LinearLayout
+        android:id="@+id/languageContainerBahasa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:layout_marginStart="10dp"
+        android:gravity="start|center_vertical">
+
+        <TextView
+            android:id="@+id/btnBahasa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bahasa Malaysia"
+            android:textSize="26sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center_vertical"/>
+
+        <!-- Space to push the check mark to the end -->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/tickBahasa"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/check"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <!-- Chinese -->
+    <LinearLayout
+        android:id="@+id/languageContainerChinese"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:layout_marginStart="10dp"
+        android:gravity="start|center_vertical">
+
+        <TextView
+            android:id="@+id/btnChinese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="简体中文"
+            android:textSize="26sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center_vertical"/>
+
+        <!-- Space to push the check mark to the end -->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/tickChinese"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/check"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <!-- English -->
+    <LinearLayout
+        android:id="@+id/languageContainerEnglish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:layout_marginStart="10dp"
+        android:gravity="start|center_vertical">
+
+        <TextView
+            android:id="@+id/btnEnglish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="English"
+            android:textSize="26sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center_vertical"/>
+
+        <!-- Space to push the check mark to the end -->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/tickEnglish"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/check"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+</LinearLayout>
