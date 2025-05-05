@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="@color/backgroundLight">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -118,69 +119,64 @@
 
     <!-- Settings Section -->
     <TextView
+        android:id="@+id/settingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Setting"
-        android:textSize="20sp"
-        android:layout_marginLeft="10dp"
+        android:text="@string/setting"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:layout_marginBottom="8dp"/>
+        android:layout_below="@id/profileImageUser"
+        android:layout_marginStart="10dp"
+        android:padding="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@id/settingText"
+        android:layout_marginTop="8dp">
 
-        <Button
+        <!-- Language Setting TextView -->
+        <TextView
             android:id="@+id/btnLanguage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Language" />
-
-        <Button
-            android:id="@+id/btnTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="Theme" />
-
-        <Button
-            android:id="@+id/btnChangePassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="Change Password" />
-
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Log Out" />
-
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="8dp"
-            android:background="#7E7878"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="48dp"
+            android:text="@string/language"
+            android:clickable="true"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"/>
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottom_navigation_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="?android:attr/windowBackground"
-                app:menu="@menu/bottom_nav_menu_user"
-                app:itemIconTint="@color/nav_item_color_state"
-                app:itemTextColor="@color/nav_item_color_state" />
+        <!-- Change Password Setting TextView -->
+        <TextView
+            android:id="@+id/btnChangePassword"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/change_password"
+            android:clickable="true"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"/>
 
-        </LinearLayout>
+        <!-- Log Out Setting TextView -->
+        <TextView
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/log_out"
+            android:clickable="true"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="?android:attr/windowBackground"
+            app:menu="@menu/bottom_nav_menu_user"
+            app:itemIconTint="@color/nav_item_color_state"
+            app:itemTextColor="@color/nav_item_color_state" />
 </LinearLayout>
+
+

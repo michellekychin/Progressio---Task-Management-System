@@ -88,7 +88,6 @@
     <string name="submit_task_button">Submit Task</string>
 
 
-
     <!-- Calendar-->
 
 
@@ -104,10 +103,74 @@
     <string name="background_image_updated">Background image updated</string>
 
 
+    <!--michelle-->
+    <string name="task_creation_failed">Task could not be Created!</string>
+    <string name="task_updated">Task is successfully Updated!</string>
+    <string name="task_deleted">Task is successfully Deleted!</string>
+    <string name="task_deletion_failed">No task to delete!</string>
+    <string name="recycler_view_tasks_description">List of tasks</string>
+    <string name="task_update_failed">No task to update!</string>
+    <string name="task_created">Task is successfully Created!</string>
+    <string name="select_language">Select Language</string>
+    <string name="go_back_to_previous_page">Go back to previous page</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="group_member">Group Member</string>
+    <string name="setting">Setting</string>
+    <string name="language">Language</string>
+    <string name="theme">Theme</string>
+    <string name="change_password">Change Password</string>
+    <string name="log_out">Log Out</string>
+    <string name="profile">Profile</string>
+    <string name="tasks">Tasks</string>
+    <string name="analytics">Analytics</string>
+    <string name="task_status">Task Status</string>
+    <string name="overdue_vs_on_time">Overdue VS On Time</string>
+    <string name="task_complete">Task Complete</string>
+    <string name="task_distribution_among_employees">Task Distribution Among Employees</string>
 
+    <string name="title_activity_calender_admin">CalenderAdminActivity</string>
 
-
-
+    <string name="email_address">Email Address</string>
+    <string name="enter_verification_code">Enter Verification Code</string>
+    <string name="verification_code_message">Please enter the verification code sent to your email. Check your spam folder if you don\'t see it.</string>
+    <string name="verify">Verify</string>
+    <string name="home">Home</string>
+    <string name="submit">Submit</string>
+    <string name="enter_user_email">Enter User Email</string>
+    <string name="add_member">Add Member</string>
+    <string name="user_id">User ID</string>
+    <string name="user_name">User Name</string>
+    <string name="background_image">Background Image</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="submit_new_password">Submit New Password</string>
+    <string name="current_password_is_incorrect">Current password is incorrect</string>
+    <string name="password_updated_successfully">Password updated successfully</string>
+    <string name="password_validation">Password must be at least 8 characters, contain a number, an uppercase letter, and a special character</string>
+    <string name="input_validation">Please enter both current and new passwords</string>
+    <string name="task_title">Task Title</string>
+    <string name="due_date_yyyy_mm_dd">Due Date (YYYY-MM-DD)</string>
+    <string name="checklist">Checklist</string>
+    <string name="assign_user">Assign user</string>
+    <string name="assign">Assign</string>
+    <string name="add_checklist_item">Add checklist item</string>
+    <string name="create">create</string>
+    <string name="update">update</string>
+    <string name="invalid_user_id">Invalid user ID. Assigned to default user.</string>
+    <string name="invalid_user">Please select a valid user</string>
+    <string name="to_do">To-Do</string>
+    <string name="done">Done</string>
+    <string name="no_user_selected">No user selected</string>
+    <string name="assign_task">Assign Task</string>
+    <string name="add_task">Add Task</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="task_created_successfully">Task created successfully</string>
+    <string name="delete">delete</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="delete_task_confirmation">Are you sure you want to delete this task?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 
 </resources>
