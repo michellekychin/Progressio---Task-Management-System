@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/taskAdminLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="@color/backgroundLight">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:background="#7E7878"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:layout_above="@id/recyclerViewTasks">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,7 +21,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Task"
+
+                android:text="Task List"
+
                 android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -34,65 +37,43 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="goToHistory"
                 android:src="@drawable/history" />
+
         </RelativeLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
-
-
-    <!-- Bottom Navigation Bar -->
-
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTasks"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layout_marginTop="160dp"
-        android:background="#7E7878"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
+        android:clipToPadding="false"
+        android:paddingBottom="72dp"
+        android:contentDescription="@string/recycler_view_tasks_description" />
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/home_icon"
-            android:onClick="goToHome"
-            android:src="@drawable/homepage" />
+    <ImageButton
+        android:id="@+id/btnAddTask"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/teal_700"
+        android:background="@drawable/floating_button_background"
+        android:src="@drawable/add"
+        android:contentDescription="Add Task"
+        android:scaleType="centerInside"
+        app:tint="@android:color/white" />
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/tasks_view_icon"
-            android:onClick="goToTaskView"
-            android:src="@drawable/task" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/nav_item_color_state"
+        app:itemTextColor="@color/nav_item_color_state"
+        app:labelVisibilityMode="labeled" />
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/analytics_icon"
-            android:onClick="goToAnalytics"
-            android:src="@drawable/analytics" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/schedule_icon"
-            android:onClick="goToCalendar"
-            android:src="@drawable/schedule" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/profile_icon"
-            android:onClick="goToProfile"
-            android:src="@drawable/profile" />
-    </LinearLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

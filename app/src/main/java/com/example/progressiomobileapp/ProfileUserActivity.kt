@@ -12,8 +12,10 @@ import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.util.Locale
 
 class ProfileUserActivity : BaseActivity() {
 
@@ -40,8 +42,6 @@ class ProfileUserActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_user)
-
-        //baseactivity
         setupBottomNavigationUser(R.id.nav_profile)
 
         // Initialize Views
@@ -52,7 +52,6 @@ class ProfileUserActivity : BaseActivity() {
         backgroundImageView = findViewById(R.id.backgroundImage)
         btnLogout = findViewById(R.id.btnLogout)
         btnLanguage = findViewById(R.id.btnLanguage)
-        btnTheme = findViewById(R.id.btnTheme)
         btnChangePassword = findViewById(R.id.btnChangePassword)
         profileImageAdmin = findViewById(R.id.profileImageAdmin) // Initialize admin profile image view
 
@@ -120,30 +119,76 @@ class ProfileUserActivity : BaseActivity() {
             }
         }
 
-        // Log out functionality
-        btnLogout.setOnClickListener {
-            // Handle Log Out (clear session or preferences)
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
-            finish() // Close current activity
+        // Check for language preference from SharedPreferences
+        val settingsSharedPreferences = getSharedPreferences("settings", MODE_PRIVATE)
+        val language = settingsSharedPreferences.getString("language", "en") // Default to "en" if no language is set
+
+        if (language != null && language != "en") {
+            setLocale(language)
         }
 
-        // Other Settings buttons
+        // Set up listeners for the settings
+        val btnLanguage = findViewById<TextView>(R.id.btnLanguage)
+        val btnChangePassword = findViewById<TextView>(R.id.btnChangePassword)
+        val btnLogout = findViewById<TextView>(R.id.btnLogout)
+
+        // Set click listeners for each button
         btnLanguage.setOnClickListener {
-            // Handle language change
-            Toast.makeText(this, "Language settings", Toast.LENGTH_SHORT).show()
-        }
-
-        btnTheme.setOnClickListener {
-            // Handle theme change
-            Toast.makeText(this, "Theme settings", Toast.LENGTH_SHORT).show()
+            onLanguageClicked()
         }
 
         btnChangePassword.setOnClickListener {
-            // Navigate to change password activity
-            val intent = Intent(this, ForgotPasswordActivity::class.java)
-            startActivity(intent)
+            onChangePasswordClicked()
         }
+
+        btnLogout.setOnClickListener {
+            onLogoutClicked()
+        }
+    }
+
+    // Function to handle Language setting click
+    private fun onLanguageClicked() {
+        val intent = Intent(this, LanguageSelectionActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Function to handle Change Password click
+    private fun onChangePasswordClicked() {
+        val intent = Intent(this, ChangePasswordActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Function to handle Log Out click
+    private fun onLogoutClicked() {
+        showLogoutConfirmationDialog()
+    }
+
+    // Logout confirmation dialog
+    private fun showLogoutConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Logout")
+        builder.setMessage("Are you sure you want to logout?")
+        builder.setPositiveButton("Yes") { dialog, which ->
+            // Redirect to SignInActivity on clicking 'Yes'
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+            finish()  // Optionally finish this activity so the user cannot return to it by pressing back
+        }
+        builder.setNegativeButton("No") { dialog, which ->
+            // Just dismiss the dialog if 'No' is clicked
+            dialog.dismiss()
+        }
+        builder.create().show()
+    }
+
+    // Set the locale of the app based on the selected language
+    private fun setLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     // Function to request permissions

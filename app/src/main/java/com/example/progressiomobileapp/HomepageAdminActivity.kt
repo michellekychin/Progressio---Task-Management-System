@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
-class HomepageAdminActivity : AppCompatActivity() {
+class HomepageAdminActivity : BaseActivity() {
 
     private lateinit var tvGreeting: TextView
     private lateinit var tvSubmittedTask: TextView
@@ -31,6 +31,7 @@ class HomepageAdminActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage_admin)
+        setupBottomNavigation(R.id.nav_home)
 
         // Initialize views
         tvGreeting = findViewById(R.id.tvGreeting)

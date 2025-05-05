@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.android.application")
@@ -46,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation ("com.google.android.material:material:1.4.0")
+
     // JavaMail API
     implementation ("com.sun.mail:android-mail:1.6.0")
     implementation ("com.sun.mail:android-activation:1.6.0")

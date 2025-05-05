@@ -23,4 +23,7 @@ interface ChecklistItemDao {
     @Query("SELECT * FROM ChecklistItems")
     fun getAllChecklistItems(): Flow<List<ChecklistItem>>
 
+    @Query("DELETE FROM ChecklistItems WHERE task_id = :taskId")
+    suspend fun deleteChecklistItemsByTaskId(taskId: Int)
+
 }
