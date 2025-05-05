@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="@color/backgroundLight">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -40,53 +41,16 @@
         </RelativeLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
-
-
     <!-- Bottom Navigation Bar -->
 
-    <LinearLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_user"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layout_marginTop="160dp"
-        android:background="#7E7878"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/bottom_nav_menu_user"
+        app:itemIconTint="@color/nav_item_color_state"
+        app:itemTextColor="@color/nav_item_color_state" />
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/home_icon"
-            android:onClick="goToHome"
-            android:src="@drawable/homepage" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/tasks_view_icon"
-            android:onClick="goToTaskView"
-            android:src="@drawable/task" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/schedule_icon"
-            android:onClick="goToCalendar"
-            android:src="@drawable/schedule" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:clickable="true"
-            android:contentDescription="@string/profile_icon"
-            android:onClick="goToProfile"
-            android:src="@drawable/profile" />
-    </LinearLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

@@ -13,20 +13,22 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.util.Locale
 
-class ProfileAdminActivity : AppCompatActivity() {
+class ProfileAdminActivity : BaseActivity() {
 
     private lateinit var tvName: TextView
     private lateinit var tvEmail: TextView
     private lateinit var tvId: TextView
     private lateinit var profileImageView: ImageButton
     private lateinit var backgroundImageView: ImageButton
-    private lateinit var btnLogout: Button
-    private lateinit var btnLanguage: Button
-    private lateinit var btnTheme: Button
-    private lateinit var btnChangePassword: Button
+    private lateinit var btnLogout: TextView
+    private lateinit var btnLanguage: TextView
+    private lateinit var btnTheme: TextView
+    private lateinit var btnChangePassword: TextView
     private lateinit var edtEmail: EditText
     private lateinit var btnAddUser: Button
     private lateinit var emailInputLayout: LinearLayout
@@ -44,6 +46,7 @@ class ProfileAdminActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_admin)
+        setupBottomNavigation(R.id.nav_profile)
 
         // Initialize Views
         tvName = findViewById(R.id.tvName)
@@ -53,7 +56,6 @@ class ProfileAdminActivity : AppCompatActivity() {
         backgroundImageView = findViewById(R.id.backgroundImage)
         btnLogout = findViewById(R.id.btnLogout)
         btnLanguage = findViewById(R.id.btnLanguage)
-        btnTheme = findViewById(R.id.btnTheme)
         btnChangePassword = findViewById(R.id.btnChangePassword)
         edtEmail = findViewById(R.id.edtEmail)
         btnAddUser = findViewById(R.id.btnAddUser)
@@ -187,27 +189,76 @@ class ProfileAdminActivity : AppCompatActivity() {
             }
         }
 
-        // Log out functionality
-        btnLogout.setOnClickListener {
-            // Handle Log Out (clear session or preferences)
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
-            finish() // Close current activity
+        // Check for language preference from SharedPreferences
+        val settingsSharedPreferences = getSharedPreferences("settings", MODE_PRIVATE)
+        val language = settingsSharedPreferences.getString("language", "en") // Default to "en" if no language is set
+
+        if (language != null && language != "en") {
+            setLocale(language)
         }
 
-        // Other Settings buttons
+        // Set up listeners for the settings
+        val btnLanguage = findViewById<TextView>(R.id.btnLanguage)
+        val btnChangePassword = findViewById<TextView>(R.id.btnChangePassword)
+        val btnLogout = findViewById<TextView>(R.id.btnLogout)
+
+        // Set click listeners for each button
         btnLanguage.setOnClickListener {
-            Toast.makeText(this, "Language settings", Toast.LENGTH_SHORT).show()
-        }
-
-        btnTheme.setOnClickListener {
-            Toast.makeText(this, "Theme settings", Toast.LENGTH_SHORT).show()
+            onLanguageClicked()
         }
 
         btnChangePassword.setOnClickListener {
-            val intent = Intent(this, ForgotPasswordActivity::class.java)
-            startActivity(intent)
+            onChangePasswordClicked()
         }
+
+        btnLogout.setOnClickListener {
+            onLogoutClicked()
+        }
+    }
+
+    // Function to handle Language setting click
+    private fun onLanguageClicked() {
+        val intent = Intent(this, LanguageSelectionActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Function to handle Change Password click
+    private fun onChangePasswordClicked() {
+        val intent = Intent(this, ChangePasswordActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Function to handle Log Out click
+    private fun onLogoutClicked() {
+        showLogoutConfirmationDialog()
+    }
+
+    // Logout confirmation dialog
+    private fun showLogoutConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Logout")
+        builder.setMessage("Are you sure you want to logout?")
+        builder.setPositiveButton("Yes") { dialog, which ->
+            // Redirect to SignInActivity on clicking 'Yes'
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+            finish()  // Optionally finish this activity so the user cannot return to it by pressing back
+        }
+        builder.setNegativeButton("No") { dialog, which ->
+            // Just dismiss the dialog if 'No' is clicked
+            dialog.dismiss()
+        }
+        builder.create().show()
+    }
+
+    // Set the locale of the app based on the selected language
+    private fun setLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun reloadUserProfileImage() {

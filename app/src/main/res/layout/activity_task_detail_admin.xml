@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:theme="@style/Theme.ProgressioMobileApp.Light"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -16,14 +16,15 @@
 
 
         <ImageButton
-            android:id="@+id/notificationBell"
+            android:id="@+id/backButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_gravity="start"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:onClick="goToHistoryList"
-            android:src="@drawable/arrowback" />
+            android:src="@drawable/ic_back" />
 
 
         <TextView

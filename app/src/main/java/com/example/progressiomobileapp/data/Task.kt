@@ -37,7 +37,7 @@ data class Task(
     val dueDate: String?,
 
     @ColumnInfo(name = "assigned_to")
-    val assignedTo: Int,
+    var assignedTo: Int,
 
     @ColumnInfo(name = "created_by")
     val createdBy: Int,
