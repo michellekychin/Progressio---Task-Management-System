@@ -177,18 +177,33 @@ class NotificationActivity : AppCompatActivity() {
     // Function to mark all notifications as read
     private fun markAllNotificationsAsRead() {
         lifecycleScope.launch {
-            val user = userDao.getUserByEmail("nat@gmail.com")
-            user?.userId?.let { userId ->
-                notificationDao.markAllAsRead(userId)
+            // Retrieve the logged-in user's email from SharedPreferences
+            val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
+            val userEmail = sharedPreferences.getString("userEmail", null)
+
+            if (userEmail != null) {
+                // If user is logged in, proceed with marking all notifications as read
+                val user = userDao.getUserByEmail(userEmail)
+                user?.userId?.let { userId ->
+                    notificationDao.markAllAsRead(userId)
+                    Toast.makeText(
+                        this@NotificationActivity,
+                        "All notifications marked as read",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    loadNotifications("All")  // Reload notifications after marking them as read
+                }
+            } else {
+                // Handle case where user is not logged in
                 Toast.makeText(
                     this@NotificationActivity,
-                    "All notifications marked as read",
+                    "User not logged in.",
                     Toast.LENGTH_SHORT
                 ).show()
-                loadNotifications("All")  // Reload notifications after marking them as read
             }
         }
     }
+
 
     // Function to show a test notification
     private fun showTestNotification() {
@@ -202,29 +217,44 @@ class NotificationActivity : AppCompatActivity() {
     // Function to load notifications based on the selected tab ("All" or "Unread")
     private fun loadNotifications(type: String) {
         lifecycleScope.launch {
-            val user = userDao.getUserByEmail("nat@gmail.com")
-            val userId = user?.userId ?: return@launch
+            // Retrieve the logged-in user's email from SharedPreferences
+            val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
+            val userEmail = sharedPreferences.getString("userEmail", null)
 
-            val notifications = if (type == "Unread") {
-                notificationDao.getUnreadNotifications(userId)  // Fetch unread notifications
-            } else {
-                notificationDao.getNotificationsForRecipient(userId)  // Fetch all notifications
-            }
+            if (userEmail != null) {
+                // If the user is logged in, proceed with loading their notifications
+                val user = userDao.getUserByEmail(userEmail)
+                val userId = user?.userId ?: return@launch
 
-            notifications.collect { data ->
-                Log.d("NotificationActivity", "Loaded ${data.size} notifications for type: $type")
-
-                // Initialize the RecyclerView adapter with the new data
-                recyclerViewAdapter = NotificationAdapter(data) { notification ->
-                    val intent = Intent(this@NotificationActivity, TaskDetailActivity::class.java)
-                    intent.putExtra("TASK_ID", notification.taskId)
-                    startActivity(intent)
+                val notifications = if (type == "Unread") {
+                    notificationDao.getUnreadNotifications(userId)  // Fetch unread notifications
+                } else {
+                    notificationDao.getNotificationsForRecipient(userId)  // Fetch all notifications
                 }
-                recyclerView.adapter = recyclerViewAdapter
-                recyclerViewAdapter.notifyDataSetChanged() // Notify the adapter of data changes
+
+                notifications.collect { data ->
+                    Log.d("NotificationActivity", "Loaded ${data.size} notifications for type: $type")
+
+                    // Initialize the RecyclerView adapter with the new data
+                    recyclerViewAdapter = NotificationAdapter(data) { notification ->
+                        val intent = Intent(this@NotificationActivity, TaskDetailActivity::class.java)
+                        intent.putExtra("TASK_ID", notification.taskId)
+                        startActivity(intent)
+                    }
+                    recyclerView.adapter = recyclerViewAdapter
+                    recyclerViewAdapter.notifyDataSetChanged() // Notify the adapter of data changes
+                }
+            } else {
+                // Handle the case where the user is not logged in
+                Toast.makeText(
+                    this@NotificationActivity,
+                    "User not logged in.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
+
 
 
     private val notificationPermissionLauncher = registerForActivityResult(
