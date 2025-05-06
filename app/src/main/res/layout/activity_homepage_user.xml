@@ -2,8 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/backgroundLight">
+    android:layout_height="match_parent">
 
     <!-- Inner LinearLayout for scrollable content -->
     <LinearLayout
@@ -69,7 +68,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="30dp"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:background="@drawable/rounded_card"
             android:orientation="vertical">
 
@@ -80,7 +79,7 @@
                 android:text="@string/today_s_task"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                android:textSize="25sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tvTodayTask"
@@ -105,7 +104,7 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                android:textSize="25sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/btnToDo"
@@ -115,7 +114,7 @@
                 android:clickable="true"
                 android:padding="16dp"
                 android:textColor="#000000"
-                android:textSize="30sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -136,7 +135,7 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
-                android:textSize="25sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/btnInProgress"
@@ -146,7 +145,7 @@
                 android:clickable="true"
                 android:padding="16dp"
                 android:textColor="#000000"
-                android:textSize="30sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
 
