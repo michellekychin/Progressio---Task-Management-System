@@ -83,23 +83,8 @@ class NotificationActivity : AppCompatActivity() {
         val backButton: AppCompatImageButton = findViewById(R.id.backButton)
 
         backButton.setOnClickListener {
-            lifecycleScope.launch {
-                val user = userDao.getUserByEmail("nat@gmail.com")
-                user?.let {
-                    // Check the user's role and navigate accordingly
-                    if (it.role == "admin") {
-                        // Redirect to Admin Homepage
-                        val intent =
-                            Intent(this@NotificationActivity, HomepageAdminActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        // Redirect to User Homepage
-                        val intent =
-                            Intent(this@NotificationActivity, HomepageUserActivity::class.java)
-                        startActivity(intent)
-                    }
-                }
-            }
+            // Go back to the previous activity
+            onBackPressed()  // This will navigate back to the previous activity in the stack
         }
 
 
@@ -126,34 +111,68 @@ class NotificationActivity : AppCompatActivity() {
         // Handle "Mark All as Read" button click
         val markAllAsReadButton = binding.markAllAsReadButton
         markAllAsReadButton.setOnClickListener {
-            val sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE)
-            val dontAskAgain = sharedPreferences.getBoolean("dontAskAgain", false)
+            lifecycleScope.launch {
+                // Retrieve the logged-in user's email from SharedPreferences
+                val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
+                val userEmail = sharedPreferences.getString("userEmail", null)
 
-            if (dontAskAgain) {
-                markAllNotificationsAsRead()  // Directly mark all as read without asking
-            } else {
-                showMarkAllAsReadDialog(sharedPreferences)  // Show confirmation dialog
+                if (userEmail != null) {
+                    // User is logged in, proceed with the rest of the logic
+                    lifecycleScope.launch {
+                        val user = userDao.getUserByEmail(userEmail)
+                        user?.userId?.let { userId ->
+                            // Continue with marking notifications as read logic
+                            val dontAskAgain =
+                                sharedPreferences.getBoolean("dontAskAgain_user_$userId", false)
+
+                            if (dontAskAgain) {
+                                markAllNotificationsAsRead()  // Directly mark all as read without asking
+                            } else {
+                                showMarkAllAsReadDialog(
+                                    sharedPreferences,
+                                    userId
+                                )  // Show confirmation dialog for the user
+                            }
+                        }
+                    }
+                } else {
+                    // User is not logged in, handle the case accordingly (e.g., show login screen)
+                    Toast.makeText(
+                        this@NotificationActivity,
+                        "User not logged in.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
 
-    // Function to show the dialog with the checkbox
-    private fun showMarkAllAsReadDialog(sharedPreferences: SharedPreferences) {
+        private fun showMarkAllAsReadDialog(sharedPreferences: SharedPreferences, userId: Int) {
         val builder = AlertDialog.Builder(this)
         val view = layoutInflater.inflate(R.layout.dialog_mark_all_as_read, null)
         val checkBox = view.findViewById<CheckBox>(R.id.dontAskAgainCheckbox)
 
+        // Check if the user has already chosen "Don't ask me again"
+        val dontAskAgainForUser = sharedPreferences.getBoolean("dontAskAgain_user_$userId", false)
+        checkBox.isChecked = dontAskAgainForUser
+
         builder.setTitle(getString(R.string.dialog_mark_all_title))
             .setMessage(getString(R.string.dialog_mark_all_message))
+            .setView(view)  // Inflate the custom layout with the checkbox
             .setPositiveButton(getString(R.string.mark_all_as_read)) { _, _ ->
                 if (checkBox.isChecked) {
-                    sharedPreferences.edit().putBoolean("dontAskAgain", true).apply()
+                    // Save the decision to SharedPreferences for this user
+                    sharedPreferences.edit().putBoolean("dontAskAgain_user_$userId", true).apply()
                 }
                 markAllNotificationsAsRead()  // Mark notifications as read
             }
-            .setNegativeButton(getString(R.string.cancel), null)
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()  // Dismiss the dialog without doing anything
+            }
             .show()
     }
+
+
 
     // Function to mark all notifications as read
     private fun markAllNotificationsAsRead() {
@@ -193,6 +212,8 @@ class NotificationActivity : AppCompatActivity() {
             }
 
             notifications.collect { data ->
+                Log.d("NotificationActivity", "Loaded ${data.size} notifications for type: $type")
+
                 // Initialize the RecyclerView adapter with the new data
                 recyclerViewAdapter = NotificationAdapter(data) { notification ->
                     val intent = Intent(this@NotificationActivity, TaskDetailActivity::class.java)
@@ -204,6 +225,7 @@ class NotificationActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -227,24 +249,28 @@ class NotificationActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
         val asked = prefs.getBoolean("asked_notification", false)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    android.Manifest.permission.POST_NOTIFICATIONS
-                )
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                    100
-                )
+        // Check if the user has chosen "Don't ask me again"
+        val dontAskAgain = prefs.getBoolean("dontAskAgain", false)
+
+        if (!dontAskAgain) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        android.Manifest.permission.POST_NOTIFICATIONS
+                    )
+                    != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                        100
+                    )
+                }
             }
         }
     }
 
 
-    // Function to insert fake data for all users
     private fun insertFakeData() {
         lifecycleScope.launch {
             // Collect all users from the database using Flow
@@ -252,104 +278,72 @@ class NotificationActivity : AppCompatActivity() {
 
             // Collect the users from the Flow
             usersFlow.collect { allUsers ->
-                if (allUsers.isEmpty()) {
-                    // Insert Admin user if no users exist
-                    val adminUser = User(
-                        name = "Admin User",
-                        email = "admin1@gmail.com",
-                        password = "ABcd123$",
-                        role = "admin",
-                        groupAdminId = null
-                    )
-                    val adminId =
-                        userDao.insert(adminUser).toInt() // Save the Admin user to get the ID
+                if (allUsers.isNotEmpty()) {
+                    Log.d("NotificationActivity", "Found ${allUsers.size} users in the database.")
 
-                    // Insert a few other users with a reference to the admin group
-                    val userNames = listOf("Nat", "John", "Alice", "Bob")
-                    userNames.forEach { name ->
-                        val user = User(
-                            name = name,
-                            email = "$name@gmail.com",
-                            password = "ABcd123$",
-                            role = "user",
-                            groupAdminId = adminId
-                        )
-                        userDao.insert(user)
-                    }
-
-                    // Re-fetch the users to ensure we have IDs for all users
-                    val users = userDao.getAllUsers() // Since Flow is collected, use the value
-
-                    // Insert 3 tasks for each user
-                    val taskIds = mutableListOf<Int>()
-                    users.collect { userList ->
-                        for (user in userList) {
-                            for (i in 1..3) {
-                                val task = Task(
-                                    title = "Task for ${user.name} - $i",
-                                    description = "Description for Task ${user.name} - $i",
-                                    status = "To-Do",
-                                    dueDate = "2025-05-0$i",
-                                    assignedTo = user.userId, // Use the current user's ID
-                                    createdBy = adminId,
-                                    creationDate = "2025-04-28",
-                                    historyId = null
-                                )
-                                taskDao.insert(task) // Assuming insert() doesn't return the ID directly
-                                taskIds.add(i)
-                            }
+                    // Insert 3 tasks for each existing user
+                    allUsers.forEach { user ->
+                        for (i in 1..3) {
+                            val task = Task(
+                                title = "Task for ${user.name} - $i",
+                                description = "Description for Task ${user.name} - $i",
+                                status = "To-Do",
+                                dueDate = "2025-05-0$i",
+                                assignedTo = user.userId, // Use the current user's ID
+                                createdBy = user.userId,  // Task creator is the user themselves for simplicity
+                                creationDate = "2025-04-28",
+                                historyId = null
+                            )
+                            taskDao.insert(task) // Insert the task
+                            Log.d("NotificationActivity", "Inserted task for ${user.name}: Task $i")
                         }
                     }
 
                     // Insert notifications for each user
-                    users.collect { userList ->
-                        for (user in userList) {
-                            val notifications = listOf(
-                                Notification(
-                                    recipientId = user.userId,
-                                    senderId = adminId,
-                                    taskId = 1,
-                                    notificationType = "Comment",
-                                    message = "Commented on Task 1",
-                                    createdAt = "2025-04-28",
-                                    isRead = 1 // Read
-                                ),
-                                Notification(
-                                    recipientId = user.userId,
-                                    senderId = adminId,
-                                    taskId = 2,
-                                    notificationType = "Comment",
-                                    message = "Commented on Task 2",
-                                    createdAt = "2025-04-28",
-                                    isRead = 0 // Unread
-                                ),
-                                Notification(
-                                    recipientId = user.userId,
-                                    senderId = adminId,
-                                    taskId = 3,
-                                    notificationType = "Comment",
-                                    message = "Commented on Task 3",
-                                    createdAt = "2025-04-28",
-                                    isRead = 1 // Read
-                                )
+                    allUsers.forEach { user ->
+                        val notifications = listOf(
+                            Notification(
+                                recipientId = user.userId,
+                                senderId = user.userId,  // Sender is the same user for testing
+                                taskId = 1,
+                                notificationType = "Comment",
+                                message = "Commented on Task 1",
+                                createdAt = "2025-04-28",
+                                isRead = 1 // Read notification
+                            ),
+                            Notification(
+                                recipientId = user.userId,
+                                senderId = user.userId,  // Sender is the same user for testing
+                                taskId = 2,
+                                notificationType = "Comment",
+                                message = "Commented on Task 2",
+                                createdAt = "2025-04-28",
+                                isRead = 0 // Unread notification
+                            ),
+                            Notification(
+                                recipientId = user.userId,
+                                senderId = user.userId,  // Sender is the same user for testing
+                                taskId = 3,
+                                notificationType = "Comment",
+                                message = "Commented on Task 3",
+                                createdAt = "2025-04-28",
+                                isRead = 1 // Read notification
                             )
+                        )
 
-                            // Insert notifications for this user
-                            notifications.forEach { notificationDao.insert(it) }
+                        // Insert notifications for this user
+                        notifications.forEach { notification ->
+                            notificationDao.insert(notification)
+                            Log.d("NotificationActivity", "Inserted notification for ${user.name}: Task ${notification.taskId}")
                         }
                     }
 
-                    Log.d(
-                        "NotificationActivity",
-                        "Fake tasks and notifications inserted for all users!"
-                    )
+                    Log.d("NotificationActivity", "Fake tasks and notifications inserted for all users!")
                 } else {
-                    Log.d(
-                        "NotificationActivity",
-                        "Users already exist. Skipping insertion of fake data."
-                    )
+                    Log.d("NotificationActivity", "No users found. Skipping dummy data insertion.")
                 }
             }
         }
     }
+
 }
