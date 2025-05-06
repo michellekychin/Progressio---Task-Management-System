@@ -24,10 +24,10 @@ class ProfileUserActivity : BaseActivity() {
     private lateinit var tvId: TextView
     private lateinit var profileImageView: ImageButton
     private lateinit var backgroundImageView: ImageButton
-    private lateinit var btnLogout: Button
-    private lateinit var btnLanguage: Button
+    private lateinit var btnLogout: TextView
+    private lateinit var btnLanguage: TextView
+    private lateinit var btnChangePassword: TextView
     private lateinit var btnTheme: Button
-    private lateinit var btnChangePassword: Button
     private lateinit var profileImageAdmin: ImageButton // Admin profile image view
     private lateinit var userDao: UserDao
     private lateinit var adminDao: AdminDao // AdminDao
