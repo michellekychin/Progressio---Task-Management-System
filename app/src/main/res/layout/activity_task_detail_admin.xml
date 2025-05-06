@@ -34,7 +34,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
             android:gravity="center"
-            android:text="Task Title"
+            android:text="@string/task_title"
             android:textColor="#FF000000"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -51,7 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
-        android:text="Due Date"
+        android:text="@string/due_date"
+        android:textColor="#000000"
         android:textSize="23sp" />
 
     <!-- Task Description -->
@@ -62,8 +63,10 @@
         android:id="@+id/tvTaskDescription"
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:background="@drawable/rounded_card"
         android:layout_marginBottom="16dp"
         android:text="@string/description"
+        android:textColor="#000000"
         android:textSize="20sp" />
 
     <!-- Progress Bar -->
@@ -81,7 +84,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:background="#FFFFFF"
-            android:text="Status"
+            android:text="@string/status"
+            android:textColor="#000000"
             android:textSize="23sp" />
 
 
@@ -91,47 +95,66 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="120dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Comments"
+            android:text="@string/comments"
+            android:textColor="#000000"
             android:textSize="23sp" />
 
     </LinearLayout>
 
-    <!-- Member Icons Section -->
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <View
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/holo_blue_dark" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/member"
+            android:textColor="#FF000000"
+            android:textSize="23sp" />
 
-        <View
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/holo_green_dark" />
 
-        <View
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/holo_purple" />
 
-        <View
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="8dp"
-            android:background="@android:color/holo_orange_dark" />
+        <!-- Member Icons Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/holo_blue_dark" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/holo_green_dark" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/holo_purple" />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/holo_orange_dark" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

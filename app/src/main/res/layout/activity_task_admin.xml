@@ -6,12 +6,17 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundLight">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:background="#7E7878"
         android:layout_height="?attr/actionBarSize"
-        android:layout_above="@id/recyclerViewTasks">
+        android:layout_alignParentTop="true"
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,9 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-
-                android:text="Task List"
-
+                android:text="@string/task_list"
                 android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -36,15 +39,18 @@
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:onClick="goToHistory"
-                android:src="@drawable/history" />
+                android:src="@drawable/history"
+                android:contentDescription="@string/history"/>
 
         </RelativeLayout>
     </com.google.android.material.appbar.MaterialToolbar>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTasks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
         android:layout_above="@id/bottom_navigation"
         android:clipToPadding="false"
         android:paddingBottom="72dp"
@@ -61,7 +67,7 @@
         android:backgroundTint="@color/teal_700"
         android:background="@drawable/floating_button_background"
         android:src="@drawable/add"
-        android:contentDescription="Add Task"
+        android:contentDescription="@string/add_task"
         android:scaleType="centerInside"
         app:tint="@android:color/white" />
 

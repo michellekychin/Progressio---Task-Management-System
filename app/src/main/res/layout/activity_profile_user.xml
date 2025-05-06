@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Profile"
+                android:text="@string/profile"
                 android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -35,15 +35,15 @@
         android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Background Image"
+        android:contentDescription="@string/background_image"
         android:src="@drawable/background_placeholder" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_marginBottom="5dp"
-
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <ImageButton
@@ -64,26 +64,26 @@
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="nat"
+                android:text="@string/user_name"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="nat@gmail.com"
+                android:text="user@example.com"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tvId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
+                android:text="@string/user_id"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="8dp"
-        android:text="Group Member"
+        android:text="@string/group_member"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -168,15 +168,13 @@
             android:layout_marginStart="10dp"/>
     </LinearLayout>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="?android:attr/windowBackground"
-            app:menu="@menu/bottom_nav_menu_user"
-            app:itemIconTint="@color/nav_item_color_state"
-            app:itemTextColor="@color/nav_item_color_state" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/bottom_nav_menu_user"
+        app:itemIconTint="@color/nav_item_color_state"
+        app:itemTextColor="@color/nav_item_color_state" />
 </LinearLayout>
-
-

@@ -84,7 +84,10 @@ fun MainCalendarScreen(
     // Filter tasks for the current month
     val currentMonthStr = SimpleDateFormat("yyyy-MM", Locale.US).format(currentMonth.time)
     val filteredTasksForMonth = tasks.filter { task ->
-        val taskMonthStr = task.dueDate?.substring(0, 7) // Get the "yyyy-MM" part of the due date
+        val taskMonthStr = task.dueDate?.let {
+            if (it.length >= 7) it.substring(0, 7) else null
+        }
+        // Get the "yyyy-MM" part of the due date
         taskMonthStr == currentMonthStr
     }
 
@@ -131,7 +134,9 @@ fun MainCalendarScreen(
             selectedDate?.let { date ->
                 val dateTasks = tasks.filter { task ->
                     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-                    val dueDateParsed = task.dueDate?.let { dateFormat.parse(it) }
+                    val dueDateParsed = task.dueDate?.let {
+                        if (it.isNotEmpty()) dateFormat.parse(it) else null
+                    }
                     val cal = Calendar.getInstance().apply { time = dueDateParsed ?: Date() }
                     cal.get(Calendar.YEAR) == date.get(Calendar.YEAR) &&
                             cal.get(Calendar.MONTH) == date.get(Calendar.MONTH) &&

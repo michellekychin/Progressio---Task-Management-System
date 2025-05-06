@@ -24,24 +24,24 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="#7E7878">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="@string/homepage"
-                        android:textColor="#FF000000"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/homepage"
+                    android:textColor="#FF000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                    <ImageButton
-                        android:id="@+id/notificationBell"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:onClick="goToNotifications"
-                        android:src="@drawable/notifications" />
+                <ImageButton
+                    android:id="@+id/notificationBell"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:onClick="goToNotifications"
+                    android:src="@drawable/notifications" />
             </com.google.android.material.appbar.MaterialToolbar>
 
             <!-- Greeting Section -->
@@ -70,28 +70,32 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="30dp"
+                android:textSize="30sp"
+                android:background="@drawable/rounded_card"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Monthly progress"
+                    android:text="@string/monthly_progress"
+                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/tvSubmittedTask"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:gravity="center"
                     android:textColor="#000000"
-                    android:textSize="24sp" />
+                    android:textSize="35sp" />
             </LinearLayout>
 
             <!-- Need of Review Section -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="141dp"
+                android:layout_height="160dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="100dp"
@@ -100,19 +104,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Need of Review"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/need_of_review"
+                    android:textStyle="bold"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:id="@+id/btnNeedReview"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="#ffffff"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_card"
                     android:clickable="true"
-                    android:padding="16dp"
+                    android:padding="30dp"
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="30sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -130,5 +136,3 @@
         app:itemIconTint="@color/nav_item_color_state"
         app:itemTextColor="@color/nav_item_color_state" />
 </RelativeLayout>
-
-

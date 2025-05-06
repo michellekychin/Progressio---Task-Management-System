@@ -17,11 +17,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Profile"
+            android:text="@string/profile"
             android:textColor="#FF000000"
             android:textSize="20sp"
             android:textStyle="bold" />
     </com.google.android.material.appbar.MaterialToolbar>
+
+
+
+
 
     <!-- Profile Background Image Positioned Below Toolbar -->
     <ImageButton
@@ -30,7 +34,7 @@
         android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Background Image"
+        android:contentDescription="@string/background_image"
         android:src="@drawable/background_placeholder"
         android:layout_below="@id/toolbar" />
 
@@ -59,7 +63,7 @@
                     android:layout_height="80dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/circular_shape"
-                    android:contentDescription="Profile Image"
+                    android:contentDescription="@string/profile_image"
                     android:scaleType="centerCrop"
                     android:src="@drawable/background_placeholder" />
 
@@ -72,9 +76,9 @@
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="User Name"
+                        android:text="@string/user_name"
                         android:textColor="#000000"
-                        android:textSize="18sp"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -83,15 +87,15 @@
                         android:layout_height="wrap_content"
                         android:text="user@example.com"
                         android:textColor="#000000"
-                        android:textSize="14sp" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/tvId"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="User ID"
+                        android:text="@string/user_id"
                         android:textColor="#000000"
-                        android:textSize="14sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -99,9 +103,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Group Member"
+                android:text="@string/group_member"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
                 android:textColor="#000000" />
 
             <LinearLayout
@@ -116,14 +122,14 @@
                     android:layout_height="80dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/circular_shape"
-                    android:contentDescription="Profile Image"
+                    android:contentDescription="@string/profile_image"
                     android:scaleType="centerCrop" />
 
                 <Button
                     android:id="@+id/btnAddUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add Member" />
+                    android:text="@string/add_member" />
             </LinearLayout>
 
             <!-- Email input field for adding user (Initially Hidden) -->
@@ -140,14 +146,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Enter User Email"
+                    android:hint="@string/enter_user_email"
                     android:inputType="textEmailAddress" />
 
                 <Button
                     android:id="@+id/btnSubmitEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Submit" />
+                    android:text="@string/submit" />
             </LinearLayout>
 
             <!-- Settings Section -->

@@ -78,8 +78,24 @@ class LanguageSelectionActivity : AppCompatActivity() {
 
     // Restart the app after language change
     private fun restartApp() {
-        val intent = Intent(this, ProfileAdminActivity::class.java)
+        val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
         finish()
     }
+
+    override fun onBackPressed() {
+        // Check where the admin is coming from (you can pass this information in the intent)
+        val previousActivity = intent.getStringExtra("previousActivity") // You can pass "ProfileUserActivity" or "LanguageSelectionActivity"
+
+        // Based on the previous activity, navigate accordingly
+        if (previousActivity == "ProfileUserActivity") {
+            // If coming from ProfileUserActivity, navigate back to ProfileUserActivity
+            val intent = Intent(this, ProfileUserActivity::class.java)
+            startActivity(intent)
+        } else {
+            // Otherwise, navigate to the default page (ProfileAdminActivity or a fallback)
+            super.onBackPressed() // Default back behavior
+        }
+    }
+
 }

@@ -19,6 +19,9 @@ import com.example.progressiomobileapp.ChecklistItemAdapter
 import com.example.progressiomobileapp.data.Task
 import com.example.progressiomobileapp.data.Admin
 import com.example.progressiomobileapp.data.User
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 
 
 
@@ -52,6 +55,7 @@ class TaskDetailActivity : AppCompatActivity() {
                 Log.d("SubmitTask", "Retrieved task: $task")
                 val userId = getSharedPreferences("userPrefs", MODE_PRIVATE).getInt("userId", 0)
 
+                // Always mark the task as completed and perform the actual submit function
                 if (task != null) {
                     // Mark task as completed
                     task.status = "Completed"
@@ -70,13 +74,16 @@ class TaskDetailActivity : AppCompatActivity() {
 
                     // Insert notification into the database
                     viewModel.insertNotification(notification)
-
-                    Log.d("SubmitTask", "Task submitted and notification sent to admin.")
-                    finish()  // Close the activity
                 }
+
+                // Show success dialog only if activity is not finished or destroyed
+                if (!isFinishing && !isDestroyed) {
+                    showSuccessDialog()
+                }
+
+
             }
         }
-
 
         // Start observing the comments from ViewModel
         lifecycleScope.launch {
@@ -107,19 +114,25 @@ class TaskDetailActivity : AppCompatActivity() {
         binding.addCommentButton.setOnClickListener {
             val commentText = binding.commentEditText.text.toString()
             if (commentText.isNotEmpty()) {
+
+                // Retrieve user ID from SharedPreferences
+                val userId = getSharedPreferences("userPrefs", MODE_PRIVATE).getInt("userId", 0)
+
+                // Create the comment object with the actual user ID
                 val comment = Comment(
                     taskId = taskId,
-                    userId = 1, // Use actual user ID
+                    userId = userId,
                     commentText = commentText,
                     createdAt = System.currentTimeMillis().toString()
                 )
 
                 // Log the comment being added
-                Log.d("TaskDetailActivity", "Adding comment: $commentText")
+                Log.d("TaskDetailActivity", "Adding comment: $commentText by user $userId")
 
                 viewModel.addComment(comment)
             }
         }
+
 
         // Back Button Logic
         binding.backButton.setOnClickListener {
@@ -132,6 +145,23 @@ class TaskDetailActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("userPrefs", MODE_PRIVATE)
         return sharedPreferences.getString("userRole", "user") ?: "user"
     }
+
+    private fun showSuccessDialog() {
+        // Check if the activity is still valid before showing the dialog
+        if (!isFinishing && !isDestroyed) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Task Submitted")
+            builder.setMessage("The task has been successfully marked as completed.")
+            builder.setPositiveButton("OK") { dialog, _ ->
+                // Dismiss the dialog and close the activity
+                dialog.dismiss()
+                finish()  // Close the activity when the "OK" button is clicked
+            }
+            builder.create().show()
+        }
+    }
+
+
 
 
     private fun sendCompletionNotificationToAdmin(item: ChecklistItem) {
@@ -184,8 +214,3 @@ class TaskDetailActivity : AppCompatActivity() {
     }
 
 }
-
-
-
-
-

@@ -26,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="Homepage"
+                    android:text="@string/home"
                     android:textColor="#FF000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -64,33 +64,36 @@
         <!-- Today's Task Section -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="141dp"
+            android:layout_height="110dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="30dp"
+            android:textSize="30sp"
+            android:background="@drawable/rounded_card"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Today's Task"
+                android:text="@string/today_s_task"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textStyle="bold"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/tvTodayTask"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:textSize="24sp" />
+                android:textSize="35sp" />
         </LinearLayout>
 
         <!-- To Do Section -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="141dp"
+            android:layout_height="130dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:orientation="vertical">
@@ -98,26 +101,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="To Do"
+                android:text="@string/to_do"
+                android:layout_marginLeft="10dp"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textStyle="bold"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/btnToDo"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:background="#ffffff"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_card"
                 android:clickable="true"
                 android:padding="16dp"
                 android:textColor="#000000"
-                android:textSize="18sp" />
+                android:textSize="30sp" />
 
         </LinearLayout>
 
         <!-- In Progress Section -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="141dp"
+            android:layout_height="130dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="10dp"
@@ -128,18 +133,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/in_progress"
+                android:layout_marginLeft="10dp"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textStyle="bold"
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/btnInProgress"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:background="#ffffff"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_card"
                 android:clickable="true"
                 android:padding="16dp"
                 android:textColor="#000000"
-                android:textSize="18sp" />
+                android:textSize="30sp" />
 
         </LinearLayout>
 
