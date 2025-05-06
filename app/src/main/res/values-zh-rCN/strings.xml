@@ -102,7 +102,7 @@
     <string name="delete">删除</string>
     <string name="delete_task">删除任务</string>
     <string name="delete_task_confirmation">你确定要删除这个任务吗？</string>
-    <string name="yes">是</string>
+    <string name="yes">确定</string>
     <string name="no">否</string>
     <string name="user_not_found">找不到用户。请检查您的电子邮件或重试。</string>
 
@@ -176,5 +176,33 @@
     <string name="comment">评论内容在此处显示</string>
     <string name="task">任务</string>
     <string name="date">日期</string>
+    <string name="welcome_message">你好，%1$s！欢迎回来！</string>
+    <string name="sun">周日</string>
+    <string name="mon">周一</string>
+    <string name="tue">周二</string>
+    <string name="wed">周三</string>
+    <string name="thu">周四</string>
+    <string name="fri">周五</string>
+    <string name="sat">周六</string>
+    <string name="email_verification_code">请输入验证码。</string>
+    <string name="invalid_verification_code">验证码无效。请重试。</string>
+    <string name="invalid_email_validation">姓名和电子邮件不匹配</string>
+    <string name="please_enter_a_new_password">请输入新密码</string>
+    <string name="hide_password">隐藏密码</string>
+    <string name="role_set_to_user">角色设为用户</string>
+    <string name="role_set_to_admin">角色设为管理员</string>
+    <string name="please_fill_in_all_fields">请填写所有字段</string>
+    <string name="invalid_email_format">电子邮件格式无效</string>
+    <string name="passwords_do_not_match">密码不匹配</string>
+    <string name="email_exists_message">电子邮件已被使用。请尝试其他电子邮件。</string>
+    <string name="check_email_verification_message">请检查您的电子邮件进行验证</string>
+    <string name="logout_confirmation_message">您确定要注销吗？</string>
+    <string name="user_added_successfully">用户添加成功</string>
+    <string name="user_role_is_not_user">用户角色不是“用户”</string>
+    <string name="user_not_found_or_invalid_role">未找到用户或角色无效</string>
+    <string name="completed">已完成</string>
+    <string name="overdue">已逾期</string>
+    <string name="incomplete">未完成</string>
+    <string name="on_time">按时</string>
 
 </resources>

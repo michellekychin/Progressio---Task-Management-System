@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/email_address"
             android:inputType="textEmailAddress"
+            android:textColor="#C88A8A8A"
             android:enabled="false"
             android:layout_marginBottom="16dp"
             android:padding="10dp" />
@@ -36,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_verification_code"
+            android:textColor="#C88A8A8A"
             android:inputType="text"
             android:layout_marginBottom="16dp"
             android:padding="10dp" />

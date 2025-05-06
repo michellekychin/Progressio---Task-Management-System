@@ -43,7 +43,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
             // Input validation
             if (email.isEmpty() || name.isEmpty()) {
-                Toast.makeText(this, "Please enter both your name and email", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.input_validation), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -60,7 +60,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     }
                 } else {
                     runOnUiThread {
-                        Toast.makeText(this@ForgotPasswordActivity, "Name and email do not match", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ForgotPasswordActivity,
+                            getString(R.string.invalid_email_validation), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -72,13 +73,14 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
             // Input validation
             if (newPassword.isEmpty()) {
-                Toast.makeText(this, "Please enter a new password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.please_enter_a_new_password), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             // Validate the new password
             if (!isValidPassword(newPassword)) {
-                Toast.makeText(this, "Password must be at least 8 characters, contain a number, an uppercase letter, and a special character", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.password_validation), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -96,7 +98,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
                     // Show success message
                     runOnUiThread {
-                        Toast.makeText(this@ForgotPasswordActivity, "Password updated successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ForgotPasswordActivity, getString(R.string.password_updated_successfully), Toast.LENGTH_SHORT).show()
                         // Optionally, navigate to the sign-in page or home page
                         // Navigate to SignInActivity
                         val intent = Intent(this@ForgotPasswordActivity, SignInActivity::class.java)
@@ -105,7 +107,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     }
                 } else {
                     runOnUiThread {
-                        Toast.makeText(this@ForgotPasswordActivity, "Name and email do not match", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ForgotPasswordActivity, getString(R.string.invalid_email_validation), Toast.LENGTH_SHORT).show()
                     }
                 }
             }

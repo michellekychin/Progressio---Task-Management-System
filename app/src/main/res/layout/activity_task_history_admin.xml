@@ -17,7 +17,6 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:onClick="goToTaskView"
             android:src="@drawable/arrowback" />
@@ -27,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="110dp"
+            android:layout_gravity="center_horizontal"
             android:text="@string/task_history"
             android:textColor="#FF000000"
             android:textSize="20sp"

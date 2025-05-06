@@ -49,30 +49,52 @@ class ChangePasswordActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Get the current user's email dynamically (e.g., from SharedPreferences or session)
-            val email = "user@example.com" // Replace with dynamic email (e.g., from session or login)
+            // Fetch the current user's email dynamically from SharedPreferences or session
+            val email = getSharedPreferences("UserData", MODE_PRIVATE).getString("userEmail", "") ?: ""
+            if (email.isEmpty()) {
+                Toast.makeText(this, "User email is not found", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Log the email for debugging purposes
+            Log.d("ChangePasswordActivity", "Attempting to change password for email: $email")
 
             lifecycleScope.launch {
                 val user = userDao.getUserByEmail(email)
 
-                if (user != null && user.password.trim() == currentPassword) {
-                    // Update the password in the database
-                    user.password = newPassword
-                    userDao.update(user)
+                if (user != null) {
+                    // Log the current password entered and the stored password
+                    Log.d("ChangePasswordActivity", "Entered password: $currentPassword")
+                    Log.d("ChangePasswordActivity", "Stored password: ${user.password.trim()}")
 
-                    // Show success message
-                    runOnUiThread {
-                        Toast.makeText(this@ChangePasswordActivity,
-                            getString(R.string.password_updated_successfully), Toast.LENGTH_SHORT).show()
-                        // Optionally, navigate to the sign-in page or home page
-                        val intent = Intent(this@ChangePasswordActivity, SignInActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                    if (user.password.trim() == currentPassword) {
+                        // Update the password in the database
+                        user.password = newPassword
+                        userDao.update(user)
+
+                        // Show success message
+                        runOnUiThread {
+                            Toast.makeText(this@ChangePasswordActivity,
+                                getString(R.string.password_updated_successfully), Toast.LENGTH_SHORT).show()
+                            // Optionally, navigate to the sign-in page or home page
+                            val intent = Intent(this@ChangePasswordActivity, SignInActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    } else {
+                        // Log the case where password doesn't match
+                        Log.d("ChangePasswordActivity", "Password mismatch!")
+                        runOnUiThread {
+                            Toast.makeText(this@ChangePasswordActivity,
+                                getString(R.string.current_password_is_incorrect), Toast.LENGTH_SHORT).show()
+                        }
                     }
                 } else {
+                    // Log the case where no user is found with that email
+                    Log.d("ChangePasswordActivity", "No user found with the provided email: $email")
                     runOnUiThread {
                         Toast.makeText(this@ChangePasswordActivity,
-                            getString(R.string.current_password_is_incorrect), Toast.LENGTH_SHORT).show()
+                            getString(R.string.user_not_found), Toast.LENGTH_SHORT).show()
                     }
                 }
             }

@@ -82,7 +82,7 @@ class HomepageUserActivity : BaseActivity() {
         val userName = sharedPreferences.getString("userName", "User") ?: "User"
 
         // Set the greeting message with the user's name
-        tvGreeting.text = "Hello, $userName! Welcome Back!"
+        tvGreeting.text = getString(R.string.welcome_message, userName)
 
         // Display Today's Task count (completed/total)
         tvTodayTask.text = "2/10"  // Replace with actual data if needed
