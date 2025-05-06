@@ -22,14 +22,14 @@ object NotificationUtils {
             return // Exit if permission not granted
         }
 
-        val channelId = "default_channel"
+        val channelId = "default_channel" // Make this consistent
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                channelId,
-                "Default Channel",
+                channelId, // Use the same ID here
+                "My Notifications",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
             notificationManager.createNotificationChannel(channel)

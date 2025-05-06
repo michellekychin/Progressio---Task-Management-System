@@ -277,28 +277,19 @@ class NotificationActivity : AppCompatActivity() {
 
     fun askNotificationPermissionIfNeeded() {
         val prefs = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
-        val asked = prefs.getBoolean("asked_notification", false)
-
-        // Check if the user has chosen "Don't ask me again"
         val dontAskAgain = prefs.getBoolean("dontAskAgain", false)
 
-        if (!dontAskAgain) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        android.Manifest.permission.POST_NOTIFICATIONS
-                    )
-                    != PackageManager.PERMISSION_GRANTED
-                ) {
-                    ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                        100
-                    )
-                }
+        if (!dontAskAgain && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }
+
 
 
     private fun insertFakeData() {
