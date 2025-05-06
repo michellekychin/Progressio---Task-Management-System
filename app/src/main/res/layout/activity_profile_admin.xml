@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/profile"
+            android:layout_gravity="center"
             android:textColor="#FF000000"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -31,7 +32,7 @@
     <ImageButton
         android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:scaleType="centerCrop"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/background_image"
@@ -78,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/user_name"
                         android:textColor="#000000"
-                        android:textSize="23sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -87,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:text="user@example.com"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tvId"
@@ -95,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/user_id"
                         android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 
