@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
 import android.Manifest
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -27,7 +28,6 @@ class ProfileUserActivity : BaseActivity() {
     private lateinit var btnLogout: TextView
     private lateinit var btnLanguage: TextView
     private lateinit var btnChangePassword: TextView
-    private lateinit var btnTheme: Button
     private lateinit var profileImageAdmin: ImageButton // Admin profile image view
     private lateinit var userDao: UserDao
     private lateinit var adminDao: AdminDao // AdminDao
@@ -61,7 +61,9 @@ class ProfileUserActivity : BaseActivity() {
         userDao = db.userDao()
         adminDao = db.adminDao() // Get the admin DAO
 
-        currentUserEmail = sharedPreferences.getString("email", "") ?: ""
+        // Get the email of the logged-in user from SharedPreferences
+        currentUserEmail = sharedPreferences.getString("userEmail", "") ?: ""
+        Log.d("ProfileAdminActivity", "Current User Email: $currentUserEmail")
 
         lifecycleScope.launch {
             val user = userDao.getUserByEmail(currentUserEmail)
@@ -258,35 +260,36 @@ class ProfileUserActivity : BaseActivity() {
         if (resultCode == RESULT_OK && data != null) {
             val imageUri: Uri = data.data!!
             when (requestCode) {
-                100 -> {
+                100 -> { // Profile Image selected
                     selectedProfileImageUri = imageUri
-                    profileImageView.setImageURI(imageUri)
-                    saveProfileImageUri(imageUri)
+                    profileImageView.setImageURI(imageUri) // Display selected image
+                    saveProfileImageUri(imageUri) // Save it to the database
                 }
-
-                200 -> {
+                200 -> { // Background Image selected
                     selectedBackgroundImageUri = imageUri
-                    backgroundImageView.setImageURI(imageUri)
-                    saveBackgroundImageUri(imageUri)
+                    backgroundImageView.setImageURI(imageUri) // Display selected image
+                    saveBackgroundImageUri(imageUri) // Save background image to the database
                 }
             }
         }
     }
+
 
     private fun saveProfileImageUri(uri: Uri) {
         lifecycleScope.launch {
             val user = userDao.getUserByEmail(currentUserEmail)
             user?.let {
-                val updatedUser = it.copy(profileImageUrl = uri.toString())
-                userDao.update(updatedUser)
+                val updatedUser = it.copy(profileImageUrl = uri.toString())  // Save the URI as string
+                userDao.update(updatedUser)  // Update the user record in the database
                 Toast.makeText(
                     this@ProfileUserActivity,
-                    getString(R.string.profile_image_updated),
+                    getString(R.string.profile_image_updated), // You can change this text based on your requirements
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }
     }
+
 
     private fun saveBackgroundImageUri(uri: Uri) {
         lifecycleScope.launch {
