@@ -10,13 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import com.example.progressiomobileapp.data.dao.UserDao
 import kotlinx.coroutines.launch
 import com.example.progressiomobileapp.data.AppDatabase
+import android.util.Log
 
 class ChangePasswordActivity : AppCompatActivity() {
 
     private lateinit var currentPasswordInput: EditText
     private lateinit var newPasswordInput: EditText
     private lateinit var btnSaveChanges: Button
-    private lateinit var btnSubmitNewPassword: Button
     private lateinit var userDao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,6 @@ class ChangePasswordActivity : AppCompatActivity() {
         currentPasswordInput = findViewById(R.id.etCurrentPassword)
         newPasswordInput = findViewById(R.id.etNewPassword)
         btnSaveChanges = findViewById(R.id.btnSaveChanges)
-        btnSubmitNewPassword = findViewById(R.id.btnSubmitNewPassword)
 
         // Initialize Room Database and UserDao
         val db = AppDatabase.getDatabase(this)
@@ -35,8 +34,8 @@ class ChangePasswordActivity : AppCompatActivity() {
 
         // Set click listener for "Save Changes" button
         btnSaveChanges.setOnClickListener {
-            val currentPassword = currentPasswordInput.text.toString().trim()
-            val newPassword = newPasswordInput.text.toString().trim()
+            val currentPassword = currentPasswordInput.text.toString().trim()  // Trim input password
+            val newPassword = newPasswordInput.text.toString().trim()  // Trim new password input
 
             // Input validation
             if (currentPassword.isEmpty() || newPassword.isEmpty()) {
@@ -56,7 +55,7 @@ class ChangePasswordActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val user = userDao.getUserByEmail(email)
 
-                if (user != null && user.password == currentPassword) {
+                if (user != null && user.password.trim() == currentPassword) {
                     // Update the password in the database
                     user.password = newPassword
                     userDao.update(user)

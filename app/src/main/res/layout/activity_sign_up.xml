@@ -30,7 +30,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name :"
+            android:text="@string/name"
+            android:textColor="#000000"
             android:layout_marginTop="8dp"/>
 
         <EditText
@@ -38,18 +39,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:hint="Value"
-            android:padding="10dp" />
+            android:hint="@string/value"
+            android:padding="10dp"
+            android:textColor="#C88A8A8A" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email :" />
+            android:textColor="#000000"
+            android:text="@string/email" />
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Value"
+            android:hint="@string/value"
+            android:textColor="#C88A8A8A"
             android:inputType="textEmailAddress"
             android:padding="10dp"
             android:layout_marginBottom="8dp"/>
@@ -57,13 +61,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password :" />
+            android:textColor="#000000"
+            android:text="@string/password" />
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Value"
+            android:hint="@string/value"
             android:inputType="textPassword"
+            android:textColor="#C88A8A8A"
             android:padding="10dp"
             android:layout_marginBottom="8dp"
             android:drawableEnd="@drawable/ic_visibility_off"
@@ -72,14 +78,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Confirm Password :" />
+            android:textColor="#000000"
+            android:text="@string/confirm_password_message" />
 
         <EditText
             android:id="@+id/etConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:hint="Value"
+            android:hint="@string/value"
+            android:textColor="#C88A8A8A"
             android:inputType="textPassword"
             android:drawableEnd="@drawable/ic_visibility_off"
             android:padding="10dp" />
@@ -89,7 +97,7 @@
             android:id="@+id/btnShowPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show Password"
+            android:text="@string/show_password"
             android:layout_marginBottom="3dp"
             android:layout_gravity="end"/>
 
@@ -104,14 +112,14 @@
                 android:id="@+id/btnUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User"
+                android:text="@string/user"
                 android:layout_marginEnd="8dp" />
 
             <Button
                 android:id="@+id/btnAdmin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Admin" />
+                android:text="@string/admin" />
 
         </LinearLayout>
 
@@ -120,7 +128,7 @@
             android:id="@+id/tvEmailVerificationMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please verify your email by checking your inbox for the verification link."
+            android:text="@string/email_validation_message"
             android:layout_marginBottom="16dp"
             android:visibility="gone"
             android:textColor="#000000"/>
@@ -130,7 +138,7 @@
             android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
+            android:text="@string/sign_up"
             android:backgroundTint="#222222"
             android:textColor="#FFFFFF"/>
 

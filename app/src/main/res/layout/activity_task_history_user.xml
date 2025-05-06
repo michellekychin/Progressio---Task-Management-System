@@ -11,31 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#7E7878">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <ImageButton
-                android:id="@+id/notificationBell"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="342dp"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:onClick="goToTaskView"
-                android:src="@drawable/arrowback" />
+        <ImageButton
+            android:id="@+id/notificationBell"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:onClick="goToTaskView"
+            android:src="@drawable/arrowback" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="Task History"
-                android:textColor="#FF000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="110dp"
+            android:text="@string/task_history"
+            android:textColor="#FF000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
     </com.google.android.material.appbar.MaterialToolbar>
 
     <!-- RecyclerView for Task History -->

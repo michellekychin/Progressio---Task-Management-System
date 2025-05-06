@@ -24,7 +24,7 @@
             android:id="@+id/etEmailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email Address"
+            android:hint="@string/email_address"
             android:inputType="textEmailAddress"
             android:enabled="false"
             android:layout_marginBottom="16dp"
@@ -35,7 +35,7 @@
             android:id="@+id/etVerificationCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Verification Code"
+            android:hint="@string/enter_verification_code"
             android:inputType="text"
             android:layout_marginBottom="16dp"
             android:padding="10dp" />
@@ -45,7 +45,7 @@
             android:id="@+id/tvVerificationMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please enter the verification code sent to your email. Check your spam folder if you don't see it."
+            android:text="@string/verification_code_message"
             android:textColor="#FF0000"
             android:layout_marginBottom="16dp" />
 
@@ -54,7 +54,7 @@
             android:id="@+id/btnVerify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Verify"
+            android:text="@string/verify"
             android:backgroundTint="#222222" />
 
     </LinearLayout>

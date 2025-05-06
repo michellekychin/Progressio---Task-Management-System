@@ -214,8 +214,3 @@ class TaskDetailActivity : AppCompatActivity() {
     }
 
 }
-
-
-
-
-

@@ -45,7 +45,7 @@
             android:layout_height="34dp"
             android:layout_marginBottom="4dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="mark as read"
+            android:contentDescription="@string/mark_as_read"
             android:drawableLeft="@drawable/ic_tick"
             app:layout_constraintBottom_toBottomOf="@id/toolbar"
             app:layout_constraintEnd_toEndOf="parent"

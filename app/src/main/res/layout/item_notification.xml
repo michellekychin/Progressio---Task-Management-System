@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:text="Task"
+            android:text="@string/task"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
@@ -25,7 +25,7 @@
             android:id="@+id/notificationDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Date"
+            android:text="@string/date"
             android:textSize="12sp"
             android:textColor="@android:color/black"/>
 
