@@ -52,14 +52,14 @@ class SignUpActivity : AppCompatActivity() {
             selectedRole = "User"
             btnUser.setBackgroundColor(Color.GRAY)
             btnAdmin.setBackgroundColor(Color.LTGRAY)
-            Toast.makeText(this, "Role set to User", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.role_set_to_user), Toast.LENGTH_SHORT).show()
         }
 
         btnAdmin.setOnClickListener {
             selectedRole = "Admin"
             btnAdmin.setBackgroundColor(Color.GRAY)
             btnUser.setBackgroundColor(Color.LTGRAY)
-            Toast.makeText(this, "Role set to Admin", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.role_set_to_admin), Toast.LENGTH_SHORT).show()
         }
 
         // Show password toggle functionality
@@ -70,13 +70,13 @@ class SignUpActivity : AppCompatActivity() {
                 confirmPasswordInput.inputType = 1  // Make confirm password visible
                 passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_on, 0)  // Change icon to eye open
                 confirmPasswordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_on, 0)  // Change icon to eye open for confirm password
-                showPasswordBtn.text = "Hide Password"
+                showPasswordBtn.text = getString(R.string.hide_password)
             } else {
                 passwordInput.inputType = 129  // textPassword
                 confirmPasswordInput.inputType = 129  // textPassword for confirm password
                 passwordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off, 0)  // Change icon to eye closed
                 confirmPasswordInput.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off, 0)  // Change icon to eye closed for confirm password
-                showPasswordBtn.text = "Show Password"
+                showPasswordBtn.text = getString(R.string.show_password)
             }
         }
 
@@ -89,25 +89,26 @@ class SignUpActivity : AppCompatActivity() {
 
             // Validate input
             if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.please_fill_in_all_fields), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             // Validate email format
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.invalid_email_format), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             // Validate password format
             if (!isValidPassword(password)) {
-                Toast.makeText(this, "Password must be at least 8 characters, contain a number, an uppercase letter, and a special character", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.password_validation), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             // Check if passwords match
             if (password != confirmPassword) {
-                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.passwords_do_not_match), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -116,7 +117,8 @@ class SignUpActivity : AppCompatActivity() {
                 val existingUser = userDao.getUserByEmail(email)
                 if (existingUser != null) {
                     runOnUiThread {
-                        Toast.makeText(this@SignUpActivity, "Email is already in use. Please try a different email.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SignUpActivity,
+                            getString(R.string.email_exists_message), Toast.LENGTH_SHORT).show()
                     }
                     return@launch
                 }
@@ -135,7 +137,8 @@ class SignUpActivity : AppCompatActivity() {
 
                 // Inform the user to check their email
                 runOnUiThread {
-                    Toast.makeText(this@SignUpActivity, "Please check your email for verification", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignUpActivity,
+                        getString(R.string.check_email_verification_message), Toast.LENGTH_SHORT).show()
                 }
 
                 // Pass the correct verification code to EmailVerificationActivity

@@ -202,5 +202,33 @@
     <string name="comment">Comment text goes here</string>
     <string name="task">Task</string>
     <string name="date">Date</string>
+    <string name="welcome_message">Hello, %1$s! Welcome Back!</string>
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="email_verification_code">Please enter the verification code.</string>
+    <string name="invalid_verification_code">Invalid verification code. Please try again.</string>
+    <string name="invalid_email_validation">Name and email do not match</string>
+    <string name="please_enter_a_new_password">Please enter a new password</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="role_set_to_user">Role set to User</string>
+    <string name="role_set_to_admin">Role set to Admin</string>
+    <string name="please_fill_in_all_fields">Please fill in all fields</string>
+    <string name="invalid_email_format">Invalid email format</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="email_exists_message">Email is already in use. Please try a different email.</string>
+    <string name="check_email_verification_message">Please check your email for verification</string>
+    <string name="logout_confirmation_message">Are you sure you want to logout?</string>
+    <string name="user_added_successfully">User added successfully</string>
+    <string name="user_role_is_not_user">User role is not \'user\'</string>
+    <string name="user_not_found_or_invalid_role">User not found or invalid role</string>
+    <string name="completed">Completed</string>
+    <string name="overdue">Overdue</string>
+    <string name="incomplete">Incomplete</string>
+    <string name="on_time">On Time</string>
 
 </resources>

@@ -129,27 +129,8 @@ class AnalyticsActivity : BaseActivity() {
         }
     }
 
-//    private fun fetchAnalyticsData(userId: Int) {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            val taskDao = AppDatabase.getDatabase(applicationContext).taskDao()
-//            val tasks = taskDao.getTasksAssignedToUser(userId)
-//
-//            // Process the tasks data to populate the charts
-//            val (completed, inProgress, overdue) = tasks.partitionTasksByStatus()
-//            val (onTime, overdueTasks) = tasks.partitionTasksByTime()
-//
-//            runOnUiThread {
-//                // Update pie chart for task status
-//                updateTaskStatusPieChart(completed, inProgress, overdue)
-//
-//                // Update bar chart for overdue vs on time tasks
-//                updateOverdueOnTimeBarChart(onTime, overdueTasks)
-//            }
-//        }
-//    }
-
     // Partition tasks by their status
-    private fun List<Task>.partitionTasksByStatus(): Triple<Int, Int, Int> {
+    fun List<Task>.partitionTasksByStatus(): Triple<Int, Int, Int> {
         val completed = count { it.status == "Completed" }
         val inProgress = count { it.status == "In Progress" }
         val overdue = count { it.status == "Overdue" }
@@ -157,7 +138,7 @@ class AnalyticsActivity : BaseActivity() {
     }
 
     // Partition tasks based on whether they are on time or overdue
-    private fun List<Task>.partitionTasksByTime(): Pair<Int, Int> {
+    fun List<Task>.partitionTasksByTime(): Pair<Int, Int> {
         val onTime = count { it.status == "Completed" || it.status == "In Progress" }
         val overdueTasks = count { it.status == "Overdue" }
         return Pair(onTime, overdueTasks)
@@ -166,9 +147,9 @@ class AnalyticsActivity : BaseActivity() {
     // Update the pie chart for task status
     private fun updateTaskStatusPieChart(completed: Int, inProgress: Int, overdue: Int) {
         val entries = listOf(
-            PieEntry(completed.toFloat(), "Completed"),
-            PieEntry(inProgress.toFloat(), "In Progress"),
-            PieEntry(overdue.toFloat(), "Overdue")
+            PieEntry(completed.toFloat(), getString(R.string.completed)),
+            PieEntry(inProgress.toFloat(), getString(R.string.in_progress)),
+            PieEntry(overdue.toFloat(), getString(R.string.overdue))
         )
 
         val dataSet = PieDataSet(entries, "Task Status").apply {
@@ -194,18 +175,8 @@ class AnalyticsActivity : BaseActivity() {
         pieChartStatus.setUsePercentValues(true) // Enable percent values
         pieChartStatus.invalidate() // Refresh the chart
 
-        // Customize legend
-        pieChartStatus.legend.apply {
-            isEnabled = true
-            verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-            orientation = Legend.LegendOrientation.HORIZONTAL
-            formSize = resources.getDimension(R.dimen.pie_legend_form_size)
-            formToTextSpace = resources.getDimension(R.dimen.pie_legend_form_text_spacing)
-            xEntrySpace = resources.getDimension(R.dimen.pie_legend_item_horizontal_spacing)
-            yEntrySpace = resources.getDimension(R.dimen.pie_legend_item_vertical_spacing)
-            textSize = resources.getDimension(R.dimen.pie_legend_text_size)
-        }
+        // Disable legend
+        pieChartStatus.legend.isEnabled = false
 
         pieChartStatus.setEntryLabelColor(resources.getColor(R.color.black, theme)) // Label color
         pieChartStatus.setEntryLabelTextSize(12f) // Text size for labels
@@ -215,8 +186,8 @@ class AnalyticsActivity : BaseActivity() {
     // Update the pie chart for task completion (completed vs incomplete)
     private fun updateTaskCompletionPieChart(completed: Int, inProgress: Int) {
         val entries = listOf(
-            PieEntry(completed.toFloat(), "Completed"),
-            PieEntry(inProgress.toFloat(), "Incomplete")
+            PieEntry(completed.toFloat(), getString(R.string.completed)),
+            PieEntry(inProgress.toFloat(), getString(R.string.incomplete))
         )
 
         val dataSet = PieDataSet(entries, "Task Complete").apply {
@@ -243,18 +214,8 @@ class AnalyticsActivity : BaseActivity() {
         pieChartCompletion.setUsePercentValues(true) // Show percentages
         pieChartCompletion.invalidate()
 
-        // Customize and enable the legend for PieChart
-        pieChartCompletion.legend.apply {
-            isEnabled = true // Enable legend
-            verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-            orientation = Legend.LegendOrientation.HORIZONTAL // Set orientation to horizontal
-            formSize = resources.getDimension(R.dimen.pie_legend_form_size) // Set the size of the color box
-            formToTextSpace = resources.getDimension(R.dimen.pie_legend_form_text_spacing) // Space between color box and text
-            xEntrySpace = resources.getDimension(R.dimen.pie_legend_item_horizontal_spacing) // Horizontal space between items
-            yEntrySpace = resources.getDimension(R.dimen.pie_legend_item_vertical_spacing) // Vertical space between items
-            textSize = resources.getDimension(R.dimen.pie_legend_text_size) // Set text size for the legend
-        }
+        // Disable legend
+        pieChartCompletion.legend.isEnabled = false
 
         // Setting a shadow effect for the labels
         pieChartCompletion.setEntryLabelColor(resources.getColor(R.color.black, theme)) // Label color
@@ -285,7 +246,7 @@ class AnalyticsActivity : BaseActivity() {
 
         // Customize X and Y axis labels
         val xAxis = barChartOverdueOnTime.xAxis
-        xAxis.valueFormatter = IndexAxisValueFormatter(listOf("On Time", "Overdue"))
+        xAxis.valueFormatter = IndexAxisValueFormatter(listOf(getString(R.string.on_time), getString(R.string.overdue)))
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.granularity = 1f
 
@@ -320,18 +281,8 @@ class AnalyticsActivity : BaseActivity() {
         // Apply to the BarChart itself
         barChartOverdueOnTime.barData.setValueFormatter(chartValueFormatter)
 
-        // Customize legend
-        barChartOverdueOnTime.legend.apply {
-            isEnabled = true
-            verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-            orientation = Legend.LegendOrientation.VERTICAL
-            formSize = resources.getDimension(R.dimen.bar_legend_form_size)
-            formToTextSpace = resources.getDimension(R.dimen.bar_legend_form_text_spacing)
-            xEntrySpace = resources.getDimension(R.dimen.bar_legend_item_horizontal_spacing)
-            yEntrySpace = resources.getDimension(R.dimen.bar_legend_item_vertical_spacing)
-            textSize = resources.getDimension(R.dimen.bar_legend_text_size)
-        }
+        // Disable legend
+        barChartOverdueOnTime.legend.isEnabled = false
     }
 
     // Update the bar chart for task distribution among employees
@@ -395,19 +346,8 @@ class AnalyticsActivity : BaseActivity() {
         barChartEmployeeTasks.barData.setValueFormatter(chartValueFormatter)
 
 
-        // Customize the legend for the BarChart
-        barChartEmployeeTasks.legend.apply {
-            isEnabled = true // Enable legend
-            verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-            orientation = Legend.LegendOrientation.HORIZONTAL // Set the orientation to horizontal
-            formSize = resources.getDimension(R.dimen.bar_legend_form_size) // Set the size of the legend color box
-            formToTextSpace = resources.getDimension(R.dimen.bar_legend_form_text_spacing) // Space between color box and text
-            xEntrySpace = resources.getDimension(R.dimen.bar_legend_item_horizontal_spacing) // Horizontal space between items
-            yEntrySpace = resources.getDimension(R.dimen.bar_legend_item_vertical_spacing) // Vertical space between items
-            textSize = resources.getDimension(R.dimen.bar_legend_text_size) // Set text size for the legend
-        }
-
+        // Disable legend
+        barChartEmployeeTasks.legend.isEnabled = false
         barChartEmployeeTasks.invalidate() // Refresh the chart
     }
 }

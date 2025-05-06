@@ -134,7 +134,7 @@ class ProfileAdminActivity : BaseActivity() {
                             // Provide feedback
                             Toast.makeText(
                                 this@ProfileAdminActivity,
-                                "User added successfully",
+                                getString(R.string.user_added_successfully),
                                 Toast.LENGTH_SHORT
                             ).show()
 
@@ -148,7 +148,7 @@ class ProfileAdminActivity : BaseActivity() {
                             // If user is not a "user"
                             Toast.makeText(
                                 this@ProfileAdminActivity,
-                                "User role is not 'user'",
+                                getString(R.string.user_role_is_not_user),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -157,7 +157,7 @@ class ProfileAdminActivity : BaseActivity() {
                         Log.d("ProfileAdminActivity", "User not found")
                         Toast.makeText(
                             this@ProfileAdminActivity,
-                            "User not found or invalid role",
+                            getString(R.string.user_not_found_or_invalid_role),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -236,15 +236,15 @@ class ProfileAdminActivity : BaseActivity() {
     // Logout confirmation dialog
     private fun showLogoutConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Logout")
-        builder.setMessage("Are you sure you want to logout?")
-        builder.setPositiveButton("Yes") { dialog, which ->
+        builder.setTitle(getString(R.string.log_out))
+        builder.setMessage(getString(R.string.logout_confirmation_message))
+        builder.setPositiveButton(getString(R.string.yes)) { dialog, which ->
             // Redirect to SignInActivity on clicking 'Yes'
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
             finish()  // Optionally finish this activity so the user cannot return to it by pressing back
         }
-        builder.setNegativeButton("No") { dialog, which ->
+        builder.setNegativeButton(getString(R.string.no)) { dialog, which ->
             // Just dismiss the dialog if 'No' is clicked
             dialog.dismiss()
         }
@@ -301,7 +301,7 @@ class ProfileAdminActivity : BaseActivity() {
             user?.let {
                 val updatedUser = it.copy(profileImageUrl = uri.toString())
                 userDao.update(updatedUser)
-                Toast.makeText(this@ProfileAdminActivity, "Profile image updated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ProfileAdminActivity, getString(R.string.profile_image_updated), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -312,7 +312,7 @@ class ProfileAdminActivity : BaseActivity() {
             user?.let {
                 val updatedUser = it.copy(backgroundImageUrl = uri.toString())
                 userDao.update(updatedUser)
-                Toast.makeText(this@ProfileAdminActivity, "Background image updated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ProfileAdminActivity, getString(R.string.background_image_updated), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -339,10 +339,10 @@ class ProfileAdminActivity : BaseActivity() {
         if (requestCode == REQUEST_CODE_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted
-                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.permission_granted), Toast.LENGTH_SHORT).show()
             } else {
                 // Permission denied
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
             }
         }
     }

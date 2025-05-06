@@ -176,5 +176,33 @@
     <string name="comment">Teks komen dipaparkan di sini</string>
     <string name="task">Tugas</string>
     <string name="date">Tarikh</string>
+    <string name="welcome_message">Hai, %1$s! Selamat Kembali!</string>
+    <string name="sun">Ahd</string>
+    <string name="mon">Isn</string>
+    <string name="tue">Sel</string>
+    <string name="wed">Rab</string>
+    <string name="thu">Kha</string>
+    <string name="fri">Jum</string>
+    <string name="sat">Sab</string>
+    <string name="email_verification_code">Sila masukkan kod pengesahan.</string>
+    <string name="invalid_verification_code">Kod pengesahan tidak sah. Sila cuba lagi.</string>
+    <string name="invalid_email_validation">Nama dan e-mel tidak sepadan</string>
+    <string name="please_enter_a_new_password">Sila masukkan kata laluan baharu</string>
+    <string name="hide_password">Sembunyikan Kata Laluan</string>
+    <string name="role_set_to_user">Peranan ditetapkan kepada Pengguna</string>
+    <string name="role_set_to_admin">Peranan ditetapkan kepada Pentadbir</string>
+    <string name="please_fill_in_all_fields">Sila isi semua medan</string>
+    <string name="invalid_email_format">Format e-mel tidak sah</string>
+    <string name="passwords_do_not_match">Kata laluan tidak sepadan</string>
+    <string name="email_exists_message">E-mel telah digunakan. Sila cuba e-mel lain.</string>
+    <string name="check_email_verification_message">Sila semak e-mel anda untuk pengesahan</string>
+    <string name="logout_confirmation_message">Adakah anda pasti mahu log keluar?</string>
+    <string name="user_added_successfully">Pengguna berjaya ditambah</string>
+    <string name="user_role_is_not_user">Peranan pengguna bukan "pengguna"</string>
+    <string name="user_not_found_or_invalid_role">Pengguna tidak ditemui atau peranan tidak sah</string>
+    <string name="completed">Selesai</string>
+    <string name="overdue">Lewat</string>
+    <string name="incomplete">Tidak Lengkap</string>
+    <string name="on_time">Tepat Masa</string>
 
 </resources>

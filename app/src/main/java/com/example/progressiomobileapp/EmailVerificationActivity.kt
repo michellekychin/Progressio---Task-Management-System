@@ -37,7 +37,7 @@ class EmailVerificationActivity : AppCompatActivity() {
 
             // Check if the verification code is empty
             if (enteredCode.isEmpty()) {
-                Toast.makeText(this, "Please enter the verification code.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.email_verification_code), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -55,7 +55,8 @@ class EmailVerificationActivity : AppCompatActivity() {
                 }
                 finish()  // Close the EmailVerificationActivity
             } else {
-                Toast.makeText(this, "Invalid verification code. Please try again.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.invalid_verification_code), Toast.LENGTH_SHORT).show()
             }
         }
     }

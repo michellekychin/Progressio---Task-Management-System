@@ -45,7 +45,7 @@ class HomepageAdminActivity : BaseActivity() {
         val userName = sharedPreferences.getString("userName", "User") ?: "User"
 
         // Set the greeting message with the admin user's name
-        tvGreeting.text = "Hello, $userName! Welcome Back!"
+        tvGreeting.text = getString(R.string.welcome_message, userName)
 
         // Display Submitted Task count (completed/total)
         tvSubmittedTask.text = "$completedTasks/$totalTasks - ${calculateProgress(completedTasks, totalTasks)}"

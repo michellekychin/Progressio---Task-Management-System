@@ -195,7 +195,11 @@ fun CalendarView(
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit
 ) {
-    val daysInWeek = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+    val daysInWeek = listOf(stringResource(R.string.sun),
+        stringResource(R.string.mon), stringResource(R.string.tue),
+        stringResource(R.string.wed), stringResource(R.string.thu),
+        stringResource(R.string.fri), stringResource(R.string.sat)
+    )
 
     val calendar = currentMonth.clone() as Calendar
     calendar.set(Calendar.DAY_OF_MONTH, 1)
