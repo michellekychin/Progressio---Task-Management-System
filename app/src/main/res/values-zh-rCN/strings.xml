@@ -205,4 +205,10 @@
     <string name="incomplete">未完成</string>
     <string name="on_time">按时</string>
 
+
+    <!-- Task Submitted dialog -->
+    <string name="task_submitted_title">任务已提交</string>
+    <string name="task_submitted_message">任务已成功标记为已完成。</string>
+    <string name="ok_button">确定</string>
+
 </resources>

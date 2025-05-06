@@ -231,4 +231,11 @@
     <string name="incomplete">Incomplete</string>
     <string name="on_time">On Time</string>
 
+
+    <!-- Task Submitted dialog -->
+
+    <string name="task_submitted_title">Task Submitted</string>
+    <string name="task_submitted_message">The task has been successfully marked as completed.</string>
+    <string name="ok_button">OK</string>
+
 </resources>

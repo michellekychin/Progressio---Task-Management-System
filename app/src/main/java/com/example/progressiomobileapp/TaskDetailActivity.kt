@@ -147,19 +147,18 @@ class TaskDetailActivity : AppCompatActivity() {
     }
 
     private fun showSuccessDialog() {
-        // Check if the activity is still valid before showing the dialog
         if (!isFinishing && !isDestroyed) {
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Task Submitted")
-            builder.setMessage("The task has been successfully marked as completed.")
-            builder.setPositiveButton("OK") { dialog, _ ->
-                // Dismiss the dialog and close the activity
+            builder.setTitle(getString(R.string.task_submitted_title))
+            builder.setMessage(getString(R.string.task_submitted_message))
+            builder.setPositiveButton(getString(R.string.ok_button)) { dialog, _ ->
                 dialog.dismiss()
-                finish()  // Close the activity when the "OK" button is clicked
+                finish()
             }
             builder.create().show()
         }
     }
+
 
 
 
